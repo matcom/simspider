@@ -3,18 +3,12 @@
 __author__ = 'Alejandro Piad'
 
 import sys
-from config import config
 import os
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-from Plugins import pluginManager
-
 import traceback
-import debug
-
-from GraphViewer import GraphViewer
 
 gui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Gui'))
 packages_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Packages'))
@@ -26,6 +20,12 @@ sys.path.append(packages_dir)
 
 print("Gui: {0}".format(gui_dir))
 print("Packages: {0}".format(packages_dir))
+
+from config import config
+import debug
+from GraphViewer import GraphViewer
+
+from Plugins import pluginManager
 
 def main():
     app = QApplication(sys.argv)
