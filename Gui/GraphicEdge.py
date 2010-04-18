@@ -22,6 +22,8 @@ class GraphicEdge(QGraphicsItem):
         self.source.addOutEdge(self)
         self.dest.addInEdge(self)
 
+        self.setFlag(QGraphicsItem.ItemIsSelectable)
+
         self.pen = QPen(Qt.black, 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin)
         self.brush = QBrush(Qt.black)
 
@@ -32,12 +34,20 @@ class GraphicEdge(QGraphicsItem):
 
         self.prepareGeometryChange()
 
-        if length > 50:
+        if length > 25:
             edgeOffset = QPointF(line.dx() * 15 // length, line.dy() * 15 // length)
             self.sourcePoint = line.p1() + edgeOffset
             self.destPoint = line.p2() - edgeOffset
         else:
             self.sourcePoint = self.destPoint = line.p1()
+
+    def shape(self):
+        stroker = QPainterPathStroker()
+        path = QPainterPath(self.sourcePoint)
+        path.lineTo(self.destPoint)
+
+        stroker.setWidth(10)
+        return stroker.createStroke(path)
 
     def boundingRect(self):
         penWidth = 1
@@ -49,6 +59,14 @@ class GraphicEdge(QGraphicsItem):
         adjusted(-extra, -extra, extra, extra)
 
     def paint(self, painter, styleoption, widget):
+
+        if self.isSelected():
+            self.pen.setColor(Qt.red)
+            self.brush.setColor(Qt.red)
+        else:
+            self.pen.setColor(Qt.black)
+            self.brush.setColor(Qt.black)
+
         line = QLineF(self.sourcePoint, self.destPoint)
         painter.setPen(self.pen)
         painter.drawLine(line)

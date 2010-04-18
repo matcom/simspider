@@ -13,13 +13,22 @@ import traceback
 gui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Gui'))
 packages_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Packages'))
 redist_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Redist'))
-redist_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Plugins'))
+plugins_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Plugins'))
 
 sys.path.append(gui_dir)
 sys.path.append(packages_dir)
+sys.path.append(redist_dir)
+sys.path.append(plugins_dir)
 
 print("Gui: {0}".format(gui_dir))
 print("Packages: {0}".format(packages_dir))
+print("Redist: {0}".format(redist_dir))
+print("Plugins: {0}".format(plugins_dir))
+
+from GraphViewer import GraphViewer
+from Plugins import pluginManager
+from config import config
+import debug
 
 from config import config
 import debug

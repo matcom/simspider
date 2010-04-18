@@ -1,20 +1,18 @@
 # -*- coding: utf8 -*-
-import math
-
-from GraphicEdge import GraphicEdge
-from GraphicNode import GraphicNode
-
-from builders import *
-from modes import *
 
 __author__ = 'Alejandro Piad'
 
+import math
+from GraphicEdge import GraphicEdge
+from GraphicNode import GraphicNode
+from modes import *
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from PyQt4.QtOpenGL import QGLWidget
 
 import ui
 import debug
-
 import networkx as nx
 
 from Plugins import pluginManager
@@ -30,6 +28,9 @@ class GraphViewer(QMainWindow):
         self.nodes = []     # Almacena los nodos
         self.edges = []     # Almacena las aristas
         self.edgesDict = {} # Permite acceder rápidamente a las aristas por (source, dest)
+        self.graph = nx.DiGraph()
+        self.maxNodes = 50
+        self.leftBipartite = []
 
         self.scene = QGraphicsScene()
         self.scene.setItemIndexMethod(QGraphicsScene.NoIndex)
@@ -37,8 +38,11 @@ class GraphViewer(QMainWindow):
         self.ui.graphicsView.setScene(self.scene)
         self.ui.graphicsView.setAttribute(Qt.WA_Hover)
 
-        self.ui.graphicsView.mouseDoubleClickEvent = self.graphDoubleClick
-        # self.ui.graphicsView.wheelEvent = self.graphWheel
+        # Redirigir los eventos del GraphicsView
+        self.ui.graphicsView.mouseDoubleClickEvent = self.connectEvent(self.graphDoubleClick, self.ui.graphicsView.mouseDoubleClickEvent)
+        self.ui.graphicsView.mousePressEvent = self.connectEvent(self.graphPress, self.ui.graphicsView.mousePressEvent)
+        self.ui.graphicsView.mouseReleaseEvent = self.connectEvent(self.graphRelease, self.ui.graphicsView.mouseReleaseEvent)
+        self.ui.graphicsView.mouseMoveEvent = self.connectEvent(self.graphMove, self.ui.graphicsView.mouseMoveEvent)
 
         self.actions = [self.ui.actionSelection,
                         self.ui.actionCreation,
@@ -47,15 +51,16 @@ class GraphViewer(QMainWindow):
                         self.ui.actionMove,
                         self.ui.actionPath]
 
-        self.graph = nx.DiGraph()
-
         self._setupActions()
         self.setMode(SelectionMode)
+        # self.setMouseTracking(True)
 
-        self.setMouseTracking(True)
+        # Inicializar los menus
+        self.viewports = QActionGroup(self)
+        self.viewports.addAction(self.ui.actionGlViewport)
+        self.viewports.addAction(self.ui.actionStandardViewport)
 
-        self.leftBipartite = []
-
+        self._setupViewportOptions()
         self.loadPlugins()
 
 
@@ -83,22 +88,15 @@ class GraphViewer(QMainWindow):
         self.ui.actionPath.triggered.connect(lambda: self.setMode(PathMode))
 
         # Comandos de nodos
-        self.ui.actionMakeClique.triggered.connect(lambda: self.makeClique(self.selectedItems()))
-        self.ui.actionMakeCycle.triggered.connect(lambda: self.makeCycle(self.selectedItems()))
-        self.ui.actionMakePath.triggered.connect(lambda: self.makePath(self.selectedItems()))
-        self.ui.actionRemoveAll.triggered.connect(lambda: self.removeAll(self.selectedItems()))
-        self.ui.actionRemoveEdges.triggered.connect(lambda: self.removeAllEdges(self.selectedItems()))
-        self.ui.actionSwapEdges.triggered.connect(lambda: self.swapEdges(self.selectedItems()))
-        self.ui.actionCompleteEdges.triggered.connect(lambda: self.completeEdges(self.selectedItems()))
-        self.ui.actionLeftBipartite.triggered.connect(lambda: self.selectLeftBipartite(self.selectedItems()))
-        self.ui.actionCompleteBipartite.triggered.connect(lambda: self.completeBipartite(self.selectedItems()))
-
-        # Comandos de creación de grafos
-        self.ui.actionInsertGrid.triggered.connect(lambda: self.addGraph(GridBuilder()))
-        self.ui.actionInsertClique.triggered.connect(lambda: self.addGraph(CliqueBuilder()))
-        self.ui.actionInsertCycle.triggered.connect(lambda: self.addGraph(CycleBuilder()))
-        self.ui.actionInsertPath.triggered.connect(lambda: self.addGraph(PathBuilder()))
-        self.ui.actionInsertBipartite.triggered.connect(lambda: self.addGraph(BipartiteBuilder()))
+        self.ui.actionMakeClique.triggered.connect(lambda: self.makeClique(self.selectedNodes()))
+        self.ui.actionMakeCycle.triggered.connect(lambda: self.makeCycle(self.selectedNodes()))
+        self.ui.actionMakePath.triggered.connect(lambda: self.makePath(self.selectedNodes()))
+        self.ui.actionRemoveAll.triggered.connect(lambda: self.removeAll(self.selectedNodes(), self.selectedEdges()))
+        self.ui.actionRemoveEdges.triggered.connect(lambda: self.removeAllEdges(self.selectedItems(), self.selectedEdges()))
+        self.ui.actionSwapEdges.triggered.connect(lambda: self.swapEdges(self.selectedItems(), self.selectedEdges()))
+        self.ui.actionCompleteEdges.triggered.connect(lambda: self.completeEdges(self.selectedItems(), self.selectedEdges()))
+        self.ui.actionLeftBipartite.triggered.connect(lambda: self.selectLeftBipartite(self.selectedNodes()))
+        self.ui.actionCompleteBipartite.triggered.connect(lambda: self.completeBipartite(self.selectedNodes()))
 
 
     @debug.trace()
@@ -106,21 +104,57 @@ class GraphViewer(QMainWindow):
         return self.scene.selectedItems()
 
     @debug.trace()
+    def selectedNodes(self):
+        return [x for x in self.selectedItems() if isinstance(x, GraphicNode)]
+
+    @debug.trace()
+    def selectedEdges(self):
+        return [x for x in self.selectedItems() if isinstance(x, GraphicEdge)]
+
+    @debug.trace()
     def setMode(self, modeType):
         self.mode = modeType(self.ui.graphicsView)
 
     @debug.trace()
     def graphDoubleClick(self, event):
-        self.mode.mouseDoubleClickEvent(self, event)
+        return self.mode.mouseDoubleClickEvent(self, event)
+
+    def connectEvent(self, redirect, original):
+        def callEvent(event):
+            if not redirect(event):
+                original(event)
+        return callEvent
 
     @debug.trace()
-    def graphWheel(self, event):
+    def graphPress(self, event):
+        return self.mode.mousePressEvent(self, event)
+
+    @debug.trace()
+    def graphRelease(self, event):
+        return self.mode.mouseReleaseEvent(self, event)
+
+    @debug.trace()
+    def graphMove(self, event):
+        return self.mode.mouseMoveEvent(self, event)
+
+
+    @debug.trace()
+    def graphWheel(self, event, handler):
         self.scaleView(math.pow(2, -event.delta() / 240.0))
 
     @debug.trace()
     def addNode(self, point):
         """Añade un nuevo nodo en coordenadas de la escena
         """
+
+        # if len(self.nodes) == self.maxNodes:
+        #   QMessageBox.critical(self,
+        #         "Max nodes capacity reached",
+        #         "The maximun number of nodes that can be displayed has been reached."
+        #         "Please consider using the console application instead.")
+
+        #     return None
+
         node = GraphicNode(self.ui.graphicsView)
 
         node.setX(point.x())
@@ -129,7 +163,8 @@ class GraphViewer(QMainWindow):
         self.nodes.append(node)
         self.scene.addItem(node)
 
-        # self.ui.graphicsView.centerOn(node)
+        self.deselectAll()
+        node.setSelected(True)
 
         return node
 
@@ -187,9 +222,12 @@ class GraphViewer(QMainWindow):
         self.scene.removeItem(edge)
 
     @debug.trace()
-    def removeAll(self, nodes):
+    def removeAll(self, nodes, edges):
         for x in nodes:
             self.removeNode(x)
+
+        for y in edges:
+            self.removeEdge(y.source, y.dest)
 
     @debug.trace()
     def removeNode(self, node):
@@ -202,15 +240,25 @@ class GraphViewer(QMainWindow):
         self.scene.removeItem(node)
 
     @debug.trace()
-    def removeAllEdges(self, nodes):
+    def removeAllEdges(self, nodes, edges):
         for x in nodes:
             for y in nodes:
                 self.removeEdge(x, y)
 
+        for y in edges:
+            self.removeEdge(y.source, y.dest)
+
+
     @debug.trace()
-    def swapEdges(self, nodes):
+    def swapEdges(self, nodes, edges):
         add = []
         remove = []
+
+        for e in edges:
+            if not e.source in nodes:
+                nodes.append(e.source)
+            if not e.dest in nodes:
+                nodes.append(e.dest)
 
         for x in nodes:
             for y in nodes:
@@ -229,7 +277,13 @@ class GraphViewer(QMainWindow):
             self.removeEdge(x,y)
 
     @debug.trace()
-    def completeEdges(self, nodes):
+    def completeEdges(self, nodes, edges):
+        for e in edges:
+            if not e.source in nodes:
+                nodes.append(e.source)
+            if not e.dest in nodes:
+                nodes.append(e.dest)
+
         for x in nodes:
             for y in nodes:
                 if (x,y) in self.edgesDict:
@@ -281,13 +335,56 @@ class GraphViewer(QMainWindow):
     @debug.trace()
     def loadPlugins(self):
         self._loadCustomBuilders()
+        self._loadLayoutPlugins()
+        self._loadGeneralPlugins()
+
 
     @debug.trace()
     def _loadCustomBuilders(self):
-        layout = QVBoxLayout()
-        menu = self.ui.menuInsert.addMenu("Custom Graph")
+        items = pluginManager.getItems("GraphBuilder")
+        itemsDict = {}
 
-        for item in sorted(pluginManager.getItems("GraphBuilder"), key=lambda x: x.name):
+        for item in items:
+            list = []
+
+            if item.group in itemsDict:
+                list = itemsDict[item.group]
+            else:
+                itemsDict[item.group] = list
+
+            list.append(item)
+
+        for group, itemList in itemsDict.items():
+            self._loadCustomBuildersGroup(group, itemList)
+
+    def _customBuilderActionConnection(self, item):
+        return lambda: self.addGraph(item)
+
+    def _setupViewportOptions(self):
+        self.ui.actionGlViewport.triggered.connect(lambda: self.ui.graphicsView.setViewport(QGLWidget()))
+        self.ui.actionStandardViewport.triggered.connect(lambda: self.ui.graphicsView.setViewport(None))
+
+        self.ui.actionAntialiasing.triggered.connect(
+            lambda b: self.ui.graphicsView.setRenderHint(QPainter.Antialiasing, b))
+        self.ui.actionText_Antialiasing.triggered.connect(
+            lambda b: self.ui.graphicsView.setRenderHint(QPainter.TextAntialiasing, b))
+        self.ui.actionHigh_Quality_Antialiasing.triggered.connect(
+            lambda b: self.ui.graphicsView.setRenderHint(QPainter.HighQualityAntialiasing, b))
+        self.ui.actionSmooth_Pixmap_Transform.triggered.connect(
+            lambda b: self.ui.graphicsView.setRenderHint(QPainter.SmoothPixmapTransform, b))
+
+    def _loadCustomBuildersGroup(self, group, itemsList):
+        if group == "Basic":
+            page = self.ui.pageBasic
+            layout = page.layout()
+        else:
+            page = QWidget()
+            self.ui.graphToolBox.addItem(page, group)
+            layout = QVBoxLayout()
+
+        menu = self.ui.menuInsert.addMenu("{0} Graphs".format(group))
+
+        for item in sorted(itemsList, key=lambda x: x.name):
             try:
                 icon = QIcon(item.icon)
                 action = menu.addAction(icon, item.name)
@@ -305,7 +402,87 @@ class GraphViewer(QMainWindow):
                 debug.warning("Couldn't load custom graph builder {0}. Error: {1}.", (item, e), "plugins")
 
         layout.addStretch()
-        self.ui.pageCustomGraphs.setLayout(layout)
 
-    def _customBuilderActionConnection(self, item):
-        return lambda: self.addGraph(item)
+        if group != "Basic":
+            page.setLayout(layout)
+
+    @debug.trace()
+    def itemsAt(self, x, y):
+        return self.ui.graphicsView.items(x,y)
+
+    @debug.trace()
+    def edgesAt(self, x, y):
+        return [e for e in self.itemsAt(x,y) if isinstance(e, GraphicEdge)]
+
+    @debug.trace()
+    def nodesAt(self, x, y):
+        return [n for n in self.itemsAt(x,y) if isinstance(n, GraphicNode)]
+
+    @debug.trace()
+    def insertNode(self, node, edge):
+        self.addEdge(edge.source, node)
+        self.addEdge(node, edge.dest)
+        self.removeEdge(edge.source, edge.dest)
+
+    def deselectAll(self):
+        for item in self.selectedItems():
+            item.setSelected(False)
+
+    def _loadGeneralPlugins(self):
+        required = ["name", "description", "install", "uninstall"]
+
+        for plugin in pluginManager.getItems("GeneralPlugin"):
+            for attr in required:
+                if not hasattr(plugin, attr):
+                    continue
+
+            self._loadGeneralPlugin(plugin)
+
+    def _loadGeneralPlugin(self, plugin):
+        action = self.ui.menuPlugins.addAction(plugin.name)
+        action.setCheckable(True)
+        action.setTooltip(plugin.description)
+        action.setEnabled(False)
+
+    def _loadLayoutPlugins(self):
+        for item in pluginManager.getItems("Layout"):
+            action = self.ui.menu_Layout.addAction(item.name)
+            action.setToolTip(item.description)
+            action.setIcon(QIcon(item.icon))
+            action.triggered.connect(self._connectLayout(item))
+
+    def _applyLayout(self, item):
+        nodes = list(self.selectedNodes())
+        item.apply(nodes)
+
+        if self.ui.actionAnimations.isChecked():
+            animation = QParallelAnimationGroup(self)
+
+            for n in nodes:
+                animX = QPropertyAnimation(n, "x")
+                animX.setEndValue(n.newX)
+
+                animY = QPropertyAnimation(n, "y")
+                animY.setEndValue(n.newY)
+
+                debug.debug("Animating node from ({0},{1}) to ({2},{3})", (n.x(), n.y(), n.newX, n.newY),
+                    "graphviewer.animations")
+
+                animation.addAnimation(animX)
+                animation.addAnimation(animY)
+
+            debug.info("Starting layout animation", (), "graphviewer.animations")
+            animation.start()
+
+        else:
+            for n in nodes:
+                n.setX(n.newX)
+                n.setY(n.newY)
+
+
+    def _connectLayout(self, item):
+        def apply():
+            self._applyLayout(item)
+        return apply
+
+

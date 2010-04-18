@@ -25,7 +25,7 @@ class PluginManager:
 
             for name, type in module.__dict__.items():
                 if type.__class__.__name__ == "type":
-                    self.loadType(type)
+                    self.loadType(type, file)
 
         except Exception as e:
             debug.warning("Error loading module {0}. Error: {1}.", (file, e), "plugins")
@@ -41,7 +41,7 @@ class PluginManager:
             self._categories[category] = list
 
         list.append(item)
-        debug.info("Registered plugin {0} in {1}", (item, category), "plugins")
+        debug.info("Registered plugin {0} in {1}", (item.__class__.__name__, category), "plugins")
 
 
     @debug.trace()
@@ -50,17 +50,20 @@ class PluginManager:
 
 
     @debug.trace()
-    def loadType(self, type):
-        debug.debug("Attempting to load plugin type {0}", (type,), "plugins")
+    def loadType(self, type, module):
         if type.__name__.startswith("_"):
+            return
+        if not type.__module__ == module:
             return
 
         try:
+            debug.debug("Attempting to load plugin type {0}", (type.__name__,), "plugins")
+
             item = type()
             item.load(self)
 
         except Exception as e:
-            debug.warning("Couldn't load type {0}. Error: {1}.", (type, e), "plugins")
+            debug.warning("Couldn't load type {0}. Error: {1}.", (type.__name__, e), "plugins")
 
 
 class Plugin:

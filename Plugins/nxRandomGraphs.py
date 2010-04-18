@@ -5,42 +5,33 @@ from PropertyViewer import *
 from builders import GraphBuilder
 from manager import Plugin
 
+from nxPlugins import _NxPluginGraphBuilder
+
 import networkx.generators.random_graphs as rnd
-import tools
+import layout
 
 __author__ = 'Alejandro Piad'
 
-class ErdosRenyiGraphBuilder(GraphBuilder, Plugin):
-    def __init__(self):
-        GraphBuilder.__init__(self, "Erdös-Rényi", "Inserts a random uniform graph", "Resources/CustomGraph.png")
-        Plugin.__init__(self, "GraphBuilder")
 
-    def _createGraph(self):
-        dlg = PropertyViewer(self.name, self.icon,
+class ErdosRenyiGraphBuilder(_NxPluginGraphBuilder):
+    def __init__(self):
+        super().__init__("Erdös-Rényi", "Random", "Inserts a random graph", "Resources/CustomGraph.png",
             Nodes=IntegerBuilder(5, 1, 100, 1),
             Density=FloatBuilder(0.5))
 
-        nodes = []
-        edges = []
+    def _getGraph(self, values):
+        n = values['Nodes']
+        p = values['Density']
 
-        if dlg.exec_():
-            values = dlg.values()
-            n = values['Nodes']
-            p = values['Density']
+        G = rnd.fast_gnp_random_graph(n, p, directed=True)
+        nodes = layout.circularNodes(n, 25)
 
-            G = rnd.fast_gnp_random_graph(n, p, directed=True)
-
-            nodes = tools.circularNodes(n, 25)
-
-            for i in G.edges_iter():
-                edges.append(i)
-
-        return nodes, edges
+        return G, nodes
 
 
 class NewmanWattsStrogatzGraphBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Newman-Watys-Strogatz", "Inserts a 'small world' network", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Newman-Watys-Strogatz", "Random", "Inserts a 'small world' network", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -60,7 +51,7 @@ class NewmanWattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
             G = rnd.newman_watts_strogatz_graph(n, k, p)
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
@@ -70,7 +61,7 @@ class NewmanWattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
 class WattsStrogatzGraphBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Watys-Strogatz", "Inserts a 'small world' network", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Watys-Strogatz", "Random", "Inserts a 'small world' network", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -90,7 +81,7 @@ class WattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
             G = rnd.watts_strogatz_graph(n, k, p)
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
@@ -100,7 +91,7 @@ class WattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
 class ConnectedWattsStrogatzGraphBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Watys-Strogatz (Connected)", "Inserts a 'small world' network", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Watys-Strogatz (Connected)", "Random", "Inserts a 'small world' network", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -120,7 +111,7 @@ class ConnectedWattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
             G = rnd.connected_watts_strogatz_graph(n, k, p)
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
@@ -130,7 +121,7 @@ class ConnectedWattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
 class BarabasiAlbertGraphBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Barabasi-Albert", "Inserts a random biassed graph", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Barabasi-Albert", "Random", "Inserts a random biassed graph", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -148,7 +139,7 @@ class BarabasiAlbertGraphBuilder(GraphBuilder, Plugin):
 
             G = rnd.barabasi_albert_graph(n, m)
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
@@ -158,7 +149,7 @@ class BarabasiAlbertGraphBuilder(GraphBuilder, Plugin):
 
 class RandomRegularGraphBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Random Regular", "Inserts a random regular graph", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Random Regular", "Random", "Inserts a random regular graph", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -176,7 +167,7 @@ class RandomRegularGraphBuilder(GraphBuilder, Plugin):
 
             G = rnd.random_regular_graph(m, n)
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
@@ -186,7 +177,7 @@ class RandomRegularGraphBuilder(GraphBuilder, Plugin):
 
 class PowerlawClusterGraphBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Powerlaw Cluster", "Inserts a random powerlaw graph", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Powerlaw Cluster", "Random", "Inserts a random powerlaw graph", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -206,7 +197,7 @@ class PowerlawClusterGraphBuilder(GraphBuilder, Plugin):
 
             G = rnd.powerlaw_cluster_graph(m, n, p)
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
@@ -216,7 +207,7 @@ class PowerlawClusterGraphBuilder(GraphBuilder, Plugin):
 
 class RandomLobsterGraphBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Random Lobster", "Inserts a random lobster graph", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Random Lobster", "Random", "Inserts a random lobster graph", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -236,7 +227,7 @@ class RandomLobsterGraphBuilder(GraphBuilder, Plugin):
 
             G = rnd.random_lobster(n, p1, p2)
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
@@ -246,7 +237,7 @@ class RandomLobsterGraphBuilder(GraphBuilder, Plugin):
 
 class RandomShellGraphBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Random Shell", "Inserts a random shell graph", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Random Shell", "Random", "Inserts a random shell graph", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -266,7 +257,7 @@ class RandomShellGraphBuilder(GraphBuilder, Plugin):
 
             G = rnd.random_shell_graph([(n,m,d)])
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
@@ -276,7 +267,7 @@ class RandomShellGraphBuilder(GraphBuilder, Plugin):
 
 class RandomPowerlawTreeBuilder(GraphBuilder, Plugin):
     def __init__(self):
-        GraphBuilder.__init__(self, "Powerlaw Tree", "Inserts a random powerlaw tree", "Resources/CustomGraph.png")
+        GraphBuilder.__init__(self, "Powerlaw Tree", "Random", "Inserts a random powerlaw tree", "Resources/CustomGraph.png")
         Plugin.__init__(self, "GraphBuilder")
 
     def _createGraph(self):
@@ -294,7 +285,7 @@ class RandomPowerlawTreeBuilder(GraphBuilder, Plugin):
 
             G = rnd.random_powerlaw_tree(n, g)
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for i in G.edges_iter():
                 edges.append(i)
