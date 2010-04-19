@@ -1,8 +1,47 @@
 # -*- coding: utf-8 -*-
 
+# Form implementation generated from reading ui file '.\FuntionViewer.ui'
+#
+# Created: Mon Apr 19 12:05:53 2010
+#      by: PyQt4 UI code generator 4.9
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_DgFuntions(object):
+    def setupUi(self, DgFuntions):
+        DgFuntions.setObjectName(_fromUtf8("DgFuntions"))
+        DgFuntions.resize(693, 453)
+        self.gridLayout = QtGui.QGridLayout(DgFuntions)
+        self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
+        self.graphicsView = QtGui.QGraphicsView(DgFuntions)
+        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
+        self.gridLayout.addWidget(self.graphicsView, 0, 0, 1, 1)
+        self.buttonBox = QtGui.QDialogButtonBox(DgFuntions)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
+
+        self.retranslateUi(DgFuntions)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), DgFuntions.accept)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), DgFuntions.reject)
+        QtCore.QMetaObject.connectSlotsByName(DgFuntions)
+
+    def retranslateUi(self, DgFuntions):
+        DgFuntions.setWindowTitle(QtGui.QApplication.translate("DgFuntions", "Function Viewer", None, QtGui.QApplication.UnicodeUTF8))
+
+# -*- coding: utf-8 -*-
+
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Tue May 22 22:09:11 2012
+# Created: Mon Apr 19 12:05:53 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -293,7 +332,7 @@ class Ui_GraphViewer(object):
         self.actionStandardViewport.setObjectName(_fromUtf8("actionStandardViewport"))
         self.actionAnimations = QtGui.QAction(GraphViewer)
         self.actionAnimations.setCheckable(True)
-        self.actionAnimations.setChecked(True)
+        self.actionAnimations.setChecked(False)
         self.actionAnimations.setObjectName(_fromUtf8("actionAnimations"))
         self.actionAntialiasing = QtGui.QAction(GraphViewer)
         self.actionAntialiasing.setCheckable(True)
@@ -474,7 +513,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Tue May 22 22:09:11 2012
+# Created: Mon Apr 19 12:05:53 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!

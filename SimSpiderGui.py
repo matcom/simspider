@@ -35,7 +35,7 @@ import debug
 from GraphViewer import GraphViewer
 
 from Plugins import pluginManager
-
+ 
 def main():
     app = QApplication(sys.argv)
 
