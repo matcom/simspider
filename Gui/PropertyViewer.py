@@ -34,7 +34,7 @@ class PropertyViewer(QDialog):
         return values
 
 
-class PropertyBuilder:
+class Property:
 
     @debug.trace()
     def build(self, name, layout):
@@ -50,7 +50,7 @@ class PropertyBuilder:
         pass
 
 
-class IntegerBuilder(PropertyBuilder):
+class Integer(Property):
     def __init__(self, value=0, min=0 , max=100, step=1):
         self.min = min
         self.max = max
@@ -72,7 +72,7 @@ class IntegerBuilder(PropertyBuilder):
         return self.item.value()
 
 
-class FloatBuilder(PropertyBuilder):
+class Float(Property):
     def __init__(self, value=0.0, min=0.0, max=1.0, step=0.01):
         self.min = min
         self.max = max

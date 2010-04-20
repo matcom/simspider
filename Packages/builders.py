@@ -1,4 +1,5 @@
 from PyQt4.QtCore import *
+from GraphicNode import Subgraph
 
 __author__ = 'Alejandro Piad'
 
@@ -14,8 +15,10 @@ class GraphBuilder:
         nodesIndex = {}
         index = 0
 
+        subgraph = Subgraph(self.name, graph)
+
         for x,y in nodes:
-            node = graph.addNode(QPoint(x + xpos, y + ypos))
+            node = graph.addNode(QPoint(x + xpos, y + ypos), subgraph)
             nodesIndex[index] = node
             index += 1
 

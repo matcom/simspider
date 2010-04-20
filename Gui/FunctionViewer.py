@@ -118,7 +118,3 @@ class FunctionViewer(QDialog):
         setupItem()
 
         self.pages += 1
-
-
-
-

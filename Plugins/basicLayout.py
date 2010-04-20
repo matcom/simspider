@@ -34,7 +34,7 @@ class CircularLayout(_LayoutPlugin):
         _LayoutPlugin.__init__(self, "Cicular", "Layouts nodes in a circle", "CustomGraph.png")
 
     def _getLayout(self, nodes, edges, values):
-        scale = 25
+        scale = 15
         return layout.circularNodes(len(nodes), scale)
 
 
@@ -56,14 +56,17 @@ class VerticalDistributeLayout(_LayoutPlugin):
 
 class Grid2DLayout(_LayoutPlugin):
     def __init__(self):
-        _LayoutPlugin.__init__(self, "Grid 2D", "Layouts nodes in a grid", "CustomGraph.png",
-            Rows=IntegerBuilder(5,1,100,1))
+        _LayoutPlugin.__init__(self, "Grid 2D", "Layouts nodes in a grid", "CustomGraph.png")
 
     def _getLayout(self, nodes, edges, values):
-        r = values['Rows']
+        r = int(math.sqrt(len(nodes)))
         c = len(nodes) // r
-        vspace = 50
-        hspace = 50
+
+        while r * c < len(nodes):
+            r += 1
+
+        vspace = 75
+        hspace = 75
 
         return layout.grid2d(r, c, hspace, vspace)[0:len(nodes)]
 

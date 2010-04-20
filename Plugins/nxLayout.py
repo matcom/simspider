@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-from PropertyViewer import FloatBuilder
+from PropertyViewer import Float
 
 __author__ = 'Alejandro Piad'
 
@@ -14,7 +14,7 @@ class _NxLayoutPlugin(_LayoutPlugin):
 
         layout = self._applyLayout(G, values)
 
-        return [(layout[n][0] * 250, layout[n][1] * 250) for n in nodes]
+        return [(float(layout[n][0]) * 250, float(layout[n][1]) * 250) for n in nodes]
 
 
     def _applyLayout(self, G, values):

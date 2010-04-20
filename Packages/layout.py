@@ -30,10 +30,22 @@ class Layout:
         if not pos:
             return
 
+        xmidnew = 0
+        ymidnew = 0
+
         for p, node in zip(pos, nodes):
             x,y = p
-            node.newX = x + xmid
-            node.newY = y + ymid
+            xmidnew += x
+            ymidnew += y
+            node.newX = x
+            node.newY = y
+
+        xmidnew /= len(nodes)
+        ymidnew /= len(nodes)
+
+        for node in nodes:
+            node.newX += xmid - xmidnew
+            node.newY += ymid - ymidnew
 
     def _performLayout(self, nodes, edges):
         pass

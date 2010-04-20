@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 from GraphicEdge import GraphicEdge
-from GraphicNode import GraphicNode
+from GraphicNode import GraphicNode, Subgraph
 
 import debug
 
@@ -147,7 +147,10 @@ class CliqueMode(Mode):
 
     def mousePressEvent(self, graph, event):
         if event.button() == Qt.LeftButton:
-            node = graph.addNode(self.graphics.mapToScene(event.pos()))
+            if not self.nodes:
+                self.subgraph = Subgraph("Clique", graph)
+
+            node = graph.addNode(self.graphics.mapToScene(event.pos()), self.subgraph)
 
             for x in self.nodes:
                 graph.addEdge(node, x)
@@ -170,7 +173,10 @@ class CycleMode(Mode):
 
     def mousePressEvent(self, graph, event):
         if event.button() == Qt.LeftButton:
-            node = graph.addNode(self.graphics.mapToScene(event.pos()))
+            if not self.nodes:
+                self.subgraph = Subgraph("Cycle", graph)
+
+            node = graph.addNode(self.graphics.mapToScene(event.pos()), self.subgraph)
 
             if len(self.nodes) > 1:
                 graph.removeEdge(self.nodes[-1], self.nodes[0])
@@ -196,7 +202,10 @@ class PathMode(Mode):
 
     def mousePressEvent(self, graph, event):
         if event.button == Qt.LeftButton:
-            node = graph.addNode(self.graphics.mapToScene(event.pos()))
+            if not self.nodes:
+                self.subgraph = Subgraph("Path", graph)
+
+            node = graph.addNode(self.graphics.mapToScene(event.pos()), self.subgraph)
 
             if len(self.nodes) > 0:
                 graph.addEdge(self.nodes[-1], node)

@@ -5,8 +5,6 @@ from PyQt4.QtGui import *
 
 import debug
 
-__author__ = 'Alejandro Piad'
-
 class GraphicNode(QGraphicsObject):
 
     def __init__(self, graphics, parent=None):
@@ -27,6 +25,10 @@ class GraphicNode(QGraphicsObject):
         self.setFlag(QGraphicsItem.ItemIsMovable)
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
 
+        self.item = QTreeWidgetItem(["Node"], 0)
+        self.item.node = self
+        self.subgraph = None
+
     @debug.trace()
     def addInEdge(self, edge):
         self.inEdges.append(edge)
@@ -42,13 +44,26 @@ class GraphicNode(QGraphicsObject):
             self.outEdges.remove(edge)
 
     def walk(self):
-        items = []
+        items = set()
         self._walk(items)
         return items
 
+    def all(self):
+        items = set()
+        self._all(items)
+        return items
+
+    def _all(self, items):
+        if not self in items:
+            items.add(self)
+            for e in self.outEdges:
+                e.dest._all(items)
+            for e in self.inEdges:
+                e.source._all(items)
+
     def _walk(self, items):
         if not self in items:
-            items.append(self)
+            items.add(self)
             for e in self.outEdges:
                 e.dest._walk(items)
 
@@ -78,3 +93,50 @@ class GraphicNode(QGraphicsObject):
         painter.setPen(self.pen)
         painter.setBrush(self.brush)
         painter.drawPath(self.circle)
+
+    def connect(self, parent):
+        if self.subgraph:
+            self.disconnect()
+
+        self.subgraph = parent
+        parent.addNode(self)
+        self.update()
+
+    def disconnect(self):
+        self.subgraph.removeNode(self)
+        self.subgraph = None
+
+    def update(self):
+        self.item.setText(0, "Node")
+
+
+class Subgraph:
+    def __init__(self, name, graph):
+        self.graph = graph
+        self.name = name
+        self.nodes = []
+        self.tree = graph.ui.graphTree
+        self.item = QTreeWidgetItem([name], 0)
+
+        self.tree.addTopLevelItem(self.item)
+        self.update()
+
+    def addNode(self, node):
+        self.nodes.append(node)
+        self.item.addChild(node.item)
+        self.item.setSelected(True)
+        self.item.setExpanded(True)
+        self.update()
+
+    def removeNode(self, node):
+        self.nodes.remove(node)
+        index = self.item.indexOfChild(node.item)
+        self.item.takeChild(index)
+        self.update()
+
+    def delete(self):
+        index = self.tree.indexOfTopLevelItem(self.item)
+        self.tree.takeTopLevelItem(index)
+
+    def update(self):
+        self.item.setText(0, "{0} ({1} items)".format(self.name, len(self.nodes)))

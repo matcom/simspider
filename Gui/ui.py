@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Sat May 26 16:08:58 2012
+# Created: Sat May 26 23:24:46 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -81,7 +81,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Sat May 26 16:08:58 2012
+# Created: Sat May 26 23:24:47 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -252,7 +252,7 @@ class Ui_GraphViewer(object):
         self.graphToolBox.setFrameShadow(QtGui.QFrame.Plain)
         self.graphToolBox.setObjectName(_fromUtf8("graphToolBox"))
         self.pageBasic = QtGui.QWidget()
-        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 69))
+        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 82))
         self.pageBasic.setObjectName(_fromUtf8("pageBasic"))
         self.verticalLayout = QtGui.QVBoxLayout(self.pageBasic)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -276,6 +276,23 @@ class Ui_GraphViewer(object):
         self.edgesToolbar.setIconSize(QtCore.QSize(42, 42))
         self.edgesToolbar.setObjectName(_fromUtf8("edgesToolbar"))
         GraphViewer.addToolBar(QtCore.Qt.TopToolBarArea, self.edgesToolbar)
+        self.graphView = QtGui.QDockWidget(GraphViewer)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.graphView.sizePolicy().hasHeightForWidth())
+        self.graphView.setSizePolicy(sizePolicy)
+        self.graphView.setMinimumSize(QtCore.QSize(250, 111))
+        self.graphView.setObjectName(_fromUtf8("graphView"))
+        self.dockWidgetContents_4 = QtGui.QWidget()
+        self.dockWidgetContents_4.setObjectName(_fromUtf8("dockWidgetContents_4"))
+        self.verticalLayout_3 = QtGui.QVBoxLayout(self.dockWidgetContents_4)
+        self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
+        self.graphTree = QtGui.QTreeWidget(self.dockWidgetContents_4)
+        self.graphTree.setObjectName(_fromUtf8("graphTree"))
+        self.verticalLayout_3.addWidget(self.graphTree)
+        self.graphView.setWidget(self.dockWidgetContents_4)
+        GraphViewer.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.graphView)
         self.actionSelection = QtGui.QAction(GraphViewer)
         self.actionSelection.setCheckable(True)
         self.actionSelection.setChecked(True)
@@ -484,6 +501,8 @@ class Ui_GraphViewer(object):
         self.deleteToolbar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Remove Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.bipartiteToolbar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Bipartite Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.edgesToolbar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Edges Toolbar", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphView.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphTree.headerItem().setText(0, QtGui.QApplication.translate("GraphViewer", "Sets", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setToolTip(QtGui.QApplication.translate("GraphViewer", "Allows to select several nodes", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F1", None, QtGui.QApplication.UnicodeUTF8))
@@ -546,7 +565,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Sat May 26 16:08:58 2012
+# Created: Sat May 26 23:24:47 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!

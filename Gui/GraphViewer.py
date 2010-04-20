@@ -1,11 +1,12 @@
 # -*- coding: utf8 -*-
+from _ast import Sub
 from FunctionViewer import FunctionViewer, Variable, Function
 
 __author__ = 'Alejandro Piad'
 
 import math
 from GraphicEdge import GraphicEdge
-from GraphicNode import GraphicNode
+from GraphicNode import GraphicNode, Subgraph
 from modes import *
 
 from PyQt4.QtCore import *
@@ -29,6 +30,9 @@ class GraphViewer(QMainWindow):
         self.nodes = []     # Almacena los nodos
         self.edges = []     # Almacena las aristas
         self.edgesDict = {} # Permite acceder rápidamente a las aristas por (source, dest)
+        self.subgraphs = []   # Almacena los subgrafos
+        self.mainGraph = Subgraph("Alone", self)
+
         self.graph = nx.DiGraph()
         self.maxNodes = 50
         self.leftBipartite = []
@@ -85,7 +89,6 @@ class GraphViewer(QMainWindow):
     def _setupActions(self):
         """Conecta todas las acciones su implementación
         """
-
         # Acciones relacionadas a los modos
         self.modes = QActionGroup(self)
 
@@ -110,6 +113,12 @@ class GraphViewer(QMainWindow):
         self.ui.actionLeftBipartite.triggered.connect(lambda: self.selectLeftBipartite(self.selectedNodes()))
         self.ui.actionCompleteBipartite.triggered.connect(lambda: self.completeBipartite(self.selectedNodes()))
 
+        # Acciones del graph tree
+        self.ui.graphTree.itemClicked.connect(lambda item, col: self.selectNode(item))
+
+    def selectNode(self, node):
+        self.deselectAll()
+        node.setSelected(True)
 
     @debug.trace()
     def selectedItems(self):
@@ -155,9 +164,12 @@ class GraphViewer(QMainWindow):
         self.scaleView(math.pow(2, -event.delta() / 240.0))
 
     @debug.trace()
-    def addNode(self, point):
+    def addNode(self, point, parent=None):
         """Añade un nuevo nodo en coordenadas de la escena
         """
+
+        if not parent:
+            parent = self.mainGraph
 
         # if len(self.nodes) == self.maxNodes:
         #   QMessageBox.critical(self,
@@ -168,6 +180,9 @@ class GraphViewer(QMainWindow):
         #     return None
 
         node = GraphicNode(self.ui.graphicsView)
+
+        # Actualizar el subgrafo
+        node.connect(parent)
 
         node.setX(point.x())
         node.setY(point.y())
@@ -248,6 +263,12 @@ class GraphViewer(QMainWindow):
 
         for edge in list(node.inEdges):
             self.removeEdge(edge.source, node)
+
+        subgraph = node.subgraph
+        node.disconnect()
+
+        if not subgraph.nodes and subgraph != self.mainGraph:
+            subgraph.delete()
 
         self.scene.removeItem(node)
 

@@ -5,7 +5,7 @@ from PropertyViewer import *
 from builders import GraphBuilder
 from manager import Plugin
 
-from nxPlugins import _NxPluginGraphBuilder
+from nxGraphs import _NxPluginGraphBuilder
 
 import networkx.generators.random_graphs as rnd
 import layout
@@ -16,8 +16,8 @@ __author__ = 'Alejandro Piad'
 class ErdosRenyiGraphBuilder(_NxPluginGraphBuilder):
     def __init__(self):
         super().__init__("Erdös-Rényi", "Random", "Inserts a random graph", "Resources/CustomGraph.png",
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Density=FloatBuilder(0.5))
+            Nodes=Integer(5, 1, 100, 1),
+            Density=Float(0.5))
 
     def _getGraph(self, values):
         n = values['Nodes']
@@ -36,9 +36,9 @@ class NewmanWattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Neighboors=IntegerBuilder(2,1,100,1),
-            Density=FloatBuilder(0.5))
+            Nodes=Integer(5, 1, 100, 1),
+            Neighboors=Integer(2,1,100,1),
+            Density=Float(0.5))
 
         nodes = []
         edges = []
@@ -66,9 +66,9 @@ class WattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Neighboors=IntegerBuilder(2,1,100,1),
-            Density=FloatBuilder(0.5))
+            Nodes=Integer(5, 1, 100, 1),
+            Neighboors=Integer(2,1,100,1),
+            Density=Float(0.5))
 
         nodes = []
         edges = []
@@ -96,9 +96,9 @@ class ConnectedWattsStrogatzGraphBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Neighboors=IntegerBuilder(2,1,100,1),
-            Density=FloatBuilder(0.5))
+            Nodes=Integer(5, 1, 100, 1),
+            Neighboors=Integer(2,1,100,1),
+            Density=Float(0.5))
 
         nodes = []
         edges = []
@@ -126,8 +126,8 @@ class BarabasiAlbertGraphBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Degree=IntegerBuilder(2,1,100,1))
+            Nodes=Integer(5, 1, 100, 1),
+            Degree=Integer(2,1,100,1))
 
         nodes = []
         edges = []
@@ -154,8 +154,8 @@ class RandomRegularGraphBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Degree=IntegerBuilder(2,1,100,1))
+            Nodes=Integer(5, 1, 100, 1),
+            Degree=Integer(2,1,100,1))
 
         nodes = []
         edges = []
@@ -182,9 +182,9 @@ class PowerlawClusterGraphBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Degree=IntegerBuilder(2,1,100,1),
-            TriangleDensity=FloatBuilder(0.5))
+            Nodes=Integer(5, 1, 100, 1),
+            Degree=Integer(2,1,100,1),
+            TriangleDensity=Float(0.5))
 
         nodes = []
         edges = []
@@ -212,9 +212,9 @@ class RandomLobsterGraphBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            ExpectedNodes=IntegerBuilder(5, 1, 100, 1),
-            BackboneDensity=FloatBuilder(0.5),
-            Density=FloatBuilder(0.5))
+            ExpectedNodes=Integer(5, 1, 100, 1),
+            BackboneDensity=Float(0.5),
+            Density=Float(0.5))
 
         nodes = []
         edges = []
@@ -242,9 +242,9 @@ class RandomShellGraphBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Edges=IntegerBuilder(10, 1, 100, 1),
-            Ratio=FloatBuilder(0.5))
+            Nodes=Integer(5, 1, 100, 1),
+            Edges=Integer(10, 1, 100, 1),
+            Ratio=Float(0.5))
 
         nodes = []
         edges = []
@@ -272,8 +272,8 @@ class RandomPowerlawTreeBuilder(GraphBuilder, Plugin):
 
     def _createGraph(self):
         dlg = PropertyViewer(self.name, self.icon,
-            Nodes=IntegerBuilder(5, 1, 100, 1),
-            Gamma=FloatBuilder(3,0,10,0.1))
+            Nodes=Integer(5, 1, 100, 1),
+            Gamma=Float(3,0,10,0.1))
 
         nodes = []
         edges = []

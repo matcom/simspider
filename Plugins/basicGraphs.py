@@ -20,10 +20,10 @@ class GridBuilder(_BasicGraphBuilder):
 
     def _createGraph(self):
         dlg = PropertyViewer("Grid", "Resources/Grid.png",
-            Columns=IntegerBuilder(5,1,10),
-            Rows=IntegerBuilder(5,1,10),
-            RowSpacing=IntegerBuilder(50,50, 1000, 10),
-            ColumnSpacing=IntegerBuilder(50,50, 1000, 10))
+            Columns=Integer(5,1,10),
+            Rows=Integer(5,1,10),
+            RowSpacing=Integer(50,50, 1000, 10),
+            ColumnSpacing=Integer(50,50, 1000, 10))
 
         nodes = []
         edges = []
@@ -46,7 +46,7 @@ class CycleBuilder(_BasicGraphBuilder):
 
     def _createGraph(self):
         dlg = PropertyViewer("Cycle", "Resources/Cycle.png",
-            Nodes=IntegerBuilder(5,1,100))
+            Nodes=Integer(5,1,100))
 
         nodes = []
         edges = []
@@ -71,8 +71,8 @@ class PathBuilder(_BasicGraphBuilder):
 
     def _createGraph(self):
         dlg = PropertyViewer("Path", "Resources/Path.png",
-            Nodes=IntegerBuilder(5,1,100),
-            Distance=IntegerBuilder(60,60,1000,10))
+            Nodes=Integer(5,1,100),
+            Distance=Integer(60,60,1000,10))
 
         nodes = []
         edges = []
@@ -97,7 +97,7 @@ class CliqueBuilder(_BasicGraphBuilder):
 
     def _createGraph(self):
         dlg = PropertyViewer("Clique", "Resources/Clique.png",
-            Nodes=IntegerBuilder(5,1,100))
+            Nodes=Integer(5,1,100))
 
         nodes = []
         edges = []
@@ -122,10 +122,10 @@ class BipartiteBuilder(_BasicGraphBuilder):
 
     def _createGraph(self):
         dlg = PropertyViewer("Bipartite", "Resources/Bipartite.png",
-            LeftNodes=IntegerBuilder(5,1,100),
-            RightNodes=IntegerBuilder(5,1,100),
-            VerticalSpacing=IntegerBuilder(50,50,1000, 10),
-            HorizontalSpacing=IntegerBuilder(100,100,1000, 10))
+            LeftNodes=Integer(5,1,100),
+            RightNodes=Integer(5,1,100),
+            VerticalSpacing=Integer(50,50,1000, 10),
+            HorizontalSpacing=Integer(100,100,1000, 10))
 
         nodes = []
         edges = []
