@@ -1,3 +1,4 @@
+from GraphicFun import GraphicFun
 import ui
 
 from PyQt4.QtCore import *
@@ -20,6 +21,34 @@ class Function:
     def clone(self):
         return Function(self.name, **self.properties)
 
+    def __getattr__(self, item):
+        return self.properties[item]
+
+    def evaluate(self, precision):
+        pass
+
+
+class TriangularFunction(Function):
+    def __init__(self, min=0, mid=50, max=100):
+        Function.__init__(self, "Triangular", Min=min, Mid=mid, Max=max)
+
+    def clone(self):
+        return TriangularFunction(self.Min, self.Mid, self.Max)
+
+    def evaluate(self, precision):
+        return [(self.Min,0), (self.Mid, 1), (self.Max, 0)]
+
+
+class SquareFunction(Function):
+    def __init__(self, min=0, max=100):
+        Function.__init__(self, "Square", Min=min, Max=max)
+
+    def clone(self):
+        return SquareFunction(self.Min, self.Max)
+
+    def evaluate(self, precision):
+        return [(self.Min,0), (self.Min, 1), (self.Max, 1), (self.Max, 0)]
+
 
 class FunctionViewer(QDialog):
     def __init__(self, functions, variable):
@@ -36,13 +65,19 @@ class FunctionViewer(QDialog):
 
         self.ui.toolBox.setVisible(False)
 
-        for name, func in self.variable.values.items():
-            self.addValueControl(name, func)
-
         self.ui.btnAdd.clicked.connect(self.addValue)
         self.ui.btnRemove.clicked.connect(self.removeValue)
 
+        self.scene = QGraphicsScene()
+        self.scene.setItemIndexMethod(QGraphicsScene.NoIndex)
 
+        self.ui.functionView.setScene(self.scene)
+        self.ui.functionView.setAttribute(Qt.WA_Hover)
+
+        for name, func in self.variable.values.items():
+            self.addValueControl(name, func)
+
+    #Agrega un valor linguístico
     def addValue(self):
         text, ok = QInputDialog.getText(self, "Add a new value", "Name")
 
@@ -52,13 +87,17 @@ class FunctionViewer(QDialog):
         self.variable.values[text] = Function("None")
         self.addValueControl(text, Function("None"))
 
-
+    #Elimina un valor linguístico
     def removeValue(self):
         page = self.ui.toolBox.currentWidget()
         text = self.ui.toolBox.itemText(self.ui.toolBox.currentIndex())
 
         if self.pages > 1:
             self.ui.toolBox.removeItem(self.ui.toolBox.currentIndex())
+
+            if hasattr(page, "function") and page.function:
+                self.scene.removeItem(page.function)
+
             page.deleteLater()
 
         self.pages -= 1
@@ -69,7 +108,9 @@ class FunctionViewer(QDialog):
             self.ui.btnRemove.setEnabled(False)
             self.ui.toolBox.setVisible(False)
 
+        self.scene.update()
 
+    #Agrega para un valor linguístico agrega todos los controles.
     def addValueControl(self, name, func):
         if not self.pages:
             self.ui.toolBox.setVisible(True)
@@ -101,6 +142,12 @@ class FunctionViewer(QDialog):
 
         def setupItem():
             func = self.functions[combo.currentText()].clone()
+            
+            if hasattr(page, "function") and page.function:
+                self.scene.removeItem(page.function)
+            
+            page.function = GraphicFun(func, self.ui.functionView)
+            self.scene.addItem(page.function)
 
             while layout.count() > 2:
                 item = layout.takeAt(2)
@@ -114,11 +161,19 @@ class FunctionViewer(QDialog):
                 spin.setValue(value)
                 layout.addRow(name, spin)
 
+                spin.valueChanged.connect(self.connectValueChanged(func, name))
+
+            self.scene.update()
+
         combo.currentIndexChanged.connect(setupItem)
         setupItem()
 
         self.pages += 1
 
+    def connectValueChanged(self, func, name):
+        def valueChanged(value):
+            func.properties[name] = value
+            self.scene.update()
 
-
+        return valueChanged
 

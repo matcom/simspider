@@ -1,7 +1,5 @@
 # -*- coding: utf8 -*-
-from FunctionViewer import FunctionViewer, Variable, Function
-
-__author__ = 'Alejandro Piad'
+from FunctionViewer import FunctionViewer, Variable, Function, TriangularFunction, SquareFunction
 
 import math
 from GraphicEdge import GraphicEdge
@@ -65,8 +63,8 @@ class GraphViewer(QMainWindow):
         self.loadPlugins()
 
         variable = Variable("Temperature")
-        triangular = Function("Triangular", Min=0, Mid=50, Max=100)
-        square = Function("Square", Min=0, Max=100)
+        triangular = TriangularFunction()
+        square = SquareFunction()
         functions = {"Triangular":triangular, "Square":square}
 
         variable.values["Cold"] = triangular.clone()

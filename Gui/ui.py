@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Sat May 26 16:08:58 2012
+# Created: Mon Apr 19 22:50:48 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -24,13 +24,13 @@ class Ui_DgFuntions(object):
         self.splitter_2.setMinimumSize(QtCore.QSize(0, 0))
         self.splitter_2.setOrientation(QtCore.Qt.Horizontal)
         self.splitter_2.setObjectName(_fromUtf8("splitter_2"))
-        self.widget = QtGui.QWidget(self.splitter_2)
-        self.widget.setObjectName(_fromUtf8("widget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.widget)
+        self.layoutWidget = QtGui.QWidget(self.splitter_2)
+        self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.toolBox = QtGui.QToolBox(self.widget)
+        self.toolBox = QtGui.QToolBox(self.layoutWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -45,19 +45,19 @@ class Ui_DgFuntions(object):
         self.verticalLayout.addWidget(self.toolBox)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.btnRemove = QtGui.QPushButton(self.widget)
+        self.btnRemove = QtGui.QPushButton(self.layoutWidget)
         self.btnRemove.setEnabled(False)
         self.btnRemove.setObjectName(_fromUtf8("btnRemove"))
         self.horizontalLayout.addWidget(self.btnRemove)
-        self.btnAdd = QtGui.QPushButton(self.widget)
+        self.btnAdd = QtGui.QPushButton(self.layoutWidget)
         self.btnAdd.setObjectName(_fromUtf8("btnAdd"))
         self.horizontalLayout.addWidget(self.btnAdd)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.splitter = QtGui.QSplitter(self.splitter_2)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setObjectName(_fromUtf8("splitter"))
-        self.graphicsView = QtGui.QGraphicsView(self.splitter)
-        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
+        self.functionView = QtGui.QGraphicsView(self.splitter)
+        self.functionView.setObjectName(_fromUtf8("functionView"))
         self.verticalLayout_2.addWidget(self.splitter_2)
         self.buttonBox = QtGui.QDialogButtonBox(DgFuntions)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -81,7 +81,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Sat May 26 16:08:58 2012
+# Created: Mon Apr 19 22:50:48 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -546,7 +546,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Sat May 26 16:08:58 2012
+# Created: Mon Apr 19 22:50:48 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
