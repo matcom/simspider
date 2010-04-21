@@ -111,6 +111,13 @@ class GraphViewer(QMainWindow):
         self.ui.actionLeftBipartite.triggered.connect(lambda: self.selectLeftBipartite(self.selectedNodes()))
         self.ui.actionCompleteBipartite.triggered.connect(lambda: self.completeBipartite(self.selectedNodes()))
 
+        #Acciones relacionadas con la corrida de la simulación
+        self.simul = QActionGroup(self)
+        self.simul.addAction(self.ui.actionPlay)
+        self.simul.addAction(self.ui.actionPause)
+        self.simul.addAction(self.ui.actionNext)
+        self.simul.addAction(self.ui.actionJump)
+
         # Acciones del graph tree
         self.ui.graphTree.itemClicked.connect(lambda item, col: self.selectNode(item))
 

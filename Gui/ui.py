@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Tue Apr 20 22:26:10 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -223,7 +223,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Tue Apr 20 22:26:10 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -302,7 +302,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Tue Apr 20 22:26:10 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -481,7 +481,7 @@ class Ui_GraphViewer(object):
         self.graphToolBox.setFrameShadow(QtGui.QFrame.Plain)
         self.graphToolBox.setObjectName(_fromUtf8("graphToolBox"))
         self.pageBasic = QtGui.QWidget()
-        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 91))
+        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 69))
         self.pageBasic.setObjectName(_fromUtf8("pageBasic"))
         self.verticalLayout = QtGui.QVBoxLayout(self.pageBasic)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -645,24 +645,40 @@ class Ui_GraphViewer(object):
         self.actionStandard.setIcon(icon15)
         self.actionStandard.setObjectName(_fromUtf8("actionStandard"))
         self.actionPlay = QtGui.QAction(GraphViewer)
+        self.actionPlay.setCheckable(True)
         icon16 = QtGui.QIcon()
         icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play.png")), QtGui.QIcon.Active, QtGui.QIcon.Off)
+        icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play.png")), QtGui.QIcon.Selected, QtGui.QIcon.Off)
         self.actionPlay.setIcon(icon16)
         self.actionPlay.setObjectName(_fromUtf8("actionPlay"))
         self.actionPause = QtGui.QAction(GraphViewer)
+        self.actionPause.setCheckable(True)
         icon17 = QtGui.QIcon()
-        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Pause.png")), QtGui.QIcon.Active, QtGui.QIcon.Off)
+        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Pause.png")), QtGui.QIcon.Selected, QtGui.QIcon.On)
+        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Pause.png")), QtGui.QIcon.Selected, QtGui.QIcon.Off)
         self.actionPause.setIcon(icon17)
         self.actionPause.setObjectName(_fromUtf8("actionPause"))
         self.actionJump = QtGui.QAction(GraphViewer)
+        self.actionJump.setCheckable(True)
         icon18 = QtGui.QIcon()
-        icon18.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Jump.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon18.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Jump.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon18.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Jump.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon18.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Jump.png")), QtGui.QIcon.Active, QtGui.QIcon.Off)
+        icon18.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Jump.png")), QtGui.QIcon.Selected, QtGui.QIcon.On)
         self.actionJump.setIcon(icon18)
         self.actionJump.setObjectName(_fromUtf8("actionJump"))
         self.actionNext = QtGui.QAction(GraphViewer)
+        self.actionNext.setCheckable(True)
         icon19 = QtGui.QIcon()
-        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Play Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Inactive Play Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play Pause.png")), QtGui.QIcon.Active, QtGui.QIcon.Off)
+        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Play Pause.png")), QtGui.QIcon.Selected, QtGui.QIcon.Off)
         self.actionNext.setIcon(icon19)
         self.actionNext.setObjectName(_fromUtf8("actionNext"))
         self.menuFile.addAction(self.actionQuit)
@@ -850,7 +866,7 @@ class Ui_GraphViewer(object):
         self.action_Function_Viewer.setText(QtGui.QApplication.translate("GraphViewer", "&Function Viewer", None, QtGui.QApplication.UnicodeUTF8))
         self.actionStandard.setText(QtGui.QApplication.translate("GraphViewer", "Standard", None, QtGui.QApplication.UnicodeUTF8))
         self.actionPlay.setText(QtGui.QApplication.translate("GraphViewer", "&Play", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionPause.setText(QtGui.QApplication.translate("GraphViewer", "Pause", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPause.setText(QtGui.QApplication.translate("GraphViewer", "&Pause", None, QtGui.QApplication.UnicodeUTF8))
         self.actionPause.setToolTip(QtGui.QApplication.translate("GraphViewer", "Pause", None, QtGui.QApplication.UnicodeUTF8))
         self.actionJump.setText(QtGui.QApplication.translate("GraphViewer", "&Jump", None, QtGui.QApplication.UnicodeUTF8))
         self.actionJump.setToolTip(QtGui.QApplication.translate("GraphViewer", "Jump", None, QtGui.QApplication.UnicodeUTF8))
@@ -861,7 +877,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Tue Apr 20 22:26:11 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -924,7 +940,7 @@ class Ui_PropertyViewer(object):
 
 # Form implementation generated from reading ui file '.\Rules.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Tue Apr 20 22:26:11 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
