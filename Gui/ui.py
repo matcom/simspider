@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Sun May 27 17:36:32 2012
+# Created: Tue Apr 20 19:45:37 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -223,7 +223,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Sun May 27 17:36:32 2012
+# Created: Tue Apr 20 19:45:37 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -302,7 +302,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Sun May 27 17:36:32 2012
+# Created: Tue Apr 20 19:45:37 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -804,7 +804,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Sun May 27 17:36:32 2012
+# Created: Tue Apr 20 19:45:37 2010
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -862,4 +862,70 @@ class Ui_PropertyViewer(object):
         PropertyViewer.setWindowTitle(QtGui.QApplication.translate("PropertyViewer", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
         self.btnCancel.setText(QtGui.QApplication.translate("PropertyViewer", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
         self.btnOk.setText(QtGui.QApplication.translate("PropertyViewer", "Ok", None, QtGui.QApplication.UnicodeUTF8))
+
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file '.\Rules.ui'
+#
+# Created: Tue Apr 20 19:45:37 2010
+#      by: PyQt4 UI code generator 4.9
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_DgRules(object):
+    def setupUi(self, DgRules):
+        DgRules.setObjectName(_fromUtf8("DgRules"))
+        DgRules.resize(536, 326)
+        font = QtGui.QFont()
+        font.setKerning(False)
+        DgRules.setFont(font)
+        self.verticalLayout = QtGui.QVBoxLayout(DgRules)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.label = QtGui.QLabel(DgRules)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setItalic(False)
+        font.setKerning(False)
+        self.label.setFont(font)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.verticalLayout.addWidget(self.label)
+        self.txeEditRules = QtGui.QTextEdit(DgRules)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setItalic(False)
+        font.setKerning(False)
+        self.txeEditRules.setFont(font)
+        self.txeEditRules.setAcceptRichText(False)
+        self.txeEditRules.setObjectName(_fromUtf8("txeEditRules"))
+        self.verticalLayout.addWidget(self.txeEditRules)
+        self.ptxeException = QtGui.QPlainTextEdit(DgRules)
+        self.ptxeException.setMaximumSize(QtCore.QSize(16777215, 80))
+        self.ptxeException.setObjectName(_fromUtf8("ptxeException"))
+        self.verticalLayout.addWidget(self.ptxeException)
+        self.buttonBox = QtGui.QDialogButtonBox(DgRules)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.verticalLayout.addWidget(self.buttonBox)
+
+        self.retranslateUi(DgRules)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), DgRules.accept)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), DgRules.reject)
+        QtCore.QMetaObject.connectSlotsByName(DgRules)
+
+    def retranslateUi(self, DgRules):
+        DgRules.setWindowTitle(QtGui.QApplication.translate("DgRules", "Rules", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("DgRules", "<html><head/><body><p>Enter the attribute rules </p><p>Ex: <span style=\" font-weight:600; color:#55007f;\">if</span> [<span style=\" font-weight:600; color:#0000ff;\">not</span>] Attribute <span style=\" color:#550000;\">is</span> Value [<span style=\" font-weight:600; color:#0000ff;\">and</span> | <span style=\" font-weight:600; color:#0000ff;\">or </span>Attribute <span style=\" font-weight:600; color:#0000ff;\">is </span>Value]* <span style=\" font-weight:600; color:#55007f;\">then</span> Attribute <span style=\" color:#550000;\">is</span> Value </p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.txeEditRules.setHtml(QtGui.QApplication.translate("DgRules", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"><br /></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
 

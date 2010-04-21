@@ -20,6 +20,23 @@ class ParsingException(Exception):
         Exception.__init__(self, "Expected token in {0} but input was {1}".format(token, rule))
         self.rule = rule
         self.token = token
+        self.line = " ".join(self.rule)
+
+    def print(self):
+        if len(self.token) > 1:
+            return "Expected one of '{0}' but found '{1}'".format(", ".join(t.__str__() for t in self.token),
+                " ".join(self.rule) if self.rule else "EOL")
+
+        token = self.token[0]
+
+        if self.token in [rightBracket]:
+            return "Unbalanced right parenthesis on beginning '{0}'.".format(self.line)
+
+        if self.token in ["EOL"]:
+            return "Unexpected token '{0}' after end of rule.".format(token)
+
+        return "Expected '{0}' but found '{1}'".format(token, " ".join(self.rule) if self.rule else "EOL")
+
 
 
 class Identifier:
@@ -121,6 +138,9 @@ def _parseRule(rule):
 
     _consume(rule, thenToken)
     body = _parseAssign(rule)
+
+    if rule:
+        raise ParsingException(rule, ["EOL"])
 
     return Rule(head, body)
 
