@@ -5,7 +5,7 @@ from PyQt4.uic import compileUi
 def main():
     print("*** Compiling UI files ***")
 
-    inPath = os.path.join(__init__.packages_dir, "Gui")
+    inPath = os.path.join(".")
     outPath = os.path.join(inPath, "Gui.py")
 
     print("Input folder: {0}".format(inPath))
