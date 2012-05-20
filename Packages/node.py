@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 __author__ = 'David'
 
 import behavior as beh

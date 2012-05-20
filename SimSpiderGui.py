@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 __author__ = 'Alejandro Piad'
 
 import sys
@@ -7,12 +9,17 @@ import os
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+from Plugins import pluginManager
+
 import traceback
 import debug
+
 from GraphViewer import GraphViewer
 
 gui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Gui'))
 packages_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Packages'))
+redist_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Redist'))
+redist_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Plugins'))
 
 sys.path.append(gui_dir)
 sys.path.append(packages_dir)
@@ -53,6 +60,11 @@ def main():
     debug.addListener(listener)
 
     debug.defaultListener.resetFilters()
+    debug.defaultListener.filter("graphviewer")
+    debug.defaultListener.filter("propertyviewer")
+    debug.defaultListener.filter("plugins")
+
+    pluginManager.loadPlugins()
 
     try:
         win = createMainWindow()

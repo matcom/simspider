@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 import os
 
 from PyQt4.uic import compileUi
@@ -6,7 +8,7 @@ def main():
     print("*** Compiling UI files ***")
 
     inPath = os.path.join(".")
-    outPath = os.path.join(inPath, "Gui.py")
+    outPath = os.path.join(inPath, "ui.py")
 
     print("Input folder: {0}".format(inPath))
     print("Output file: {0}".format(outPath))
