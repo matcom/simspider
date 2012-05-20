@@ -58,7 +58,7 @@ class GridBuilder(GraphBuilder):
                 for j in range(columns):
                     nodes.append((x,y))
                     x += cspace
-                x = 0
+                x = -columns * cspace / 2
                 y += rspace
 
         return nodes, edges
