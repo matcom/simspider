@@ -4,7 +4,6 @@ import math
 from GraphicEdge import GraphicEdge
 from GraphicNode import GraphicNode
 
-from builders import *
 from modes import *
 
 __author__ = 'Alejandro Piad'
@@ -344,6 +343,7 @@ class GraphViewer(QMainWindow):
     @debug.trace()
     def loadPlugins(self):
         self._loadCustomBuilders()
+        self._loadGeneralPlugins()
 
     @debug.trace()
     def _loadCustomBuilders(self):
@@ -424,3 +424,19 @@ class GraphViewer(QMainWindow):
     def deselectAll(self):
         for item in self.selectedItems():
             item.setSelected(False)
+
+    def _loadGeneralPlugins(self):
+        required = ["name", "description", "install", "uninstall"]
+
+        for plugin in pluginManager.getItems("GeneralPlugin"):
+            for attr in required:
+                if not hasattr(plugin, attr):
+                    continue
+
+            self._loadGeneralPlugin(plugin)
+
+    def _loadGeneralPlugin(self, plugin):
+        action = self.ui.menuPlugins.addAction(plugin.name)
+        action.setCheckable(True)
+        action.setTooltip(plugin.description)
+

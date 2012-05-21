@@ -9,7 +9,7 @@ __author__ = 'Alejandro Piad'
 class _NxReaderPlugin(GraphReader, Plugin):
     def __init__(self, name, extension, **kwargs):
         GraphWriter.__init__(self, name, extension)
-        Plugin.__init__(self, "GraphFormater")
+        Plugin.__init__(self, "GraphReader")
 
         self.kwargs = kwargs
 
@@ -28,7 +28,7 @@ class _NxReaderPlugin(GraphReader, Plugin):
 class _NxWriterPlugin(GraphWriter, Plugin):
     def __init__(self, name, extension, **kwargs):
         GraphWriter.__init__(self, name, extension)
-        Plugin.__init__(self, "GraphFormater")
+        Plugin.__init__(self, "GraphWriter")
 
         self.kwargs = kwargs
 

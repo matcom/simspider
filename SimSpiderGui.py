@@ -9,7 +9,6 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 import traceback
-import debug
 
 gui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Gui'))
 packages_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Packages'))
@@ -29,6 +28,7 @@ print("Plugins: {0}".format(plugins_dir))
 from GraphViewer import GraphViewer
 from Plugins import pluginManager
 from config import config
+import debug
 
 def main():
     app = QApplication(sys.argv)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Mon May 21 08:31:04 2012
+# Created: Mon May 21 14:05:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -47,6 +47,8 @@ class Ui_GraphViewer(object):
         self.menuInsert.setObjectName(_fromUtf8("menuInsert"))
         self.menu_View = QtGui.QMenu(self.menubar)
         self.menu_View.setObjectName(_fromUtf8("menu_View"))
+        self.menuPlugins = QtGui.QMenu(self.menubar)
+        self.menuPlugins.setObjectName(_fromUtf8("menuPlugins"))
         GraphViewer.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(GraphViewer)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -273,6 +275,7 @@ class Ui_GraphViewer(object):
         self.menubar.addAction(self.menu_View.menuAction())
         self.menubar.addAction(self.menuTransform.menuAction())
         self.menubar.addAction(self.menuInsert.menuAction())
+        self.menubar.addAction(self.menuPlugins.menuAction())
         self.toolBar.addAction(self.actionSelection)
         self.toolBar.addAction(self.actionCreation)
         self.toolBar.addAction(self.actionClique)
@@ -320,6 +323,7 @@ class Ui_GraphViewer(object):
         self.menuTransform.setTitle(QtGui.QApplication.translate("GraphViewer", "&Edit", None, QtGui.QApplication.UnicodeUTF8))
         self.menuInsert.setTitle(QtGui.QApplication.translate("GraphViewer", "&Insert", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_View.setTitle(QtGui.QApplication.translate("GraphViewer", "&View", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuPlugins.setTitle(QtGui.QApplication.translate("GraphViewer", "Plugins", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBoxDock.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Toolbox", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSelection.setDescription(QtGui.QApplication.translate("GraphViewer", "Select multiple nodes", None, QtGui.QApplication.UnicodeUTF8))
@@ -393,7 +397,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Mon May 21 08:31:04 2012
+# Created: Mon May 21 14:05:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!

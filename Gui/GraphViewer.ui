@@ -101,10 +101,16 @@
     <addaction name="actionStandardViewport"/>
     <addaction name="separator"/>
    </widget>
+   <widget class="QMenu" name="menuPlugins">
+    <property name="title">
+     <string>Plugins</string>
+    </property>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_View"/>
    <addaction name="menuTransform"/>
    <addaction name="menuInsert"/>
+   <addaction name="menuPlugins"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="toolBoxDock">
