@@ -1,7 +1,10 @@
+# -*- coding: utf8 -*-
+
 __author__ = 'David'
 
 import behavior as beh
 import events as ev
+import debug
 
 class Node:
 
@@ -15,10 +18,11 @@ class Node:
         self.data = graph.node[node][Node.dkey]
         if Node.bkey not in self.data: self.data[Node.bkey] = beh.Behavior()
 
+    @debug.trace()
     def ReceiveData(self, source, newData, actTime):
-        print("Time: {0}".format(actTime))
-        print("Received in {0} data: {1}".format(self,newData))
-        print("Actual data in {0}: {1}".format(self,self.data))
+        debug.info("Time: {0}", actTime, "node")
+        debug.info("Received in {0} data: {1}", (self,newData), "node")
+        debug.info("Actual data in {0}: {1}", (self,self.data), "node")
         newbeh = False
         b = self.GetBehavior()
         if Node.bkey in newData: newbeh = newData.pop(Node.bkey)
@@ -28,6 +32,7 @@ class Node:
         if b.sendAfterReceive: return self.SendData(actTime)
         else: return []
 
+    @debug.trace()
     def SendData(self, actTime):
         newEvents = []
         b = self.GetBehavior()
@@ -48,23 +53,29 @@ class Node:
             if not b.includeBehavior: self.data[Node.bkey] = b
         return newEvents
 
+    @debug.trace()
     def Signal(self, signalData, actTime):
         print("Node {0} was signaled with data: {1} time: {2}".format(self,signalData,actTime))
         b = self.GetBehavior()
         return b.OnSignal(self, signalData,actTime)
 
+    @debug.trace()
     def SetAttribute(self,key,value):
         self.data[key] = value
 
+    @debug.trace()
     def GetAttribute(self,key):
         return self.data[key]
 
+    @debug.trace()
     def SetBehavior(self,b):
         self.data[Node.bkey] = b
 
+    @debug.trace()
     def GetBehavior(self):
         return self.data[Node.bkey]
 
+    @debug.trace()
     def Successors(self):
         return self.graph.successors(self.node)
 
