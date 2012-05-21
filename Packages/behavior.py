@@ -1,5 +1,3 @@
-# -*- coding: utf8 -*-
-
 __author__ = 'David'
 
 import random as rdm
@@ -10,20 +8,30 @@ import events as ev
 class Behavior:
 
     def __init__(self):
-        #receiving data
-        self.Process = None
-        self.Learn = None
-        #sending data
+        #sending
         self.sendAfterReceive = False
         self.includeBehavior = False
-        self.Rout = None
-        self.Select = None
-        self.Transform = None
-        self.Cleanup = None
-        #signaling
-        self.OnSignal = None
         #description
         self.Name = "None"
+    #receiving data
+    @staticmethod
+    def Process(actualData,newData):pass
+    @staticmethod
+    def Learn(actual,new):pass
+
+    #sending data
+    @staticmethod
+    def Rout(node): return []
+    @staticmethod
+    def Select(data,actTime):return []
+    @staticmethod
+    def Transform(key,value):return value
+    @staticmethod
+    def Cleanup(data):pass
+
+    #signaling
+    @staticmethod
+    def OnSignal(node, signalData, actualTime): return []
 
     def __str__(self):
         return self.Name
@@ -38,10 +46,6 @@ class BasicProcessing:
         def UpdateAll(actualData,newData):
             actualData.update(newData)
         return UpdateAll
-
-    @staticmethod
-    def DoNothing():
-        return None
 
     @staticmethod
     def Update(keys):
@@ -72,10 +76,6 @@ class BasicLearning:
             actual.Cleanup = new.Cleanup
             actual.OnSignal = new.OnSignal
         return LearnAll
-
-    @staticmethod
-    def DoNothing():
-        return None
 
     @staticmethod
     def LearnSpecificBehavior(sendAftReceive = False,sendBeh = False,process = False,learn = False,rout = False,select = False,transform = False,cleanup = False,signaling = False):
@@ -116,10 +116,6 @@ class BasicRouting:
             return rdm.sample(node.Successors(),n)
         return SampleDestinations
 
-    @staticmethod
-    def DoNothing():
-        return None
-
 class BasicSelection:
 
     @staticmethod
@@ -144,15 +140,7 @@ class BasicSelection:
             yield (r,actTime+timeFunction())
         return SendSelectedData
 
-    @staticmethod
-    def DoNothing():
-        return None
-
 class BasicTransformation:
-
-    @staticmethod
-    def DoNothing():
-        return None
 
     @staticmethod
     def ShallowCopy():
@@ -167,10 +155,6 @@ class BasicTransformation:
         return Deep
 
 class BasicCleanup:
-
-    @staticmethod
-    def DoNothing():
-        return None
 
     @staticmethod
     def Delete(keys):

@@ -1,5 +1,3 @@
-# -*- coding: utf8 -*-
-
 __author__ = 'David'
 
 import networkx as nx
@@ -31,11 +29,11 @@ for n in [Node(G,node) for node in G.nodes_iter()]:
         n.SetBehavior(b1)
 
 s = Simulator()
-s.after_event.append(lambda x,y:input())
+s.afterEvent.append(lambda x,y:input())
 s.InsertEvents([ev.SignalAllNodes(G,None,0)])
 s.Simulate()
 
-print(s.time_spent)
+print(s.timeSpent)
 s.Simulate(time= 3)
 
 

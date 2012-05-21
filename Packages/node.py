@@ -1,5 +1,3 @@
-# -*- coding: utf8 -*-
-
 __author__ = 'David'
 
 import behavior as beh
@@ -24,8 +22,8 @@ class Node:
         newbeh = False
         b = self.GetBehavior()
         if Node.bkey in newData: newbeh = newData.pop(Node.bkey)
-        if b.Process != None: b.Process(self.data,newData)
-        if b.Learn != None and newbeh: b.Learn(b,newbeh)
+        b.Process(self.data,newData)
+        if newbeh: b.Learn(b,newbeh)
         print("Updated data in {0}: {1}".format(self,self.data))
         if b.sendAfterReceive: return self.SendData(actTime)
         else: return []
@@ -33,7 +31,7 @@ class Node:
     def SendData(self, actTime):
         newEvents = []
         b = self.GetBehavior()
-        if b.Rout != None and len(self.data)>0 and b.Select != None:
+        if len(self.data)>0:
             for d in [Node(self.graph,d) for d in b.Rout(self)]:
                 if not b.includeBehavior: del self.data[Node.bkey]
                 for ks, time in b.Select(self.data, actTime):
@@ -45,16 +43,15 @@ class Node:
                             newData[key] = b.Transform(key,self.data[key])
                     newEvents.append(ev.DataArrival(self,newData,d,time))
                     print("Sending: {0} from: {1} to: {2} time: {3}".format(newData,self,d,actTime))
-                if b.Cleanup != None: b.Cleanup(self.data)
-                print("Data after cleanup in {0}: {1}".format(self,self.data))
-                if not b.includeBehavior: self.data[Node.bkey] = b
+            b.Cleanup(self.data)
+            print("Data after cleanup in {0}: {1}".format(self,self.data))
+            if not b.includeBehavior: self.data[Node.bkey] = b
         return newEvents
 
     def Signal(self, signalData, actTime):
         print("Node {0} was signaled with data: {1} time: {2}".format(self,signalData,actTime))
         b = self.GetBehavior()
-        if b.OnSignal != None: return b.OnSignal(self, signalData,actTime)
-        else: return []
+        return b.OnSignal(self, signalData,actTime)
 
     def SetAttribute(self,key,value):
         self.data[key] = value
