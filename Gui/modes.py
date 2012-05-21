@@ -79,7 +79,7 @@ class CreationMode(Mode):
             for e in edges:
                 graph.insertNode(node, e)
 
-        return True
+        return False
 
 
 class CliqueMode(Mode):
@@ -102,7 +102,7 @@ class CliqueMode(Mode):
             self.nodes = []
             graph.deselectAll()
 
-        return True
+        return False
 
 
 class CycleMode(Mode):
@@ -128,7 +128,7 @@ class CycleMode(Mode):
             self.nodes = []
             graph.deselectAll()
 
-        return True
+        return False
 
 
 class PathMode(Mode):
@@ -150,4 +150,4 @@ class PathMode(Mode):
             self.nodes = []
             graph.deselectAll()
 
-        return True
+        return False
