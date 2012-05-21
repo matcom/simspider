@@ -1,38 +1,22 @@
-import math
-
-from PyQt4.QtCore import *
-from PropertyViewer import *
-import tools
+# -*- coding: utf8 -*-
 
 __author__ = 'Alejandro Piad'
 
-class GraphBuilder:
-    def __init__(self, name, description, icon):
-        self.name = name
-        self.description = description
-        self.icon = icon
-
-    def build(self, graph, xpos, ypos):
-        nodes, edges = self._createGraph()
-        nodesIndex = {}
-        index = 0
-
-        for x,y in nodes:
-            node = graph.addNode(QPoint(x + xpos, y + ypos))
-            nodesIndex[index] = node
-            index += 1
-            node.setSelected(True)
-
-        for x,y in edges:
-            graph.addEdge(nodesIndex[x], nodesIndex[y])
-
-    def _createGraph(self):
-        return [], []
+from manager import Plugin
+from builders import GraphBuilder
+from PropertyViewer import *
+import layout
 
 
-class GridBuilder(GraphBuilder):
+class _BasicGraphBuilder(GraphBuilder, Plugin):
+    def __init__(self, name, group, description, icon):
+        GraphBuilder.__init__(self, name, group, description, icon)
+        Plugin.__init__(self, "GraphBuilder")
+
+
+class GridBuilder(_BasicGraphBuilder):
     def __init__(self):
-        super().__init__(None, None, None)
+        super().__init__("Grid", "Basic", "Inserts a unconected grid", "Resources/Grid.png")
 
     def _createGraph(self):
         dlg = PropertyViewer("Grid", "Resources/Grid.png",
@@ -51,22 +35,14 @@ class GridBuilder(GraphBuilder):
             rspace = values['RowSpacing']
             cspace = values['ColumnSpacing']
 
-            x = -columns * cspace / 2
-            y = -rows * rspace / 2
-
-            for i in range(rows):
-                for j in range(columns):
-                    nodes.append((x,y))
-                    x += cspace
-                x = -columns * cspace / 2
-                y += rspace
+            nodes = layout.grid2d(rows, columns, cspace, rspace)
 
         return nodes, edges
 
 
-class CycleBuilder(GraphBuilder):
+class CycleBuilder(_BasicGraphBuilder):
     def __init__(self):
-        super().__init__(None, None, None)
+        super().__init__("Cycle", "Basic", "Inserts directed cycle", "Resources/Cycle.png")
 
     def _createGraph(self):
         dlg = PropertyViewer("Cycle", "Resources/Cycle.png",
@@ -79,7 +55,7 @@ class CycleBuilder(GraphBuilder):
             values = dlg.values()
             n = values['Nodes']
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for x in range(n-1):
                 edges.append((x,x+1))
@@ -89,9 +65,9 @@ class CycleBuilder(GraphBuilder):
         return nodes, edges
 
 
-class PathBuilder(GraphBuilder):
+class PathBuilder(_BasicGraphBuilder):
     def __init__(self):
-        super().__init__(None, None, None)
+        super().__init__("Path", "Basic", "Inserts a directed path", "Resources/Path.png")
 
     def _createGraph(self):
         dlg = PropertyViewer("Path", "Resources/Path.png",
@@ -115,9 +91,9 @@ class PathBuilder(GraphBuilder):
         return nodes, edges
 
 
-class CliqueBuilder(GraphBuilder):
+class CliqueBuilder(_BasicGraphBuilder):
     def __init__(self):
-        super().__init__(None, None, None)
+        super().__init__("Clique", "Basic", "Inserts a complete graph", "Resources/Clique.png")
 
     def _createGraph(self):
         dlg = PropertyViewer("Clique", "Resources/Clique.png",
@@ -130,7 +106,7 @@ class CliqueBuilder(GraphBuilder):
             values = dlg.values()
             n = values['Nodes']
 
-            nodes = tools.circularNodes(n, 25)
+            nodes = layout.circularNodes(n, 25)
 
             for x in range(n):
                 for y in range(n):
@@ -140,9 +116,9 @@ class CliqueBuilder(GraphBuilder):
         return nodes, edges
 
 
-class BipartiteBuilder(GraphBuilder):
+class BipartiteBuilder(_BasicGraphBuilder):
     def __init__(self):
-        super().__init__(None, None, None)
+        super().__init__("Bipartite Graph", "Basic", "Inserts a bipartite graph", "Resources/Bipartite.png")
 
     def _createGraph(self):
         dlg = PropertyViewer("Bipartite", "Resources/Bipartite.png",

@@ -15,6 +15,8 @@ from PyQt4.QtGui import *
 import ui
 import debug
 
+from PyQt4.QtOpenGL import QGLWidget
+
 import networkx as nx
 
 from Plugins import pluginManager
@@ -56,6 +58,13 @@ class GraphViewer(QMainWindow):
 
         self.leftBipartite = []
 
+        # Inicializar los menus
+        self.viewports = QActionGroup(self)
+        self.viewports.addAction(self.ui.actionGlViewport)
+        self.viewports.addAction(self.ui.actionStandardViewport)
+
+        self._setupViewportOptions()
+
         self.loadPlugins()
 
 
@@ -83,27 +92,28 @@ class GraphViewer(QMainWindow):
         self.ui.actionPath.triggered.connect(lambda: self.setMode(PathMode))
 
         # Comandos de nodos
-        self.ui.actionMakeClique.triggered.connect(lambda: self.makeClique(self.selectedItems()))
-        self.ui.actionMakeCycle.triggered.connect(lambda: self.makeCycle(self.selectedItems()))
-        self.ui.actionMakePath.triggered.connect(lambda: self.makePath(self.selectedItems()))
-        self.ui.actionRemoveAll.triggered.connect(lambda: self.removeAll(self.selectedItems()))
-        self.ui.actionRemoveEdges.triggered.connect(lambda: self.removeAllEdges(self.selectedItems()))
-        self.ui.actionSwapEdges.triggered.connect(lambda: self.swapEdges(self.selectedItems()))
-        self.ui.actionCompleteEdges.triggered.connect(lambda: self.completeEdges(self.selectedItems()))
-        self.ui.actionLeftBipartite.triggered.connect(lambda: self.selectLeftBipartite(self.selectedItems()))
-        self.ui.actionCompleteBipartite.triggered.connect(lambda: self.completeBipartite(self.selectedItems()))
-
-        # Comandos de creación de grafos
-        self.ui.actionInsertGrid.triggered.connect(lambda: self.addGraph(GridBuilder()))
-        self.ui.actionInsertClique.triggered.connect(lambda: self.addGraph(CliqueBuilder()))
-        self.ui.actionInsertCycle.triggered.connect(lambda: self.addGraph(CycleBuilder()))
-        self.ui.actionInsertPath.triggered.connect(lambda: self.addGraph(PathBuilder()))
-        self.ui.actionInsertBipartite.triggered.connect(lambda: self.addGraph(BipartiteBuilder()))
+        self.ui.actionMakeClique.triggered.connect(lambda: self.makeClique(self.selectedNodes()))
+        self.ui.actionMakeCycle.triggered.connect(lambda: self.makeCycle(self.selectedNodes()))
+        self.ui.actionMakePath.triggered.connect(lambda: self.makePath(self.selectedNodes()))
+        self.ui.actionRemoveAll.triggered.connect(lambda: self.removeAll(self.selectedNodes(), self.selectedEdges()))
+        self.ui.actionRemoveEdges.triggered.connect(lambda: self.removeAllEdges(self.selectedItems(), self.selectedEdges()))
+        self.ui.actionSwapEdges.triggered.connect(lambda: self.swapEdges(self.selectedItems(), self.selectedEdges()))
+        self.ui.actionCompleteEdges.triggered.connect(lambda: self.completeEdges(self.selectedItems(), self.selectedEdges()))
+        self.ui.actionLeftBipartite.triggered.connect(lambda: self.selectLeftBipartite(self.selectedNodes()))
+        self.ui.actionCompleteBipartite.triggered.connect(lambda: self.completeBipartite(self.selectedNodes()))
 
 
     @debug.trace()
     def selectedItems(self):
         return self.scene.selectedItems()
+
+    @debug.trace()
+    def selectedNodes(self):
+        return [x for x in self.selectedItems() if isinstance(x, GraphicNode)]
+
+    @debug.trace()
+    def selectedEdges(self):
+        return [x for x in self.selectedItems() if isinstance(x, GraphicEdge)]
 
     @debug.trace()
     def setMode(self, modeType):
@@ -187,9 +197,12 @@ class GraphViewer(QMainWindow):
         self.scene.removeItem(edge)
 
     @debug.trace()
-    def removeAll(self, nodes):
+    def removeAll(self, nodes, edges):
         for x in nodes:
             self.removeNode(x)
+
+        for y in edges:
+            self.removeEdge(y.source, y.dest)
 
     @debug.trace()
     def removeNode(self, node):
@@ -202,15 +215,25 @@ class GraphViewer(QMainWindow):
         self.scene.removeItem(node)
 
     @debug.trace()
-    def removeAllEdges(self, nodes):
+    def removeAllEdges(self, nodes, edges):
         for x in nodes:
             for y in nodes:
                 self.removeEdge(x, y)
 
+        for y in edges:
+            self.removeEdge(y.source, y.dest)
+
+
     @debug.trace()
-    def swapEdges(self, nodes):
+    def swapEdges(self, nodes, edges):
         add = []
         remove = []
+
+        for e in edges:
+            if not e.source in nodes:
+                nodes.append(e.source)
+            if not e.dest in nodes:
+                nodes.append(e.dest)
 
         for x in nodes:
             for y in nodes:
@@ -221,7 +244,6 @@ class GraphViewer(QMainWindow):
                     elif (y,x) in self.edgesDict and not (x,y) in self.edgesDict:
                         remove.append((y,x))
                         add.append((x,y))
-
         for x,y in add:
             self.addEdge(x,y)
 
@@ -229,7 +251,13 @@ class GraphViewer(QMainWindow):
             self.removeEdge(x,y)
 
     @debug.trace()
-    def completeEdges(self, nodes):
+    def completeEdges(self, nodes, edges):
+        for e in edges:
+            if not e.source in nodes:
+                nodes.append(e.source)
+            if not e.dest in nodes:
+                nodes.append(e.dest)
+
         for x in nodes:
             for y in nodes:
                 if (x,y) in self.edgesDict:
@@ -284,10 +312,41 @@ class GraphViewer(QMainWindow):
 
     @debug.trace()
     def _loadCustomBuilders(self):
-        layout = QVBoxLayout()
-        menu = self.ui.menuInsert.addMenu("Custom Graph")
+        items = pluginManager.getItems("GraphBuilder")
+        itemsDict = {}
 
-        for item in sorted(pluginManager.getItems("GraphBuilder"), key=lambda x: x.name):
+        for item in items:
+            list = []
+
+            if item.group in itemsDict:
+                list = itemsDict[item.group]
+            else:
+                itemsDict[item.group] = list
+
+            list.append(item)
+
+        for group, itemList in itemsDict.items():
+            self._loadCustomBuildersGroup(group, itemList)
+
+    def _customBuilderActionConnection(self, item):
+        return lambda: self.addGraph(item)
+
+    def _setupViewportOptions(self):
+        self.ui.actionGlViewport.triggered.connect(lambda: self.ui.graphicsView.setViewport(QGLWidget()))
+        self.ui.actionStandardViewport.triggered.connect(lambda: self.ui.graphicsView.setViewport(None))
+
+    def _loadCustomBuildersGroup(self, group, itemsList):
+        if group == "Basic":
+            page = self.ui.pageBasic
+            layout = page.layout()
+        else:
+            page = QWidget()
+            self.ui.graphToolBox.addItem(page, group)
+            layout = QVBoxLayout()
+
+        menu = self.ui.menuInsert.addMenu("{0} Graphs".format(group))
+
+        for item in sorted(itemsList, key=lambda x: x.name):
             try:
                 icon = QIcon(item.icon)
                 action = menu.addAction(icon, item.name)
@@ -305,7 +364,6 @@ class GraphViewer(QMainWindow):
                 debug.warning("Couldn't load custom graph builder {0}. Error: {1}.", (item, e), "plugins")
 
         layout.addStretch()
-        self.ui.pageCustomGraphs.setLayout(layout)
 
-    def _customBuilderActionConnection(self, item):
-        return lambda: self.addGraph(item)
+        if group != "Basic":
+            page.setLayout(layout)
