@@ -18,12 +18,14 @@ class GraphBuilder:
             node = graph.addNode(QPoint(x + xpos, y + ypos))
             nodesIndex[index] = node
             index += 1
-            node.setSelected(True)
-
-        print(nodesIndex)
 
         for x,y in edges:
             graph.addEdge(nodesIndex[x], nodesIndex[y])
+
+        graph.deselectAll()
+
+        for node in nodesIndex.values():
+            node.setSelected(True)
 
     def _createGraph(self):
         return [], []

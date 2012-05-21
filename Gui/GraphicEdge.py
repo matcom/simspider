@@ -46,7 +46,7 @@ class GraphicEdge(QGraphicsItem):
         path = QPainterPath(self.sourcePoint)
         path.lineTo(self.destPoint)
 
-        stroker.setWidth(5)
+        stroker.setWidth(10)
         return stroker.createStroke(path)
 
     def boundingRect(self):

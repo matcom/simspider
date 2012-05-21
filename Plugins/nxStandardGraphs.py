@@ -24,17 +24,17 @@ class BalancedTreeGraphBuilder(_NxPluginGraphBuilder):
 
 
 class CircularLadderGraphBuilder(_NxPluginGraphBuilder):
-    def __init__(self):
-        super().__init__("Circular Ladder", "Standard", "Inserts two linked concentric rings", "Resources/CustomGraph.png",
-            Nodes=IntegerBuilder(5,1,100,1))
+        def __init__(self):
+            super().__init__("Circular Ladder", "Standard", "Inserts two linked concentric rings", "Resources/CustomGraph.png",
+                Nodes=IntegerBuilder(5,1,100,1))
 
-    def _getGraph(self, values):
-        n = values['Nodes']
+        def _getGraph(self, values):
+            n = values['Nodes']
 
-        G = nx.circular_ladder_graph(n)
-        nodes = layout.circularNodes(n, 20) + layout.circularNodes(n, 40)
+            G = nx.circular_ladder_graph(n)
+            nodes = layout.circularNodes(n, 20) + layout.circularNodes(n, 40)
 
-        return G, nodes
+            return G, nodes
 
 
 class ConnectedGridGraphBuilder(_NxPluginGraphBuilder):

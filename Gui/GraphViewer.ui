@@ -149,7 +149,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-270</y>
+          <y>0</y>
           <width>285</width>
           <height>466</height>
          </rect>
@@ -409,7 +409,7 @@
           <x>0</x>
           <y>0</y>
           <width>302</width>
-          <height>145</height>
+          <height>69</height>
          </rect>
         </property>
         <attribute name="label">
@@ -439,6 +439,9 @@
    <property name="toolTip">
     <string>Allows to select several nodes</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+F1</string>
+   </property>
   </action>
   <action name="actionCreation">
    <property name="checkable">
@@ -456,6 +459,9 @@
    </property>
    <property name="toolTip">
     <string>Adds a new node with double click</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F2</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -483,6 +489,9 @@
    <property name="toolTip">
     <string>Allows to drag the scene to move</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+F6</string>
+   </property>
   </action>
   <action name="actionClique">
    <property name="checkable">
@@ -498,6 +507,9 @@
    <property name="toolTip">
     <string>New nodes will make a clique</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+F3</string>
+   </property>
   </action>
   <action name="actionCycle">
    <property name="checkable">
@@ -509,6 +521,9 @@
    </property>
    <property name="text">
     <string>Cycle</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F4</string>
    </property>
   </action>
   <action name="actionMakeClique">
@@ -522,6 +537,9 @@
    <property name="toolTip">
     <string>Converts all the nodes in an clique</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+M, Q</string>
+   </property>
   </action>
   <action name="actionMakeCycle">
    <property name="icon">
@@ -534,6 +552,9 @@
    <property name="toolTip">
     <string>Makes a cycle between all selected nodes</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+M, C</string>
+   </property>
   </action>
   <action name="actionMakePath">
    <property name="icon">
@@ -545,6 +566,9 @@
    </property>
    <property name="toolTip">
     <string>Makes a path between all selected nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M, P</string>
    </property>
   </action>
   <action name="actionPath">
@@ -561,6 +585,9 @@
    <property name="toolTip">
     <string>Allows to build a path</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+F5</string>
+   </property>
   </action>
   <action name="actionRemoveAll">
    <property name="icon">
@@ -572,6 +599,9 @@
    </property>
    <property name="toolTip">
     <string>Deletes all nodes selected and all related edges</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
   <action name="actionRemoveEdges">
@@ -585,6 +615,9 @@
    <property name="toolTip">
     <string>Deletes all edges between any pair of selected nodes</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+Del</string>
+   </property>
   </action>
   <action name="actionSwapEdges">
    <property name="icon">
@@ -596,6 +629,9 @@
    </property>
    <property name="toolTip">
     <string>Swaps all the edges between selected nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+S</string>
    </property>
   </action>
   <action name="actionCompleteEdges">
@@ -609,6 +645,9 @@
    <property name="toolTip">
     <string>Adds the symetric edge for all edges between the nodes</string>
    </property>
+   <property name="shortcut">
+    <string>Shift+E</string>
+   </property>
   </action>
   <action name="actionLeftBipartite">
    <property name="icon">
@@ -620,6 +659,9 @@
    </property>
    <property name="toolTip">
     <string>Mark the selected nodes to be used later for a bipartite graph</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M, L</string>
    </property>
   </action>
   <action name="actionCompleteBipartite">
@@ -635,6 +677,9 @@
    </property>
    <property name="toolTip">
     <string>Makes a bipartite graph with the currently selected and the previously selected ones</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M, R</string>
    </property>
   </action>
   <action name="actionGlViewport">

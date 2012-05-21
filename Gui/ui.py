@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Sun May 20 15:07:25 2012
+# Created: Mon May 21 08:31:04 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -72,7 +72,7 @@ class Ui_GraphViewer(object):
         self.toolBox.setFrameShadow(QtGui.QFrame.Plain)
         self.toolBox.setObjectName(_fromUtf8("toolBox"))
         self.pageModes = QtGui.QWidget()
-        self.pageModes.setGeometry(QtCore.QRect(0, -270, 285, 466))
+        self.pageModes.setGeometry(QtCore.QRect(0, 0, 285, 466))
         self.pageModes.setObjectName(_fromUtf8("pageModes"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.pageModes)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
@@ -157,7 +157,7 @@ class Ui_GraphViewer(object):
         self.graphToolBox.setFrameShadow(QtGui.QFrame.Plain)
         self.graphToolBox.setObjectName(_fromUtf8("graphToolBox"))
         self.pageBasic = QtGui.QWidget()
-        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 145))
+        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 69))
         self.pageBasic.setObjectName(_fromUtf8("pageBasic"))
         self.verticalLayout = QtGui.QVBoxLayout(self.pageBasic)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -339,36 +339,51 @@ class Ui_GraphViewer(object):
         self.graphToolBox.setItemText(self.graphToolBox.indexOf(self.pageBasic), QtGui.QApplication.translate("GraphViewer", "Basic", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setToolTip(QtGui.QApplication.translate("GraphViewer", "Allows to select several nodes", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSelection.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F1", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCreation.setText(QtGui.QApplication.translate("GraphViewer", "Add Node", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCreation.setToolTip(QtGui.QApplication.translate("GraphViewer", "Adds a new node with double click", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCreation.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F2", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setText(QtGui.QApplication.translate("GraphViewer", "Quit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setToolTip(QtGui.QApplication.translate("GraphViewer", "Exit the graph creation tool", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setShortcut(QtGui.QApplication.translate("GraphViewer", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMove.setText(QtGui.QApplication.translate("GraphViewer", "Move", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMove.setToolTip(QtGui.QApplication.translate("GraphViewer", "Allows to drag the scene to move", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionMove.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F6", None, QtGui.QApplication.UnicodeUTF8))
         self.actionClique.setText(QtGui.QApplication.translate("GraphViewer", "Clique", None, QtGui.QApplication.UnicodeUTF8))
         self.actionClique.setToolTip(QtGui.QApplication.translate("GraphViewer", "New nodes will make a clique", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionClique.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F3", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCycle.setText(QtGui.QApplication.translate("GraphViewer", "Cycle", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCycle.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F4", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMakeClique.setText(QtGui.QApplication.translate("GraphViewer", "Make Clique", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMakeClique.setToolTip(QtGui.QApplication.translate("GraphViewer", "Converts all the nodes in an clique", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionMakeClique.setShortcut(QtGui.QApplication.translate("GraphViewer", "Ctrl+M, Q", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMakeCycle.setText(QtGui.QApplication.translate("GraphViewer", "Make Cycle", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMakeCycle.setToolTip(QtGui.QApplication.translate("GraphViewer", "Makes a cycle between all selected nodes", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionMakeCycle.setShortcut(QtGui.QApplication.translate("GraphViewer", "Ctrl+M, C", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMakePath.setText(QtGui.QApplication.translate("GraphViewer", "Make Path", None, QtGui.QApplication.UnicodeUTF8))
         self.actionMakePath.setToolTip(QtGui.QApplication.translate("GraphViewer", "Makes a path between all selected nodes", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionMakePath.setShortcut(QtGui.QApplication.translate("GraphViewer", "Ctrl+M, P", None, QtGui.QApplication.UnicodeUTF8))
         self.actionPath.setText(QtGui.QApplication.translate("GraphViewer", "Path", None, QtGui.QApplication.UnicodeUTF8))
         self.actionPath.setToolTip(QtGui.QApplication.translate("GraphViewer", "Allows to build a path", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPath.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F5", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRemoveAll.setText(QtGui.QApplication.translate("GraphViewer", "Remove All", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRemoveAll.setToolTip(QtGui.QApplication.translate("GraphViewer", "Deletes all nodes selected and all related edges", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRemoveAll.setShortcut(QtGui.QApplication.translate("GraphViewer", "Del", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRemoveEdges.setText(QtGui.QApplication.translate("GraphViewer", "Remove Edges", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRemoveEdges.setToolTip(QtGui.QApplication.translate("GraphViewer", "Deletes all edges between any pair of selected nodes", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRemoveEdges.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+Del", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSwapEdges.setText(QtGui.QApplication.translate("GraphViewer", "Swap Edges", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSwapEdges.setToolTip(QtGui.QApplication.translate("GraphViewer", "Swaps all the edges between selected nodes", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSwapEdges.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+S", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCompleteEdges.setText(QtGui.QApplication.translate("GraphViewer", "Complete Edges", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCompleteEdges.setToolTip(QtGui.QApplication.translate("GraphViewer", "Adds the symetric edge for all edges between the nodes", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCompleteEdges.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+E", None, QtGui.QApplication.UnicodeUTF8))
         self.actionLeftBipartite.setText(QtGui.QApplication.translate("GraphViewer", "Select Left Bipartite", None, QtGui.QApplication.UnicodeUTF8))
         self.actionLeftBipartite.setToolTip(QtGui.QApplication.translate("GraphViewer", "Mark the selected nodes to be used later for a bipartite graph", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionLeftBipartite.setShortcut(QtGui.QApplication.translate("GraphViewer", "Ctrl+M, L", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCompleteBipartite.setText(QtGui.QApplication.translate("GraphViewer", "Complete Bipartite", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCompleteBipartite.setToolTip(QtGui.QApplication.translate("GraphViewer", "Makes a bipartite graph with the currently selected and the previously selected ones", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCompleteBipartite.setShortcut(QtGui.QApplication.translate("GraphViewer", "Ctrl+M, R", None, QtGui.QApplication.UnicodeUTF8))
         self.actionGlViewport.setText(QtGui.QApplication.translate("GraphViewer", "OpenGl", None, QtGui.QApplication.UnicodeUTF8))
         self.actionGlViewport.setToolTip(QtGui.QApplication.translate("GraphViewer", "Toggle the viewport to use OpenGl", None, QtGui.QApplication.UnicodeUTF8))
         self.actionStandardViewport.setText(QtGui.QApplication.translate("GraphViewer", "Standard", None, QtGui.QApplication.UnicodeUTF8))
@@ -378,7 +393,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Sun May 20 15:07:25 2012
+# Created: Mon May 21 08:31:04 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!

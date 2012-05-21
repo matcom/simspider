@@ -39,8 +39,11 @@ class GraphViewer(QMainWindow):
         self.ui.graphicsView.setScene(self.scene)
         self.ui.graphicsView.setAttribute(Qt.WA_Hover)
 
-        self.ui.graphicsView.mouseDoubleClickEvent = self.graphDoubleClick
-        # self.ui.graphicsView.wheelEvent = self.graphWheel
+        # Redirigir los eventos del GraphicsView
+        self.ui.graphicsView.mouseDoubleClickEvent = self.connectEvent(self.graphDoubleClick, self.ui.graphicsView.mouseDoubleClickEvent)
+        self.ui.graphicsView.mousePressEvent = self.connectEvent(self.graphPress, self.ui.graphicsView.mousePressEvent)
+        self.ui.graphicsView.mouseReleaseEvent = self.connectEvent(self.graphRelease, self.ui.graphicsView.mouseReleaseEvent)
+        self.ui.graphicsView.mouseMoveEvent = self.connectEvent(self.graphMove, self.ui.graphicsView.mouseMoveEvent)
 
         self.actions = [self.ui.actionSelection,
                         self.ui.actionCreation,
@@ -50,6 +53,8 @@ class GraphViewer(QMainWindow):
                         self.ui.actionPath]
 
         self.graph = nx.DiGraph()
+
+        self.maxNodes = 50
 
         self._setupActions()
         self.setMode(SelectionMode)
@@ -121,16 +126,44 @@ class GraphViewer(QMainWindow):
 
     @debug.trace()
     def graphDoubleClick(self, event):
-        self.mode.mouseDoubleClickEvent(self, event)
+        return self.mode.mouseDoubleClickEvent(self, event)
+
+    def connectEvent(self, redirect, original):
+        def callEvent(event):
+            if not redirect(event):
+                original(event)
+        return callEvent
 
     @debug.trace()
-    def graphWheel(self, event):
+    def graphPress(self, event):
+        return self.mode.mousePressEvent(self, event)
+
+    @debug.trace()
+    def graphRelease(self, event):
+        return self.mode.mouseReleaseEvent(self, event)
+
+    @debug.trace()
+    def graphMove(self, event):
+        return self.mode.mouseMoveEvent(self, event)
+
+
+    @debug.trace()
+    def graphWheel(self, event, handler):
         self.scaleView(math.pow(2, -event.delta() / 240.0))
 
     @debug.trace()
     def addNode(self, point):
         """Añade un nuevo nodo en coordenadas de la escena
         """
+
+        # if len(self.nodes) == self.maxNodes:
+        #   QMessageBox.critical(self,
+        #         "Max nodes capacity reached",
+        #         "The maximun number of nodes that can be displayed has been reached."
+        #         "Please consider using the console application instead.")
+
+        #     return None
+
         node = GraphicNode(self.ui.graphicsView)
 
         node.setX(point.x())
@@ -139,7 +172,8 @@ class GraphViewer(QMainWindow):
         self.nodes.append(node)
         self.scene.addItem(node)
 
-        # self.ui.graphicsView.centerOn(node)
+        self.deselectAll()
+        node.setSelected(True)
 
         return node
 
@@ -244,6 +278,7 @@ class GraphViewer(QMainWindow):
                     elif (y,x) in self.edgesDict and not (x,y) in self.edgesDict:
                         remove.append((y,x))
                         add.append((x,y))
+
         for x,y in add:
             self.addEdge(x,y)
 
@@ -367,3 +402,25 @@ class GraphViewer(QMainWindow):
 
         if group != "Basic":
             page.setLayout(layout)
+
+    @debug.trace()
+    def itemsAt(self, x, y):
+        return self.ui.graphicsView.items(x,y)
+
+    @debug.trace()
+    def edgesAt(self, x, y):
+        return [e for e in self.itemsAt(x,y) if isinstance(e, GraphicEdge)]
+
+    @debug.trace()
+    def nodesAt(self, x, y):
+        return [n for n in self.itemsAt(x,y) if isinstance(n, GraphicNode)]
+
+    @debug.trace()
+    def insertNode(self, node, edge):
+        self.addEdge(edge.source, node)
+        self.addEdge(node, edge.dest)
+        self.removeEdge(edge.source, edge.dest)
+
+    def deselectAll(self):
+        for item in self.selectedItems():
+            item.setSelected(False)

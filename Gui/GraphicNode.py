@@ -41,6 +41,17 @@ class GraphicNode(QGraphicsItem):
         if edge in self.outEdges:
             self.outEdges.remove(edge)
 
+    def walk(self):
+        items = []
+        self._walk(items)
+        return items
+
+    def _walk(self, items):
+        if not self in items:
+            items.append(self)
+            for e in self.outEdges:
+                e.dest._walk(items)
+
     def shape(self):
         return self.circle
 
@@ -67,6 +78,3 @@ class GraphicNode(QGraphicsItem):
         painter.setPen(self.pen)
         painter.setBrush(self.brush)
         painter.drawPath(self.circle)
-
-    def __repr__(self):
-        return "GraphicNode(X = {0}, Y = {1})".format(self.x(), self.y())
