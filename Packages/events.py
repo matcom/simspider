@@ -21,12 +21,7 @@ class DataArrival(Event):
         self.destination = destination
 
     def Process(self):
-        try:
-            result = self.destination.ReceiveData(self.source, self.data, self.time)
-        except Exception as ex:
-            print(ex)
-            result = []
-        return result
+        return self.destination.ReceiveData(self.source, self.data, self.time)
 
 class DataDeparture(Event):
 
@@ -35,12 +30,7 @@ class DataDeparture(Event):
         self.source = source
 
     def Process(self):
-        try:
-            result = self.source.SendData(self.time)
-        except Exception as ex:
-            print(ex)
-            result = []
-        return result
+        return self.source.SendData(self.time)
 
 class Signal(Event):
 
@@ -50,12 +40,7 @@ class Signal(Event):
         self.signalData = signalData
 
     def Process(self):
-        try:
-            result = self.destination.Signal(self.signalData, self.time)
-        except Exception as ex:
-            print(ex)
-            result = []
-        return result
+        return self.destination.Signal(self.signalData, self.time)
 
 class SignalAllNodes(Event):
 
@@ -67,8 +52,5 @@ class SignalAllNodes(Event):
     def Process(self):
         result = []
         for n in [node.Node(self.graph,nod) for nod in self.graph.nodes_iter()]:
-            try:
-                result += n.Signal(self.signalData,self.time)
-            except Exception as ex:
-                print(ex)
+            result += n.Signal(self.signalData,self.time)
         return result
