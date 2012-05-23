@@ -1,0 +1,21 @@
+<RCC>
+  <qresource prefix="Pictures">
+    <file>Grid.png</file>
+    <file>Arrow.png</file>
+    <file>Bipartite.png</file>
+    <file>Clique.png</file>
+    <file>CompleteEdges.png</file>
+    <file>Create.png</file>
+    <file>Cycle.png</file>
+    <file>LeftBipartite.png</file>
+    <file>MakeClique.png</file>
+    <file>MakeCycle.png</file>
+    <file>MakePath.png</file>
+    <file>Move.png</file>
+    <file>Path.png</file>
+    <file>RemoveAll.png</file>
+    <file>RemoveEdges.png</file>
+    <file>RightBipartite.png</file>
+    <file>SwapEdges.png</file>
+  </qresource>
+</RCC>

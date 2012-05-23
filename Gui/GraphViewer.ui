@@ -1,0 +1,1101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GraphViewer</class>
+ <widget class="QMainWindow" name="GraphViewer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>872</width>
+    <height>572</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>Resources/Clique.png</normaloff>Resources/Clique.png</iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>32</width>
+    <height>32</height>
+   </size>
+  </property>
+  <property name="animated">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout"/>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>872</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuTransform">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionSelection"/>
+    <addaction name="actionClique"/>
+    <addaction name="actionCycle"/>
+    <addaction name="actionPath"/>
+    <addaction name="actionMove"/>
+    <addaction name="separator"/>
+    <addaction name="actionMakeClique"/>
+    <addaction name="actionMakeCycle"/>
+    <addaction name="actionMakePath"/>
+    <addaction name="separator"/>
+    <addaction name="actionLeftBipartite"/>
+    <addaction name="actionCompleteBipartite"/>
+    <addaction name="separator"/>
+    <addaction name="actionRemoveAll"/>
+    <addaction name="actionRemoveEdges"/>
+    <addaction name="separator"/>
+    <addaction name="actionSwapEdges"/>
+    <addaction name="actionCompleteEdges"/>
+   </widget>
+   <widget class="QMenu" name="menuInsert">
+    <property name="title">
+     <string>&amp;Insert</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <widget class="QMenu" name="menu_Viewport">
+     <property name="title">
+      <string>&amp;Viewport</string>
+     </property>
+     <widget class="QMenu" name="menuRender_Hints">
+      <property name="title">
+       <string>Render Hints</string>
+      </property>
+      <addaction name="actionAntialiasing"/>
+      <addaction name="actionText_Antialiasing"/>
+      <addaction name="actionSmooth_Pixmap_Transform"/>
+      <addaction name="actionHigh_Quality_Antialiasing"/>
+     </widget>
+     <addaction name="actionGlViewport"/>
+     <addaction name="actionStandardViewport"/>
+     <addaction name="separator"/>
+     <addaction name="menuRender_Hints"/>
+    </widget>
+    <addaction name="actionAnimations"/>
+    <addaction name="separator"/>
+    <addaction name="menu_Viewport"/>
+   </widget>
+   <widget class="QMenu" name="menuPlugins">
+    <property name="title">
+     <string>Plugins</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_Layout">
+    <property name="title">
+     <string>&amp;Layout</string>
+    </property>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menu_View"/>
+   <addaction name="menuTransform"/>
+   <addaction name="menuInsert"/>
+   <addaction name="menu_Layout"/>
+   <addaction name="menuPlugins"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="toolBoxDock">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>320</width>
+     <height>190</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Toolbox</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QToolBox" name="toolBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="tabSpacing">
+        <number>6</number>
+       </property>
+       <widget class="QWidget" name="pageModes">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>285</width>
+          <height>466</height>
+         </rect>
+        </property>
+        <attribute name="label">
+         <string>Modes</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QCommandLinkButton" name="btnSelection">
+           <property name="text">
+            <string>Select</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>Resources/Arrow.png</normaloff>Resources/Arrow.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>42</width>
+             <height>42</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="description">
+            <string>Select multiple nodes</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string>buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCommandLinkButton" name="btnAddNode">
+           <property name="text">
+            <string>Add Node</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>Resources/Create.png</normaloff>Resources/Create.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>42</width>
+             <height>42</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="description">
+            <string>Add independent nodes</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string>buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCommandLinkButton" name="btnClique">
+           <property name="text">
+            <string>Create Clique</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>Resources/Clique.png</normaloff>Resources/Clique.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>42</width>
+             <height>42</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="description">
+            <string>Add nodes to create a clique</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string>buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCommandLinkButton" name="btnCycle">
+           <property name="text">
+            <string>Create Cycle</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>Resources/Cycle.png</normaloff>Resources/Cycle.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>42</width>
+             <height>42</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="description">
+            <string>Add nodes to create a cycle</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string>buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCommandLinkButton" name="btnPath">
+           <property name="text">
+            <string>Create Path</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>Resources/Path.png</normaloff>Resources/Path.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>42</width>
+             <height>42</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="description">
+            <string>Add nodes to create a path</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string>buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCommandLinkButton" name="btnMove">
+           <property name="text">
+            <string>Move</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>Resources/Move.png</normaloff>Resources/Move.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>42</width>
+             <height>42</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="description">
+            <string>Click and drag to navigate</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string>buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QToolBar" name="modesToolbar">
+   <property name="windowTitle">
+    <string>Modes Toolbar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>42</width>
+     <height>42</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonFollowStyle</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionSelection"/>
+   <addaction name="actionCreation"/>
+   <addaction name="actionClique"/>
+   <addaction name="actionCycle"/>
+   <addaction name="actionPath"/>
+   <addaction name="actionMove"/>
+  </widget>
+  <widget class="QDockWidget" name="graphDock">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>320</width>
+     <height>136</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Graphs</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QToolBox" name="graphToolBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="tabSpacing">
+        <number>6</number>
+       </property>
+       <widget class="QWidget" name="pageBasic">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>302</width>
+          <height>69</height>
+         </rect>
+        </property>
+        <attribute name="label">
+         <string>Basic</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout"/>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="graphViewer">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="floating">
+    <bool>false</bool>
+   </property>
+   <property name="features">
+    <set>QDockWidget::AllDockWidgetFeatures</set>
+   </property>
+   <property name="windowTitle">
+    <string>Graph Visualizer</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QGraphicsView" name="graphicsView">
+       <property name="renderHints">
+        <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
+       </property>
+       <property name="dragMode">
+        <enum>QGraphicsView::RubberBandDrag</enum>
+       </property>
+       <property name="cacheMode">
+        <set>QGraphicsView::CacheBackground</set>
+       </property>
+       <property name="transformationAnchor">
+        <enum>QGraphicsView::NoAnchor</enum>
+       </property>
+       <property name="viewportUpdateMode">
+        <enum>QGraphicsView::BoundingRectViewportUpdate</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QToolBar" name="designToolbar">
+   <property name="windowTitle">
+    <string>Design Toolbar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>42</width>
+     <height>42</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionMakeClique"/>
+   <addaction name="actionMakeCycle"/>
+   <addaction name="actionMakePath"/>
+  </widget>
+  <widget class="QToolBar" name="deleteToolbar">
+   <property name="windowTitle">
+    <string>Remove Toolbar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>42</width>
+     <height>42</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionRemoveAll"/>
+   <addaction name="actionRemoveEdges"/>
+  </widget>
+  <widget class="QToolBar" name="bipartiteToolbar">
+   <property name="windowTitle">
+    <string>Bipartite Toolbar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>42</width>
+     <height>42</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionLeftBipartite"/>
+   <addaction name="actionCompleteBipartite"/>
+  </widget>
+  <widget class="QToolBar" name="edgesToolbar">
+   <property name="windowTitle">
+    <string>Edges Toolbar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>42</width>
+     <height>42</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionSwapEdges"/>
+   <addaction name="actionCompleteEdges"/>
+  </widget>
+  <action name="actionSelection">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/Arrow.png</normaloff>Resources/Arrow.png</iconset>
+   </property>
+   <property name="text">
+    <string>Select</string>
+   </property>
+   <property name="toolTip">
+    <string>Allows to select several nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F1</string>
+   </property>
+  </action>
+  <action name="actionCreation">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/Create.png</normaloff>Resources/Create.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Node</string>
+   </property>
+   <property name="toolTip">
+    <string>Adds a new node with double click</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F2</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="toolTip">
+    <string>Exit the graph creation tool</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionMove">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/Move.png</normaloff>Resources/Move.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move</string>
+   </property>
+   <property name="toolTip">
+    <string>Allows to drag the scene to move</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F6</string>
+   </property>
+  </action>
+  <action name="actionClique">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/Clique.png</normaloff>Resources/Clique.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clique</string>
+   </property>
+   <property name="toolTip">
+    <string>New nodes will make a clique</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F3</string>
+   </property>
+  </action>
+  <action name="actionCycle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/Cycle.png</normaloff>Resources/Cycle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cycle</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F4</string>
+   </property>
+  </action>
+  <action name="actionMakeClique">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/MakeClique.png</normaloff>Resources/MakeClique.png</iconset>
+   </property>
+   <property name="text">
+    <string>Make Clique</string>
+   </property>
+   <property name="toolTip">
+    <string>Makes a clique from all selected nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Q</string>
+   </property>
+  </action>
+  <action name="actionMakeCycle">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/MakeCycle.png</normaloff>Resources/MakeCycle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Make Cycle</string>
+   </property>
+   <property name="toolTip">
+    <string>Makes a cycle between all selected nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+C</string>
+   </property>
+  </action>
+  <action name="actionMakePath">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/MakePath.png</normaloff>Resources/MakePath.png</iconset>
+   </property>
+   <property name="text">
+    <string>Make Path</string>
+   </property>
+   <property name="toolTip">
+    <string>Makes a path between all selected nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+P</string>
+   </property>
+  </action>
+  <action name="actionPath">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/Path.png</normaloff>Resources/Path.png</iconset>
+   </property>
+   <property name="text">
+    <string>Path</string>
+   </property>
+   <property name="toolTip">
+    <string>Allows to build a path</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F5</string>
+   </property>
+  </action>
+  <action name="actionRemoveAll">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/RemoveAll.png</normaloff>Resources/RemoveAll.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove All</string>
+   </property>
+   <property name="toolTip">
+    <string>Deletes all nodes selected and all related edges</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionRemoveEdges">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/RemoveEdges.png</normaloff>Resources/RemoveEdges.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove Edges</string>
+   </property>
+   <property name="toolTip">
+    <string>Deletes all edges between any pair of selected nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+Del</string>
+   </property>
+  </action>
+  <action name="actionSwapEdges">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/SwapEdges.png</normaloff>Resources/SwapEdges.png</iconset>
+   </property>
+   <property name="text">
+    <string>Swap Edges</string>
+   </property>
+   <property name="toolTip">
+    <string>Swaps all the edges between selected nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+S</string>
+   </property>
+  </action>
+  <action name="actionCompleteEdges">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/CompleteEdges.png</normaloff>Resources/CompleteEdges.png</iconset>
+   </property>
+   <property name="text">
+    <string>Complete Edges</string>
+   </property>
+   <property name="toolTip">
+    <string>Adds the symetric edge for all edges between the nodes</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+E</string>
+   </property>
+  </action>
+  <action name="actionLeftBipartite">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/LeftBipartite.png</normaloff>Resources/LeftBipartite.png</iconset>
+   </property>
+   <property name="text">
+    <string>Select Left Bipartite</string>
+   </property>
+   <property name="toolTip">
+    <string>Mark the selected nodes to be used later for a bipartite graph</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+L</string>
+   </property>
+  </action>
+  <action name="actionCompleteBipartite">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/RightBipartite.png</normaloff>Resources/RightBipartite.png</iconset>
+   </property>
+   <property name="text">
+    <string>Complete Bipartite</string>
+   </property>
+   <property name="toolTip">
+    <string>Makes a bipartite graph with the currently selected and the previously selected ones</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+R</string>
+   </property>
+  </action>
+  <action name="actionGlViewport">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>OpenGl</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle the viewport to use OpenGl</string>
+   </property>
+  </action>
+  <action name="actionStandardViewport">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Standard</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle viewport to use a standard rendering engine</string>
+   </property>
+  </action>
+  <action name="actionAnimations">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Animations</string>
+   </property>
+  </action>
+  <action name="actionAntialiasing">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Antialiasing</string>
+   </property>
+  </action>
+  <action name="actionText_Antialiasing">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Text Antialiasing</string>
+   </property>
+  </action>
+  <action name="actionSmooth_Pixmap_Transform">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Smooth Pixmap Transform</string>
+   </property>
+  </action>
+  <action name="actionHigh_Quality_Antialiasing">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>High Quality Antialiasing</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered()</signal>
+   <receiver>GraphViewer</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>327</x>
+     <y>242</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnSelection</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>actionSelection</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnAddNode</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>actionCreation</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>238</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnClique</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>actionClique</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnCycle</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>actionCycle</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>374</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnPath</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>actionPath</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>442</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnMove</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>actionMove</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>510</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSelection</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnSelection</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>170</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCreation</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnAddNode</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>238</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionClique</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnClique</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>306</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCycle</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnCycle</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>374</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPath</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnPath</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>442</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionMove</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnMove</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>137</x>
+     <y>510</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
+</ui>
