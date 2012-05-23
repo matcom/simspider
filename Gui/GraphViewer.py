@@ -456,7 +456,7 @@ class GraphViewer(QMainWindow):
         item.apply(nodes)
 
         if self.ui.actionAnimations.isChecked():
-            animation = QParallelAnimationGroup()
+            animation = QParallelAnimationGroup(self)
 
             for n in nodes:
                 animX = QPropertyAnimation(n, "x")
