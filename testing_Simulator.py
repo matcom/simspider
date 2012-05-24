@@ -41,13 +41,15 @@ b1.Name = "rest"
 G=nx.DiGraph()
 G.add_path([0,1,2,3,4])
 for n in [Node(G,node) for node in G.nodes_iter()]:
-    n.SetAttribute("info",n.node)
+    n["info"] = n.node
     if n.node==0:
         n.SetBehavior(b)
     else:
         n.SetBehavior(b1.Clone())
 
 G.graph["temperature"] = 25
+G.graph["presure"] = 45
+G.graph["rain"] = 89
 
 s = Simulator()
 s.afterEvent.append(lambda x,y:input())

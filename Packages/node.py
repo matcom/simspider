@@ -60,13 +60,17 @@ class Node:
         return self.graph.node[self.node][Node.dkey]
 
     def SetAttribute(self,key,value):
+        if key==Node.bkey: raise Exception("The key \""+Node.bkey+"\" is used to store the node behavior.")
         self.GetData()[key] = value
 
     def GetAttribute(self,key):
         return self.GetData()[key]
 
     def __getitem__(self, item):
-        return self.GetData()[item]
+        return self.GetAttribute(item)
+
+    def __setitem__(self, key, value):
+        self.SetAttribute(key,value)
 
     def Attributes(self):
         for k,v in self.GetData().items():
@@ -74,6 +78,9 @@ class Node:
 
     def SetBehavior(self,b):
         self.GetData()[Node.bkey] = b
+        if isinstance(b,be.AttributedBehavior):
+            for k,v in b.attributesToAdd.items():
+                self[k]=v
 
     def GetBehavior(self):
         return self.GetData()[Node.bkey]

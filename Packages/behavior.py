@@ -51,6 +51,11 @@ class Behavior:
     def Clone(self):
         return copy(self)
 
+class AttributedBehavior(Behavior):
+    def __init__(self):
+        super().__init__()
+        self.attributesToAdd
+
 class BasicProcessing:
 
     @staticmethod
