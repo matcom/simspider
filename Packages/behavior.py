@@ -9,18 +9,18 @@ class Behavior:
 
     #receiving data
     @staticmethod
-    def Process(self,actualData,newData):pass
+    def Process(self, globalData, actualData, newData):pass
     @staticmethod
-    def Learn(self,new):pass
+    def Learn(self, new):pass
     #sending data
     @staticmethod
-    def Rout(self,node): return []
+    def Rout(self, node): return []
     @staticmethod
-    def Select(self,data,actTime):return []
+    def Select(self, data, actTime):return []
     @staticmethod
-    def Transform(self,key,value):return value
+    def Transform(self, key, value):return value
     @staticmethod
-    def Cleanup(self,data):pass
+    def Cleanup(self, data):pass
     #signaling
     @staticmethod
     def OnSignal(self, node, signalData, actualTime): return []
@@ -55,20 +55,20 @@ class BasicProcessing:
 
     @staticmethod
     def UpdateAll():
-        def UpdateAll(self,actualData,newData):
+        def UpdateAll(self,gloabalData,actualData,newData):
             actualData.update(newData)
         return UpdateAll
 
     @staticmethod
     def Update(keys):
-        def UpdateOnly(self,actualData,newData):
+        def UpdateOnly(self,gloabalData,actualData,newData):
             for k in keys:
                 if k in newData: actualData[k] = newData[k]
         return UpdateOnly
 
     @staticmethod
     def ProbUpdate(dict):
-        def ProbUpd(self,actualData,newData):
+        def ProbUpd(self,globalData, actualData,newData):
             for k,v in dict.items():
                 if k in newData and rdm.random()<=v: actualData[k] = newData[k]
         return ProbUpd

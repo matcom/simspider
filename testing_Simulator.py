@@ -47,9 +47,16 @@ for n in [Node(G,node) for node in G.nodes_iter()]:
     else:
         n.SetBehavior(b1.Clone())
 
+G.graph["temperature"] = 25
+
 s = Simulator()
 s.afterEvent.append(lambda x,y:input())
-s.InsertEvents([ev.SignalAllNodes(G,None,0)])
+
+def aux(data):
+    data["temperature"]+=1
+    print("Globals processed")
+s.InsertEvents([ ev.SignalAllNodes(G,None,0), ev.PeriodicalGraphEvent(0,G,lambda:rdm.expovariate(0.5),aux)])
+
 s.Simulate()
 
 print(s.timeSpent)
