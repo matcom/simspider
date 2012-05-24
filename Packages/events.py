@@ -58,6 +58,7 @@ class Signal(NodeEvent):
     def __init__(self, node, signalData, time):
         super().__init__(time,node)
         self.signalData = signalData
+        self.name = "Node {0} signaled".format(self.node)
 
     def Process(self):
         return self.node.Signal(self.signalData, self.time)
