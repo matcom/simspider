@@ -8,7 +8,7 @@ import debug
 class Node:
 
     dkey = "__data__"
-    bkey = "__beha__"
+    bkey = "behavior"
 
     def __init__(self,graph,node):
         self.graph = graph

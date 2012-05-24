@@ -1,6 +1,4 @@
 __author__ = 'David'
-__author__ = 'David'
-__author__ = 'David'
 import sys
 import os
 
