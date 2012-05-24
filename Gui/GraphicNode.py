@@ -7,10 +7,10 @@ import debug
 
 __author__ = 'Alejandro Piad'
 
-class GraphicNode(QGraphicsItem):
+class GraphicNode(QGraphicsObject):
 
     def __init__(self, graphics, parent=None):
-        QGraphicsItem.__init__(self, parent)
+        QGraphicsObject.__init__(self, parent)
 
         self.graphics = graphics
         self.circle = QPainterPath()
@@ -69,11 +69,11 @@ class GraphicNode(QGraphicsItem):
 
     def paint(self, painter, styleoption, widget):
         if self.isSelected():
-            self.brush.setColor(QColor(255,0,0,128))
+            self.brush.setColor(QColor(255,0,0))
         elif self.isBipartite:
-            self.brush.setColor(QColor(0,255,0,128))
+            self.brush.setColor(QColor(0,255,0))
         else:
-            self.brush.setColor(QColor(0,0,255,128))
+            self.brush.setColor(QColor(0,0,255))
 
         painter.setPen(self.pen)
         painter.setBrush(self.brush)

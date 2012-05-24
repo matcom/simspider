@@ -1,21 +1,18 @@
 # -*- coding: utf8 -*-
-import math
-
-from GraphicEdge import GraphicEdge
-from GraphicNode import GraphicNode
-
-from modes import *
 
 __author__ = 'Alejandro Piad'
 
+import math
+from GraphicEdge import GraphicEdge
+from GraphicNode import GraphicNode
+from modes import *
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from PyQt4.QtOpenGL import QGLWidget
 
 import ui
 import debug
-
-from PyQt4.QtOpenGL import QGLWidget
-
 import networkx as nx
 
 from Plugins import pluginManager
@@ -31,6 +28,9 @@ class GraphViewer(QMainWindow):
         self.nodes = []     # Almacena los nodos
         self.edges = []     # Almacena las aristas
         self.edgesDict = {} # Permite acceder rápidamente a las aristas por (source, dest)
+        self.graph = nx.DiGraph()
+        self.maxNodes = 50
+        self.leftBipartite = []
 
         self.scene = QGraphicsScene()
         self.scene.setItemIndexMethod(QGraphicsScene.NoIndex)
@@ -51,16 +51,9 @@ class GraphViewer(QMainWindow):
                         self.ui.actionMove,
                         self.ui.actionPath]
 
-        self.graph = nx.DiGraph()
-
-        self.maxNodes = 50
-
         self._setupActions()
         self.setMode(SelectionMode)
-
-        self.setMouseTracking(True)
-
-        self.leftBipartite = []
+        # self.setMouseTracking(True)
 
         # Inicializar los menus
         self.viewports = QActionGroup(self)
@@ -68,7 +61,6 @@ class GraphViewer(QMainWindow):
         self.viewports.addAction(self.ui.actionStandardViewport)
 
         self._setupViewportOptions()
-
         self.loadPlugins()
 
 
@@ -343,7 +335,9 @@ class GraphViewer(QMainWindow):
     @debug.trace()
     def loadPlugins(self):
         self._loadCustomBuilders()
+        self._loadLayoutPlugins()
         self._loadGeneralPlugins()
+
 
     @debug.trace()
     def _loadCustomBuilders(self):
@@ -369,6 +363,15 @@ class GraphViewer(QMainWindow):
     def _setupViewportOptions(self):
         self.ui.actionGlViewport.triggered.connect(lambda: self.ui.graphicsView.setViewport(QGLWidget()))
         self.ui.actionStandardViewport.triggered.connect(lambda: self.ui.graphicsView.setViewport(None))
+
+        self.ui.actionAntialiasing.triggered.connect(
+            lambda b: self.ui.graphicsView.setRenderHint(QPainter.Antialiasing, b))
+        self.ui.actionText_Antialiasing.triggered.connect(
+            lambda b: self.ui.graphicsView.setRenderHint(QPainter.TextAntialiasing, b))
+        self.ui.actionHigh_Quality_Antialiasing.triggered.connect(
+            lambda b: self.ui.graphicsView.setRenderHint(QPainter.HighQualityAntialiasing, b))
+        self.ui.actionSmooth_Pixmap_Transform.triggered.connect(
+            lambda b: self.ui.graphicsView.setRenderHint(QPainter.SmoothPixmapTransform, b))
 
     def _loadCustomBuildersGroup(self, group, itemsList):
         if group == "Basic":
@@ -439,4 +442,47 @@ class GraphViewer(QMainWindow):
         action = self.ui.menuPlugins.addAction(plugin.name)
         action.setCheckable(True)
         action.setTooltip(plugin.description)
+        action.setEnabled(False)
+
+    def _loadLayoutPlugins(self):
+        for item in pluginManager.getItems("Layout"):
+            action = self.ui.menu_Layout.addAction(item.name)
+            action.setToolTip(item.description)
+            action.setIcon(QIcon(item.icon))
+            action.triggered.connect(self._connectLayout(item))
+
+    def _applyLayout(self, item):
+        nodes = list(self.selectedNodes())
+        item.apply(nodes)
+
+        if self.ui.actionAnimations.isChecked():
+            animation = QParallelAnimationGroup(self)
+
+            for n in nodes:
+                animX = QPropertyAnimation(n, "x")
+                animX.setEndValue(n.newX)
+
+                animY = QPropertyAnimation(n, "y")
+                animY.setEndValue(n.newY)
+
+                debug.debug("Animating node from ({0},{1}) to ({2},{3})", (n.x(), n.y(), n.newX, n.newY),
+                    "graphviewer.animations")
+
+                animation.addAnimation(animX)
+                animation.addAnimation(animY)
+
+            debug.info("Starting layout animation", (), "graphviewer.animations")
+            animation.start()
+
+        else:
+            for n in nodes:
+                n.setX(n.newX)
+                n.setY(n.newY)
+
+
+    def _connectLayout(self, item):
+        def apply():
+            self._applyLayout(item)
+        return apply
+
 
