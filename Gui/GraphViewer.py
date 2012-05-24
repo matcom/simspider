@@ -461,11 +461,9 @@ class GraphViewer(QMainWindow):
             for n in nodes:
                 animX = QPropertyAnimation(n, "x")
                 animX.setEndValue(n.newX)
-                animX.setDuration(1000)
 
                 animY = QPropertyAnimation(n, "y")
                 animY.setEndValue(n.newY)
-                animY.setDuration(1000)
 
                 debug.debug("Animating node from ({0},{1}) to ({2},{3})", (n.x(), n.y(), n.newX, n.newY),
                     "graphviewer.animations")
