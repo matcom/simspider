@@ -6,16 +6,19 @@ gui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Gui'))
 packages_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Packages'))
 redist_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Redist'))
 plugins_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Plugins'))
+simulation_dir = os.path.join(packages_dir, 'Simulation')
 
 sys.path.append(gui_dir)
 sys.path.append(packages_dir)
 sys.path.append(redist_dir)
 sys.path.append(plugins_dir)
+sys.path.append(simulation_dir)
 
 print("Gui: {0}".format(gui_dir))
 print("Packages: {0}".format(packages_dir))
 print("Redist: {0}".format(redist_dir))
 print("Plugins: {0}".format(plugins_dir))
+print("Simulations: {0}".format(simulation_dir))
 
 import networkx as nx
 import behavior as be
@@ -57,7 +60,7 @@ s.afterEvent.append(lambda x,y:input())
 def aux(data):
     data["temperature"]+=1
     print("Globals processed")
-s.InsertEvents([ ev.SignalAllNodes(G,None,0), ev.PeriodicalGraphEvent(0,G,lambda:rdm.expovariate(0.5),aux)])
+s.SetInitialEvents([ ev.SignalAllNodes(G,None,0), ev.PeriodicalGraphEvent(0,G,lambda:rdm.expovariate(0.5),aux)])
 
 s.Simulate()
 
