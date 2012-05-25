@@ -7,24 +7,6 @@ import events as ev
 
 class Behavior:
 
-    #receiving data
-    @staticmethod
-    def Process(self, globalData, actualData, newData):pass
-    @staticmethod
-    def Learn(self, new):pass
-    #sending data
-    @staticmethod
-    def Route(self, node): return []
-    @staticmethod
-    def Select(self, destination, data, actTime):return []
-    @staticmethod
-    def Transform(self, key, value):return value
-    @staticmethod
-    def Cleanup(self, data):pass
-    #signaling
-    @staticmethod
-    def OnSignal(self, node, signalData, actualTime): return []
-
     def __init__(self):
         #sending
         self.sendAfterReceive = False
@@ -32,15 +14,26 @@ class Behavior:
         #description
         self.Name = "None"
         #receiving data
-        self.Process = Behavior.Process
-        self.Learn = Behavior.Learn
+        self.Process = type(self).Process
+        self.Learn = type(self).Learn
         #sending data
-        self.Route = Behavior.Route
-        self.Select = Behavior.Select
-        self.Transform = Behavior.Transform
-        self.Cleanup = Behavior.Cleanup
+        self.Route = type(self).Route
+        self.Select = type(self).Select
+        self.Transform = type(self).Transform
+        self.Cleanup = type(self).Cleanup
         #signaling
-        self.OnSignal = Behavior.OnSignal
+        self.OnSignal = type(self).OnSignal
+
+    #receiving data
+    def Process(self, globalData, actualData, newData):pass
+    def Learn(self, new):pass
+    #sending data
+    def Route(self, node): return []
+    def Select(self, destination, data, actTime):return []
+    def Transform(self, key, value):return value
+    def Cleanup(self, data):pass
+    #signaling
+    def OnSignal(self, node, signalData, actualTime): return []
 
     def __str__(self):
         return self.Name
@@ -52,9 +45,10 @@ class Behavior:
         return copy(self)
 
 class AttributedBehavior(Behavior):
+
     def __init__(self):
         super().__init__()
-        self.attributesToAdd
+        self.attributesToAdd = {}
 
 class BasicProcessing:
 

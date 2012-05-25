@@ -56,10 +56,11 @@ G.graph["temperature"] = 25
 G.graph["presure"] = 45
 G.graph["rain"] = 89
 
-ga.RegisterNodeTracker(ga.NodeLog(nodes = [2,3]))
+ga.RegisterNodeTracker(ga.NodeLog())
 #ga.RegisterNodeTracker(ga.EdgeLog())
 
 s = Simulator()
+
 s.afterEvent.append(lambda x,y:input())
 
 def aux(data):
