@@ -41,6 +41,7 @@ b1 = be.Behavior()
 b1.Learn = be.BasicLearning.LearnAll()
 b1.Name = "rest"
 
+Node.log = True
 G=nx.DiGraph()
 G.add_path([0,1,2,3,4])
 for n in [Node(G,node) for node in G.nodes_iter()]:

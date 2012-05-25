@@ -9,6 +9,7 @@ class Node:
 
     dkey = "__data__"
     bkey = "behavior"
+    log = False
 
     def __init__(self,graph,node):
         self.graph = graph
@@ -19,16 +20,18 @@ class Node:
 
     def ReceiveData(self, source, newData, actTime):
         d = self.GetData()
-        print("Time: {0}".format(actTime))
-        print("Node {0} received: {1}".format(self,newData))
-        print("Actual data in node {0}: {1}".format(self,d))
-        print("Actual data in graph: {1}".format(self,self.graph.graph))
+        if Node.log:
+            print("Time: {0}".format(actTime))
+            print("Node {0} received: {1}".format(self,newData))
+            print("Actual data in node {0}: {1}".format(self,d))
+            print("Actual data in graph: {1}".format(self,self.graph.graph))
         newbeh = False
         b = self.GetBehavior()
         if Node.bkey in newData: newbeh = newData.pop(Node.bkey)
         b.Process(b, self.graph.graph, d, newData)
         if newbeh: b.Learn(b,newbeh)
-        print("Updated data in node {0}: {1}".format(self,d))
+        if Node.log:
+            print("Updated data in node {0}: {1}".format(self,d))
         if b.sendAfterReceive: return self.SendData(actTime)
         else: return []
 
@@ -37,22 +40,26 @@ class Node:
         b = self.GetBehavior()
         data = self.GetData()
         if len(data)>0:
-            for d in [Node(self.graph, d) for d in b.Route(b,self)]:
-                if not b.includeBehavior: del data[Node.bkey]
-                for ks, time in b.Select(b, data, actTime):
+            if not b.includeBehavior: del data[Node.bkey]
+            for d in b.Route(b,self):
+                #if not isinstance(d,Node): d = Node(self.graph,d)
+                for ks, time in b.Select(b, d, data, actTime):
                     newData = {}
                     for key in ks:
                         newData[key] = b.Transform(b, key, data[key])
                     newEvents.append(ev.DataArrival(self, newData, d, time))
-                    print("Sending: {0} from {1} to {2} time: {3}".format(newData, self, d, actTime))
-                    print("will arrive in time {0}".format(time))
+                    if Node.log:
+                        print("Sending: {0} from {1} to {2} time: {3}".format(newData, self, d, actTime))
+                        print("will arrive in time {0}".format(time))
             b.Cleanup(b, data)
-            print("Data after cleanup in node {0}: {1}".format(self, data))
+            if Node.log:
+                print("Data after cleanup in node {0}: {1}".format(self, data))
             if Node.bkey not in data: data[Node.bkey] = b
         return newEvents
 
     def Signal(self, signalData, actTime):
-        print("Node {0} was signaled with data: {1} time: {2}".format(self,signalData,actTime))
+        if Node.log:
+            print("Node {0} was signaled with data: {1} time: {2}".format(self,signalData,actTime))
         b = self.GetBehavior()
         return b.OnSignal(b, self, signalData,actTime)
 
@@ -86,7 +93,8 @@ class Node:
         return self.GetData()[Node.bkey]
 
     def Successors(self):
-        return self.graph.successors(self.node)
+        for n in [Node(self.graph,node) for node in self.graph.successors(self.node)]:
+            yield n
 
     def __str__(self):
         return str(self.node)

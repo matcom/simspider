@@ -16,7 +16,7 @@ class Behavior:
     @staticmethod
     def Route(self, node): return []
     @staticmethod
-    def Select(self, data, actTime):return []
+    def Select(self, destination, data, actTime):return []
     @staticmethod
     def Transform(self, key, value):return value
     @staticmethod
@@ -137,20 +137,20 @@ class BasicSelection:
 
     @staticmethod
     def AllAtOnce(timeFunction):
-        def SendAllData(self,data,actTime):
+        def SendAllData(self,destination,data,actTime):
             yield (data.keys() , actTime + timeFunction())
         return SendAllData
 
     @staticmethod
     def OneByOne(timeFunction):
-        def SendOneByOne(self,data,actTime):
+        def SendOneByOne(self,destination,data,actTime):
             for k in data.keys():
                 yield ([k],actTime + timeFunction())
         return SendOneByOne
 
     @staticmethod
     def SpecificGroup(keys,timeFunction):
-        def SendSelectedData(self,data,actTime):
+        def SendSelectedData(self,destination,data,actTime):
             r = []
             for k in keys:
                 if k in data: r.append(k)
