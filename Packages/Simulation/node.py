@@ -37,7 +37,7 @@ class Node:
         b = self.GetBehavior()
         data = self.GetData()
         if len(data)>0:
-            for d in [Node(self.graph, d) for d in b.Rout(b,self)]:
+            for d in [Node(self.graph, d) for d in b.Route(b,self)]:
                 if not b.includeBehavior: del data[Node.bkey]
                 for ks, time in b.Select(b, data, actTime):
                     newData = {}

@@ -14,7 +14,7 @@ class Behavior:
     def Learn(self, new):pass
     #sending data
     @staticmethod
-    def Rout(self, node): return []
+    def Route(self, node): return []
     @staticmethod
     def Select(self, data, actTime):return []
     @staticmethod
@@ -35,7 +35,7 @@ class Behavior:
         self.Process = Behavior.Process
         self.Learn = Behavior.Learn
         #sending data
-        self.Rout = Behavior.Rout
+        self.Route = Behavior.Route
         self.Select = Behavior.Select
         self.Transform = Behavior.Transform
         self.Cleanup = Behavior.Cleanup
@@ -87,7 +87,7 @@ class BasicLearning:
             self.includeBehavior = new.includeBehavior
             self.Process = new.Process
             self.Learn = new.Learn
-            self.Rout = new.Rout
+            self.Route = new.Route
             self.Select = new.Select
             self.Transform = new.Transform
             self.Cleanup = new.Cleanup
@@ -95,13 +95,13 @@ class BasicLearning:
         return LearnAll
 
     @staticmethod
-    def LearnSpecificBehavior(sendAftReceive = False,sendBeh = False,process = False,learn = False,rout = False,select = False,transform = False,cleanup = False,signaling = False):
+    def LearnSpecificBehavior(sendAftReceive = False,sendBeh = False,process = False,learn = False,route = False,select = False,transform = False,cleanup = False,signaling = False):
         def LearnSpecific(self,new):
             if sendAftReceive: self.sendAfterReceive = new.sendAfterReceive
             if sendBeh: self.includeBehavior = new.includeBehavior
             if process: self.Process = new.Process
             if learn: self.Learn = new.Learn
-            if rout: self.Rout = new.Rout
+            if route: self.Route = new.Route
             if select: self.Select = new.Select
             if transform: self.Transform = new.Transform
             if cleanup: self.Cleanup = new.Cleanup
@@ -110,7 +110,7 @@ class BasicLearning:
 
     @staticmethod
     def LearnSendBehavior():
-        return BasicLearning.LearnSpecificBehavior(sendAftReceive = True,sendBeh = True,rout = True,select = True,transform = True)
+        return BasicLearning.LearnSpecificBehavior(sendAftReceive = True,sendBeh = True,route = True,select = True,transform = True)
 
     @staticmethod
     def LearnReceiveBehavior():
