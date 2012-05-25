@@ -24,6 +24,7 @@ import networkx as nx
 import behavior as be
 import events as ev
 import random as rdm
+import gathering as ga
 from behavior import Behavior
 from simulator import Simulator
 from node import Node
@@ -54,6 +55,9 @@ for n in [Node(G,node) for node in G.nodes_iter()]:
 G.graph["temperature"] = 25
 G.graph["presure"] = 45
 G.graph["rain"] = 89
+
+ga.RegisterNodeTracker(ga.NodeLog(nodes = [2,3]))
+#ga.RegisterNodeTracker(ga.EdgeLog())
 
 s = Simulator()
 s.afterEvent.append(lambda x,y:input())

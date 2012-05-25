@@ -9,7 +9,7 @@ class Node:
 
     dkey = "__data__"
     bkey = "behavior"
-    log = False
+    nodeTrackers = []
 
     def __init__(self,graph,node):
         self.graph = graph
@@ -20,18 +20,15 @@ class Node:
 
     def ReceiveData(self, source, newData, actTime):
         d = self.GetData()
-        if Node.log:
-            print("Time: {0}".format(actTime))
-            print("Node {0} received: {1}".format(self,newData))
-            print("Actual data in node {0}: {1}".format(self,d))
-            print("Actual data in graph: {1}".format(self,self.graph.graph))
-        newbeh = False
         b = self.GetBehavior()
+        for nt in Node.nodeTrackers:
+            nt.DataReceived(self,newData,source,actTime)
+        newbeh = False
         if Node.bkey in newData: newbeh = newData.pop(Node.bkey)
         b.Process(b, self.graph.graph, d, newData)
         if newbeh: b.Learn(b,newbeh)
-        if Node.log:
-            print("Updated data in node {0}: {1}".format(self,d))
+        for nt in Node.nodeTrackers:
+            nt.DataUpdated(self)
         if b.sendAfterReceive: return self.SendData(actTime)
         else: return []
 
@@ -48,18 +45,17 @@ class Node:
                     for key in ks:
                         newData[key] = b.Transform(b, key, data[key])
                     newEvents.append(ev.DataArrival(self, newData, d, time))
-                    if Node.log:
-                        print("Sending: {0} from {1} to {2} time: {3}".format(newData, self, d, actTime))
-                        print("will arrive in time {0}".format(time))
+                    for nt in Node.nodeTrackers:
+                        nt.DataSent(self,newData,d,actTime,time)
             b.Cleanup(b, data)
-            if Node.log:
-                print("Data after cleanup in node {0}: {1}".format(self, data))
+            for nt in Node.nodeTrackers:
+                nt.DataCleaned(self)
             if Node.bkey not in data: data[Node.bkey] = b
         return newEvents
 
     def Signal(self, signalData, actTime):
-        if Node.log:
-            print("Node {0} was signaled with data: {1} time: {2}".format(self,signalData,actTime))
+        for nt in Node.nodeTrackers:
+            nt.Signaled(self,signalData,actTime)
         b = self.GetBehavior()
         return b.OnSignal(b, self, signalData,actTime)
 
@@ -72,12 +68,6 @@ class Node:
 
     def GetAttribute(self,key):
         return self.GetData()[key]
-
-    def __getitem__(self, item):
-        return self.GetAttribute(item)
-
-    def __setitem__(self, key, value):
-        self.SetAttribute(key,value)
 
     def Attributes(self):
         for k,v in self.GetData().items():
@@ -96,5 +86,30 @@ class Node:
         for n in [Node(self.graph,node) for node in self.graph.successors(self.node)]:
             yield n
 
+    def __hash__(self):
+        return self.node.__hash__()
+
+    def __lt__(self, other):
+        return self.node < other.node
+
+    def __eq__(self, other):
+        return self.node == other.node
+
+    def __gt__(self, other):
+        return self.node > other.node
+
+    def __ge__(self, other):
+        return self.node >= other.node
+
+    def __le__(self, other):
+        return self.node <= other.node
+
+    def __getitem__(self, item):
+        return self.GetAttribute(item)
+
+    def __setitem__(self, key, value):
+        self.SetAttribute(key,value)
+
     def __str__(self):
         return str(self.node)
+
