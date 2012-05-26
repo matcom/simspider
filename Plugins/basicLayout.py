@@ -31,44 +31,39 @@ class _LayoutPlugin(Layout, Plugin):
 
 class CircularLayout(_LayoutPlugin):
     def __init__(self):
-        _LayoutPlugin.__init__(self, "Cicular", "Layouts nodes in a circle", "CustomGraph.png",
-            Scale=FloatBuilder(25.0,0.0,100.0,5.0))
+        _LayoutPlugin.__init__(self, "Cicular", "Layouts nodes in a circle", "CustomGraph.png")
 
     def _getLayout(self, nodes, edges, values):
-        scale = values['Scale']
+        scale = 25
         return layout.circularNodes(len(nodes), scale)
 
 
 class HorizontalDistributeLayout(_LayoutPlugin):
     def __init__(self):
-        _LayoutPlugin.__init__(self, "Horizontal", "Layouts nodes in a horizontal line", "CustomGraph.png",
-            Scale=FloatBuilder(50.0,0.0,100.0,5.0))
+        _LayoutPlugin.__init__(self, "Horizontal", "Layouts nodes in a horizontal line", "CustomGraph.png")
 
     def _getLayout(self, nodes, edges, values):
-        return layout.horizontalNodes(len(nodes), values['Scale'])
+        return layout.horizontalNodes(len(nodes), 50)
 
 
 class VerticalDistributeLayout(_LayoutPlugin):
     def __init__(self):
-        _LayoutPlugin.__init__(self, "Vertical", "Layouts nodes in a vertical line", "CustomGraph.png",
-            Scale=FloatBuilder(50.0,0.0,100.0,5.0))
+        _LayoutPlugin.__init__(self, "Vertical", "Layouts nodes in a vertical line", "CustomGraph.png")
 
     def _getLayout(self, nodes, edges, values):
-        return layout.verticalNodes(len(nodes), values['Scale'])
+        return layout.verticalNodes(len(nodes), 50)
 
 
 class Grid2DLayout(_LayoutPlugin):
     def __init__(self):
         _LayoutPlugin.__init__(self, "Grid 2D", "Layouts nodes in a grid", "CustomGraph.png",
-            Rows=IntegerBuilder(5,1,100,1),
-            VerticalSpace=FloatBuilder(50.0,0.0,100.0,1.0),
-            HorizontalSpace=FloatBuilder(50.0,0.0,100.0,1.0))
+            Rows=IntegerBuilder(5,1,100,1))
 
     def _getLayout(self, nodes, edges, values):
         r = values['Rows']
         c = len(nodes) // r
-        vspace = values['VerticalSpace']
-        hspace = values['HorizontalSpace']
+        vspace = 50
+        hspace = 50
 
         return layout.grid2d(r, c, hspace, vspace)[0:len(nodes)]
 

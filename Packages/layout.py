@@ -25,6 +25,7 @@ class Layout:
         nodeList = nodesDict.values()
 
         pos = self._performLayout(nodeList, edgeList)
+        print(pos)
 
         if not pos:
             return

@@ -129,12 +129,19 @@
      <string>&amp;Layout</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menu_Window">
+    <property name="title">
+     <string>&amp;Window</string>
+    </property>
+    <addaction name="action_Function_Viewer"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_View"/>
    <addaction name="menuTransform"/>
    <addaction name="menuInsert"/>
    <addaction name="menu_Layout"/>
    <addaction name="menuPlugins"/>
+   <addaction name="menu_Window"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="toolBoxDock">
@@ -859,6 +866,11 @@
    </property>
    <property name="shortcut">
     <string>Shift+F6</string>
+   </property>
+  </action>
+  <action name="action_Function_Viewer">
+   <property name="text">
+    <string>&amp;Function Viewer</string>
    </property>
   </action>
  </widget>

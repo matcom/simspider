@@ -5,8 +5,6 @@ from PyQt4.QtGui import *
 
 import debug
 
-__author__ = 'Alejandro Piad'
-
 class PropertyViewer(QDialog):
     def __init__(self, title="Property Viewer", icon=None, **kwargs):
         QDialog.__init__(self)

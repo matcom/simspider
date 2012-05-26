@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+from FunctionViewer import FunctionViewer, Variable, Function
 
 __author__ = 'Alejandro Piad'
 
@@ -62,6 +63,17 @@ class GraphViewer(QMainWindow):
 
         self._setupViewportOptions()
         self.loadPlugins()
+
+        variable = Variable("Temperature")
+        triangular = Function("Triangular", Min=0, Mid=50, Max=100)
+        square = Function("Square", Min=0, Max=100)
+        functions = {"Triangular":triangular, "Square":square}
+
+        variable.values["Cold"] = triangular.clone()
+        variable.values["Warm"] = triangular.clone()
+        variable.values["Hot"] = triangular.clone()
+
+        self.ui.action_Function_Viewer.triggered.connect(lambda: FunctionViewer(functions, variable).exec_())
 
 
     @debug.trace()

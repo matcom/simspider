@@ -12,7 +12,10 @@ class _NxLayoutPlugin(_LayoutPlugin):
         G.add_nodes_from(nodes)
         G.add_edges_from(edges)
 
-        return self._applyLayout(G, values)
+        layout = self._applyLayout(G, values)
+
+        return [(layout[n][0] * 250, layout[n][1] * 250) for n in nodes]
+
 
     def _applyLayout(self, G, values):
         pass
@@ -23,7 +26,7 @@ try:
 
     class SpringLayout(_NxLayoutPlugin):
         def __init__(self):
-            _NxLayoutPlugin.__init__(self, "Spring", "Layouts item with a spring-mass system", "CustomGraph.png")
+            _NxLayoutPlugin.__init__(self, "Spring", "Layouts items with a spring-mass system", "CustomGraph.png")
 
         def _applyLayout(self, G, values):
             return nx.spring_layout(G)
@@ -31,12 +34,10 @@ try:
 
     class RandomLayout(_NxLayoutPlugin):
         def __init__(self):
-            _NxLayoutPlugin.__init__(self, "Spring", "Layouts item with a spring-mass system", "CustomGraph.png",
-                Scale=FloatBuilder(25.0,0.0,100.0,1.0))
+            _NxLayoutPlugin.__init__(self, "Random", "Layouts items randomly", "CustomGraph.png")
 
         def _applyLayout(self, G, values):
-            scale = values['Scale']
-            return ((x * scale, y * scale) for x,y in nx.random_layout(G))
+            return nx.random_layout(G)
 
 except:
     pass

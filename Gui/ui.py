@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Mon Apr 19 14:36:40 2010
+# Created: Sat May 26 16:08:58 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -20,20 +20,45 @@ class Ui_DgFuntions(object):
         DgFuntions.resize(693, 453)
         self.verticalLayout_2 = QtGui.QVBoxLayout(DgFuntions)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.splitter_2 = QtGui.QSplitter(DgFuntions)
+        self.splitter_2.setMinimumSize(QtCore.QSize(0, 0))
+        self.splitter_2.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter_2.setObjectName(_fromUtf8("splitter_2"))
+        self.widget = QtGui.QWidget(self.splitter_2)
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.widget)
+        self.verticalLayout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)
+        self.verticalLayout.setMargin(0)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.toolBox = QtGui.QToolBox(self.widget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.toolBox.sizePolicy().hasHeightForWidth())
+        self.toolBox.setSizePolicy(sizePolicy)
+        self.toolBox.setMinimumSize(QtCore.QSize(250, 0))
+        self.toolBox.setObjectName(_fromUtf8("toolBox"))
+        self.page = QtGui.QWidget()
+        self.page.setGeometry(QtCore.QRect(0, 0, 330, 346))
+        self.page.setObjectName(_fromUtf8("page"))
+        self.toolBox.addItem(self.page, _fromUtf8(""))
+        self.verticalLayout.addWidget(self.toolBox)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.dockWidget = QtGui.QDockWidget(DgFuntions)
-        self.dockWidget.setObjectName(_fromUtf8("dockWidget"))
-        self.dockWidgetContents = QtGui.QWidget()
-        self.dockWidgetContents.setObjectName(_fromUtf8("dockWidgetContents"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.dockWidgetContents)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.dockWidget.setWidget(self.dockWidgetContents)
-        self.horizontalLayout.addWidget(self.dockWidget)
-        self.graphicsView = QtGui.QGraphicsView(DgFuntions)
+        self.btnRemove = QtGui.QPushButton(self.widget)
+        self.btnRemove.setEnabled(False)
+        self.btnRemove.setObjectName(_fromUtf8("btnRemove"))
+        self.horizontalLayout.addWidget(self.btnRemove)
+        self.btnAdd = QtGui.QPushButton(self.widget)
+        self.btnAdd.setObjectName(_fromUtf8("btnAdd"))
+        self.horizontalLayout.addWidget(self.btnAdd)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.splitter = QtGui.QSplitter(self.splitter_2)
+        self.splitter.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter.setObjectName(_fromUtf8("splitter"))
+        self.graphicsView = QtGui.QGraphicsView(self.splitter)
         self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
-        self.horizontalLayout.addWidget(self.graphicsView)
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
+        self.verticalLayout_2.addWidget(self.splitter_2)
         self.buttonBox = QtGui.QDialogButtonBox(DgFuntions)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
@@ -41,18 +66,22 @@ class Ui_DgFuntions(object):
         self.verticalLayout_2.addWidget(self.buttonBox)
 
         self.retranslateUi(DgFuntions)
+        self.toolBox.setCurrentIndex(0)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), DgFuntions.accept)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), DgFuntions.reject)
         QtCore.QMetaObject.connectSlotsByName(DgFuntions)
 
     def retranslateUi(self, DgFuntions):
         DgFuntions.setWindowTitle(QtGui.QApplication.translate("DgFuntions", "Function Viewer", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page), QtGui.QApplication.translate("DgFuntions", "Page 1", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnRemove.setText(QtGui.QApplication.translate("DgFuntions", "&Remove Value", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnAdd.setText(QtGui.QApplication.translate("DgFuntions", "&Add Value", None, QtGui.QApplication.UnicodeUTF8))
 
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Mon Apr 19 14:36:40 2010
+# Created: Sat May 26 16:08:58 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -105,6 +134,8 @@ class Ui_GraphViewer(object):
         self.menuPlugins.setObjectName(_fromUtf8("menuPlugins"))
         self.menu_Layout = QtGui.QMenu(self.menubar)
         self.menu_Layout.setObjectName(_fromUtf8("menu_Layout"))
+        self.menu_Window = QtGui.QMenu(self.menubar)
+        self.menu_Window.setObjectName(_fromUtf8("menu_Window"))
         GraphViewer.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(GraphViewer)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -344,6 +375,8 @@ class Ui_GraphViewer(object):
         self.actionConnect.setCheckable(True)
         self.actionConnect.setIcon(icon5)
         self.actionConnect.setObjectName(_fromUtf8("actionConnect"))
+        self.action_Function_Viewer = QtGui.QAction(GraphViewer)
+        self.action_Function_Viewer.setObjectName(_fromUtf8("action_Function_Viewer"))
         self.menuFile.addAction(self.actionQuit)
         self.menuTransform.addAction(self.actionSelection)
         self.menuTransform.addAction(self.actionCreation)
@@ -375,12 +408,14 @@ class Ui_GraphViewer(object):
         self.menu_View.addAction(self.actionAnimations)
         self.menu_View.addSeparator()
         self.menu_View.addAction(self.menu_Viewport.menuAction())
+        self.menu_Window.addAction(self.action_Function_Viewer)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menu_View.menuAction())
         self.menubar.addAction(self.menuTransform.menuAction())
         self.menubar.addAction(self.menuInsert.menuAction())
         self.menubar.addAction(self.menu_Layout.menuAction())
         self.menubar.addAction(self.menuPlugins.menuAction())
+        self.menubar.addAction(self.menu_Window.menuAction())
         self.modesToolbar.addAction(self.actionSelection)
         self.modesToolbar.addAction(self.actionCreation)
         self.modesToolbar.addAction(self.actionClique)
@@ -427,6 +462,7 @@ class Ui_GraphViewer(object):
         self.menuRender_Hints.setTitle(QtGui.QApplication.translate("GraphViewer", "Render Hints", None, QtGui.QApplication.UnicodeUTF8))
         self.menuPlugins.setTitle(QtGui.QApplication.translate("GraphViewer", "Plugins", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Layout.setTitle(QtGui.QApplication.translate("GraphViewer", "&Layout", None, QtGui.QApplication.UnicodeUTF8))
+        self.menu_Window.setTitle(QtGui.QApplication.translate("GraphViewer", "&Window", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBoxDock.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Toolbox", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSelection.setDescription(QtGui.QApplication.translate("GraphViewer", "Select multiple nodes", None, QtGui.QApplication.UnicodeUTF8))
@@ -504,12 +540,13 @@ class Ui_GraphViewer(object):
         self.actionConnect.setText(QtGui.QApplication.translate("GraphViewer", "Connect", None, QtGui.QApplication.UnicodeUTF8))
         self.actionConnect.setToolTip(QtGui.QApplication.translate("GraphViewer", "Click on nodes to create edges", None, QtGui.QApplication.UnicodeUTF8))
         self.actionConnect.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F6", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_Function_Viewer.setText(QtGui.QApplication.translate("GraphViewer", "&Function Viewer", None, QtGui.QApplication.UnicodeUTF8))
 
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Mon Apr 19 14:36:40 2010
+# Created: Sat May 26 16:08:58 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
