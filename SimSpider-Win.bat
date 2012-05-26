@@ -1,2 +1,2 @@
-python SimSpiderGui.py
+python SimSpiderGui.py Debug.Trace=False
 pause

@@ -14,21 +14,25 @@ gui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Gui'))
 packages_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Packages'))
 redist_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Redist'))
 plugins_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Plugins'))
+simulation_dir = os.path.join(packages_dir, 'Simulation')
 
 sys.path.append(gui_dir)
 sys.path.append(packages_dir)
 sys.path.append(redist_dir)
 sys.path.append(plugins_dir)
+sys.path.append(simulation_dir)
 
 print("Gui: {0}".format(gui_dir))
 print("Packages: {0}".format(packages_dir))
 print("Redist: {0}".format(redist_dir))
 print("Plugins: {0}".format(plugins_dir))
+print("Simulations: {0}".format(simulation_dir))
+
+from config import config
+import debug
 
 from GraphViewer import GraphViewer
 from Plugins import pluginManager
-from config import config
-import debug
 
 def main():
     app = QApplication(sys.argv)
@@ -61,11 +65,7 @@ def main():
     # Debug
     listener = debug.FileListener(logFile)
     debug.addListener(listener)
-
-    debug.defaultListener.resetFilters()
-    debug.defaultListener.filter("graphviewer")
-    debug.defaultListener.filter("propertyviewer")
-    debug.defaultListener.filter("plugins")
+    debug.defaultListener.verbose = config.Debug.get("Verbose", 5)
 
     pluginManager.loadPlugins()
 
@@ -100,7 +100,7 @@ def main():
 
         trace = sys.exc_traceback
 
-        msg.setDetailedText(str(e) + "\n" + "".join(traceback.format_tb(trace)))
+        msg.setDetailedText(str(e) + "\n" + "".join(traceback.format_tb(trace or ["(!) No Info"])))
         debug.error(main, e, throw=False)
         msg.exec_()
 

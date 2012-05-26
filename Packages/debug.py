@@ -30,6 +30,7 @@ LOG = 3
 INFO = 4
 DEBUG = 5
 
+from config import config
 
 # CLASES: -----------------------------------------------------------
 
@@ -282,6 +283,14 @@ def trace(category = None, level = DEBUG):
     else:
         return decorator
 
+# If not tracing, deactivate all redirection for efficiency
+if not config.Debug.get("Trace", True):
+    print("Deactivating tracing...")
+
+    def trace(category = None, level = DEBUG):
+        def decorator(function):
+            return function
+        return decorator
 
 # CLASES: --------------------------------------------------------------------
 

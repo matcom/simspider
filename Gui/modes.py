@@ -1,5 +1,9 @@
+# -*- coding: utf8 -*-
+
 from GraphicEdge import GraphicEdge
 from GraphicNode import GraphicNode
+
+import debug
 
 __author__ = 'Alejandro Piad'
 
@@ -83,6 +87,7 @@ class ConnectMode(Mode):
             self.node.setPos(self.selected.pos())
             self.edge = GraphicEdge(self.selected, self.node, self.graphics)
             self.graphics.scene().addItem(self.edge)
+            self.edge.adjust()
             self.selected.setSelected(True)
 
         return True
@@ -105,13 +110,15 @@ class ConnectMode(Mode):
         return True
 
     def mouseMoveEvent(self, graph, event):
-        if event.button() == Qt.LeftButton:
+        if self.edge:
 
             if not self.node:
+                debug.error("No node !!!", Exception(), "modes.connect")
                 return False
 
-            self.node.setPos(event.pos())
+            self.node.setPos(self.graphics.mapToScene(event.pos()))
             self.edge.adjust()
+            debug.info("Moving edge {0}", (self.edge,), "modes.connect")
 
         return True
 
