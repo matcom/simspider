@@ -58,6 +58,7 @@ class GraphicEdge(QGraphicsItem):
         normalized().\
         adjusted(-extra, -extra, extra, extra)
 
+    @debug.trace()
     def paint(self, painter, styleoption, widget):
 
         if self.isSelected():

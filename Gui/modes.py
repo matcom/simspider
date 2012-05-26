@@ -1,3 +1,10 @@
+# -*- coding: utf8 -*-
+
+from GraphicEdge import GraphicEdge
+from GraphicNode import GraphicNode
+
+import debug
+
 __author__ = 'Alejandro Piad'
 
 from PyQt4.QtCore import *
@@ -55,13 +62,63 @@ class SelectionMode(Mode):
         return done
 
 
-class MoveMode(Mode):
+class ConnectMode(Mode):
     def __init__(self, graphics):
         Mode.__init__(self, graphics)
-        self.graphics.setDragMode(QGraphicsView.ScrollHandDrag)
+        self.graphics.setDragMode(QGraphicsView.NoDrag)
+        self.selected = None
+        self.edge = None
+        self.node = GraphicNode(graphics)
 
-    def mouseDoubleClickEvent(self, graph, event):
-        self.graphics.centerOn(self.graphics.mapToScene(event.pos()))
+    def mousePressEvent(self, graph, event):
+        if event.button() == Qt.LeftButton:
+            nodes = graph.nodesAt(event.x(), event.y())
+            graph.deselectAll()
+
+            if self.edge:
+                self.graphics.scene().removeItem(self.edge)
+                self.edge = None
+
+            if not nodes:
+                self.selected = None
+                return False
+
+            self.selected = nodes[0]
+            self.node.setPos(self.selected.pos())
+            self.edge = GraphicEdge(self.selected, self.node, self.graphics)
+            self.graphics.scene().addItem(self.edge)
+            self.edge.adjust()
+            self.selected.setSelected(True)
+
+        return True
+
+    def mouseReleaseEvent(self, graph, event):
+        if event.button() == Qt.LeftButton:
+            nodes = graph.nodesAt(event.x(), event.y())
+
+            if self.edge:
+                self.graphics.scene().removeItem(self.edge)
+                self.edge = None
+
+            if not nodes or not self.selected:
+                self.selected.setSelected(False)
+                return False
+
+            node = nodes[0]
+            graph.addEdge(self.selected, node)
+
+        return True
+
+    def mouseMoveEvent(self, graph, event):
+        if self.edge:
+
+            if not self.node:
+                debug.error("No node !!!", Exception(), "modes.connect")
+                return False
+
+            self.node.setPos(self.graphics.mapToScene(event.pos()))
+            self.edge.adjust()
+            debug.info("Moving edge {0}", (self.edge,), "modes.connect")
 
         return True
 

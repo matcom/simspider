@@ -27,7 +27,27 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout"/>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="renderHints">
+       <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
+      </property>
+      <property name="dragMode">
+       <enum>QGraphicsView::RubberBandDrag</enum>
+      </property>
+      <property name="cacheMode">
+       <set>QGraphicsView::CacheBackground</set>
+      </property>
+      <property name="transformationAnchor">
+       <enum>QGraphicsView::NoAnchor</enum>
+      </property>
+      <property name="viewportUpdateMode">
+       <enum>QGraphicsView::BoundingRectViewportUpdate</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -49,10 +69,11 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="actionSelection"/>
+    <addaction name="actionCreation"/>
     <addaction name="actionClique"/>
     <addaction name="actionCycle"/>
     <addaction name="actionPath"/>
-    <addaction name="actionMove"/>
+    <addaction name="actionConnect"/>
     <addaction name="separator"/>
     <addaction name="actionMakeClique"/>
     <addaction name="actionMakeCycle"/>
@@ -158,7 +179,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
+          <y>-194</y>
           <width>285</width>
           <height>466</height>
          </rect>
@@ -301,13 +322,13 @@
           </widget>
          </item>
          <item>
-          <widget class="QCommandLinkButton" name="btnMove">
+          <widget class="QCommandLinkButton" name="btnConnect">
            <property name="text">
-            <string>Move</string>
+            <string>Connect Nodes</string>
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>Resources/Move.png</normaloff>Resources/Move.png</iconset>
+             <normaloff>Resources/Connect.png</normaloff>Resources/Connect.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -319,7 +340,7 @@
             <bool>true</bool>
            </property>
            <property name="description">
-            <string>Click and drag to navigate</string>
+            <string>Click on nodes to create edges</string>
            </property>
            <attribute name="buttonGroup">
             <string>buttonGroup</string>
@@ -370,7 +391,7 @@
    <addaction name="actionClique"/>
    <addaction name="actionCycle"/>
    <addaction name="actionPath"/>
-   <addaction name="actionMove"/>
+   <addaction name="actionConnect"/>
   </widget>
   <widget class="QDockWidget" name="graphDock">
    <property name="sizePolicy">
@@ -424,49 +445,6 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout"/>
        </widget>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="graphViewer">
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="floating">
-    <bool>false</bool>
-   </property>
-   <property name="features">
-    <set>QDockWidget::AllDockWidgetFeatures</set>
-   </property>
-   <property name="windowTitle">
-    <string>Graph Visualizer</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>2</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_3">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QGraphicsView" name="graphicsView">
-       <property name="renderHints">
-        <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
-       </property>
-       <property name="dragMode">
-        <enum>QGraphicsView::RubberBandDrag</enum>
-       </property>
-       <property name="cacheMode">
-        <set>QGraphicsView::CacheBackground</set>
-       </property>
-       <property name="transformationAnchor">
-        <enum>QGraphicsView::NoAnchor</enum>
-       </property>
-       <property name="viewportUpdateMode">
-        <enum>QGraphicsView::BoundingRectViewportUpdate</enum>
-       </property>
       </widget>
      </item>
     </layout>
@@ -600,24 +578,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
-   </property>
-  </action>
-  <action name="actionMove">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>Resources/Move.png</normaloff>Resources/Move.png</iconset>
-   </property>
-   <property name="text">
-    <string>Move</string>
-   </property>
-   <property name="toolTip">
-    <string>Allows to drag the scene to move</string>
-   </property>
-   <property name="shortcut">
-    <string>Shift+F6</string>
    </property>
   </action>
   <action name="actionClique">
@@ -883,6 +843,24 @@
     <string>High Quality Antialiasing</string>
    </property>
   </action>
+  <action name="actionConnect">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/Connect.png</normaloff>Resources/Connect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connect</string>
+   </property>
+   <property name="toolTip">
+    <string>Click on nodes to create edges</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F6</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
@@ -983,24 +961,8 @@
    </hints>
   </connection>
   <connection>
-   <sender>btnMove</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>actionMove</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>137</x>
-     <y>510</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionSelection</sender>
-   <signal>toggled(bool)</signal>
+   <signal>triggered(bool)</signal>
    <receiver>btnSelection</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
@@ -1016,7 +978,7 @@
   </connection>
   <connection>
    <sender>actionCreation</sender>
-   <signal>toggled(bool)</signal>
+   <signal>triggered(bool)</signal>
    <receiver>btnAddNode</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
@@ -1032,7 +994,7 @@
   </connection>
   <connection>
    <sender>actionClique</sender>
-   <signal>toggled(bool)</signal>
+   <signal>triggered(bool)</signal>
    <receiver>btnClique</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
@@ -1048,7 +1010,7 @@
   </connection>
   <connection>
    <sender>actionCycle</sender>
-   <signal>toggled(bool)</signal>
+   <signal>triggered(bool)</signal>
    <receiver>btnCycle</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
@@ -1064,7 +1026,7 @@
   </connection>
   <connection>
    <sender>actionPath</sender>
-   <signal>toggled(bool)</signal>
+   <signal>triggered(bool)</signal>
    <receiver>btnPath</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
@@ -1079,9 +1041,25 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionMove</sender>
+   <sender>btnConnect</sender>
    <signal>toggled(bool)</signal>
-   <receiver>btnMove</receiver>
+   <receiver>actionConnect</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>151</x>
+     <y>316</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionConnect</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>btnConnect</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1089,8 +1067,8 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>137</x>
-     <y>510</y>
+     <x>151</x>
+     <y>316</y>
     </hint>
    </hints>
   </connection>

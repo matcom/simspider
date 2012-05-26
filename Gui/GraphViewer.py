@@ -48,7 +48,7 @@ class GraphViewer(QMainWindow):
                         self.ui.actionCreation,
                         self.ui.actionClique,
                         self.ui.actionCycle,
-                        self.ui.actionMove,
+                        self.ui.actionConnect,
                         self.ui.actionPath]
 
         self._setupActions()
@@ -81,7 +81,7 @@ class GraphViewer(QMainWindow):
             self.modes.addAction(x)
 
         self.ui.actionSelection.triggered.connect(lambda: self.setMode(SelectionMode))
-        self.ui.actionMove.triggered.connect(lambda: self.setMode(MoveMode))
+        self.ui.actionConnect.triggered.connect(lambda: self.setMode(ConnectMode))
         self.ui.actionCreation.triggered.connect(lambda: self.setMode(CreationMode))
         self.ui.actionClique.triggered.connect(lambda: self.setMode(CliqueMode))
         self.ui.actionCycle.triggered.connect(lambda: self.setMode(CycleMode))

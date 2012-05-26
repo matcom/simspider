@@ -29,9 +29,9 @@ class Config(object):
                 opt = arg[0].split('.')
                 sect = opt[0]
                 key = opt[1]
-                val = arg[1]
+                val = self._parse(arg[1])
                 self.section(sect).set(key, val)
-                print("Setting config option {0}.{1} = {2}".format(sect,key,val))
+                print("Setting config option {0}.{1} = {2} ({3})".format(sect,key,val, val.__class__.__name__))
             except:
                 print("Could not parse argument '{0}'".format(arg))
 
@@ -58,6 +58,14 @@ class Config(object):
         for section in self._conf.keys():
             yield self._conf[section]
 
+    def _parse(self, item):
+        try: return int(item)
+        except:
+            if item == 'True' or item == 'true':
+                return True
+            elif item == 'False' or item == 'false':
+                return False
+            return item
 
 class ConfigSection(object):
     def __init__(self, name):

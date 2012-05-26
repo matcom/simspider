@@ -15,21 +15,22 @@ class Simulator:
         self.events = []
         self.timeSpent = 0
         self.totalEvents = 0
-        self.InsertEvents(init_events[:])
+        self.InsertEvents(init_events)
 
     def InsertEvents(self, events):
         if events == None: return
         for e in events:
             if e.time>=self.timeSpent:
-                heappush(self.events,(e.time,e))
+                heappush(self.events,e)
 
     def __processNextEvent(self):
-        t,e = heappop(self.events)
+        e = heappop(self.events)
+        t = e.time
         for m in self.beforeEvent: m(self,e)
         self.InsertEvents(e.Process())
-        for m in self.afterEvent: m(self,e)
         self.totalEvents+=1
         self.timeSpent = t
+        for m in self.afterEvent: m(self,e)
 
     def Simulate(self, time = None, untilTime=None, events=None, untilEvent=None):
         start_time= self.timeSpent
