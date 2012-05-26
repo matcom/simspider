@@ -7,68 +7,69 @@ import events as ev
 
 class Behavior:
 
-    #receiving data
-    @staticmethod
-    def Process(self,actualData,newData):pass
-    @staticmethod
-    def Learn(self,new):pass
-    #sending data
-    @staticmethod
-    def Rout(self,node): return []
-    @staticmethod
-    def Select(self,data,actTime):return []
-    @staticmethod
-    def Transform(self,key,value):return value
-    @staticmethod
-    def Cleanup(self,data):pass
-    #signaling
-    @staticmethod
-    def OnSignal(self, node, signalData, actualTime): return []
-
     def __init__(self):
         #sending
         self.sendAfterReceive = False
         self.includeBehavior = False
         #description
-        self.Name = "None"
+        self.name = "None"
+        #owner
+        self.node = None
         #receiving data
-        self.Process = Behavior.Process
-        self.Learn = Behavior.Learn
+        self.Process = type(self).Process
+        self.Learn = type(self).Learn
         #sending data
-        self.Rout = Behavior.Rout
-        self.Select = Behavior.Select
-        self.Transform = Behavior.Transform
-        self.Cleanup = Behavior.Cleanup
+        self.Route = type(self).Route
+        self.Select = type(self).Select
+        self.Transform = type(self).Transform
+        self.Cleanup = type(self).Cleanup
         #signaling
-        self.OnSignal = Behavior.OnSignal
+        self.OnSignal = type(self).OnSignal
+
+    #receiving data
+    def Process(self, globalData, actualData, newData):pass
+    def Learn(self, new):pass
+    #sending data
+    def Route(self, node): return []
+    def Select(self, destination, data, actTime):return []
+    def Transform(self, key, value):return value
+    def Cleanup(self, data):pass
+    #signaling
+    def OnSignal(self, node, signalData, actualTime): return []
 
     def __str__(self):
-        return self.Name
+        return self.name
 
     def __repr__(self):
-        return self.Name
+        return self.name
 
     def Clone(self):
         return copy(self)
+
+class AttributedBehavior(Behavior):
+
+    def __init__(self):
+        super().__init__()
+        self.attributesToAdd = {}
 
 class BasicProcessing:
 
     @staticmethod
     def UpdateAll():
-        def UpdateAll(self,actualData,newData):
+        def UpdateAll(self,gloabalData,actualData,newData):
             actualData.update(newData)
         return UpdateAll
 
     @staticmethod
     def Update(keys):
-        def UpdateOnly(self,actualData,newData):
+        def UpdateOnly(self,gloabalData,actualData,newData):
             for k in keys:
                 if k in newData: actualData[k] = newData[k]
         return UpdateOnly
 
     @staticmethod
     def ProbUpdate(dict):
-        def ProbUpd(self,actualData,newData):
+        def ProbUpd(self,globalData, actualData,newData):
             for k,v in dict.items():
                 if k in newData and rdm.random()<=v: actualData[k] = newData[k]
         return ProbUpd
@@ -82,7 +83,7 @@ class BasicLearning:
             self.includeBehavior = new.includeBehavior
             self.Process = new.Process
             self.Learn = new.Learn
-            self.Rout = new.Rout
+            self.Route = new.Route
             self.Select = new.Select
             self.Transform = new.Transform
             self.Cleanup = new.Cleanup
@@ -90,13 +91,13 @@ class BasicLearning:
         return LearnAll
 
     @staticmethod
-    def LearnSpecificBehavior(sendAftReceive = False,sendBeh = False,process = False,learn = False,rout = False,select = False,transform = False,cleanup = False,signaling = False):
+    def LearnSpecificBehavior(sendAftReceive = False,sendBeh = False,process = False,learn = False,route = False,select = False,transform = False,cleanup = False,signaling = False):
         def LearnSpecific(self,new):
             if sendAftReceive: self.sendAfterReceive = new.sendAfterReceive
             if sendBeh: self.includeBehavior = new.includeBehavior
             if process: self.Process = new.Process
             if learn: self.Learn = new.Learn
-            if rout: self.Rout = new.Rout
+            if route: self.Route = new.Route
             if select: self.Select = new.Select
             if transform: self.Transform = new.Transform
             if cleanup: self.Cleanup = new.Cleanup
@@ -105,7 +106,7 @@ class BasicLearning:
 
     @staticmethod
     def LearnSendBehavior():
-        return BasicLearning.LearnSpecificBehavior(sendAftReceive = True,sendBeh = True,rout = True,select = True,transform = True)
+        return BasicLearning.LearnSpecificBehavior(sendAftReceive = True,sendBeh = True,route = True,select = True,transform = True)
 
     @staticmethod
     def LearnReceiveBehavior():
@@ -132,20 +133,20 @@ class BasicSelection:
 
     @staticmethod
     def AllAtOnce(timeFunction):
-        def SendAllData(self,data,actTime):
+        def SendAllData(self,destination,data,actTime):
             yield (data.keys() , actTime + timeFunction())
         return SendAllData
 
     @staticmethod
     def OneByOne(timeFunction):
-        def SendOneByOne(self,data,actTime):
+        def SendOneByOne(self,destination,data,actTime):
             for k in data.keys():
                 yield ([k],actTime + timeFunction())
         return SendOneByOne
 
     @staticmethod
     def SpecificGroup(keys,timeFunction):
-        def SendSelectedData(self,data,actTime):
+        def SendSelectedData(self,destination,data,actTime):
             r = []
             for k in keys:
                 if k in data: r.append(k)
