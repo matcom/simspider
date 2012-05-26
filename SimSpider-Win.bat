@@ -1,1 +1,2 @@
 python SimSpiderGui.py
+pause

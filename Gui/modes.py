@@ -55,7 +55,7 @@ class SelectionMode(Mode):
         return done
 
 
-class MoveMode(Mode):
+class ConnectMode(Mode):
     def __init__(self, graphics):
         Mode.__init__(self, graphics)
         self.graphics.setDragMode(QGraphicsView.ScrollHandDrag)
