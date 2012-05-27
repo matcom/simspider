@@ -253,10 +253,12 @@ def trace(category = None, level = DEBUG):
                 name = function.im_class.__name__ + '.' + function.__name__
 
             if not cat:
-                cat = function.__module__.lower() + "." + name.lower()
+                cat = function.__module__.lower()
 
             if function.__name__.startswith('_'):
                 cat += ".private"
+
+            cat +=  "." + name.lower()
 
             _printMsg(">> {0}({1}, {2})", (name, args, kwargs),
                      category = cat)
