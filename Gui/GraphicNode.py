@@ -14,7 +14,7 @@ class GraphicNode(QGraphicsObject):
         self.circle = QPainterPath()
         self.circle.addEllipse(-15,-15,30,30)
         self.pen = QPen(Qt.black, 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin)
-        self.brush = QBrush(QColor(0,0,255,128))
+        self.brush = QBrush(QColor(0,0,255,255))
 
         self.outEdges = []
         self.inEdges = []
@@ -84,11 +84,11 @@ class GraphicNode(QGraphicsObject):
 
     def paint(self, painter, styleoption, widget):
         if self.isSelected():
-            self.brush.setColor(QColor(255,0,0))
+            self.pen.setColor(QColor(255,0,0))
         elif self.isBipartite:
-            self.brush.setColor(QColor(0,255,0))
+            self.pen.setColor(QColor(0,255,0))
         else:
-            self.brush.setColor(QColor(0,0,255))
+            self.pen.setColor(QColor(0,0,0))
 
         painter.setPen(self.pen)
         painter.setBrush(self.brush)

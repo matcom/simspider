@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 from GraphicFun import GraphicFun
 import ui
 
@@ -142,10 +143,10 @@ class FunctionViewer(QDialog):
 
         def setupItem():
             func = self.functions[combo.currentText()].clone()
-            
+
             if hasattr(page, "function") and page.function:
                 self.scene.removeItem(page.function)
-            
+
             page.function = GraphicFun(func, self.ui.functionView)
             self.scene.addItem(page.function)
 

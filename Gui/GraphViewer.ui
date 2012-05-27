@@ -135,6 +135,14 @@
     </property>
     <addaction name="action_Function_Viewer"/>
    </widget>
+   <widget class="QMenu" name="menu_Node_Types">
+    <property name="title">
+     <string>&amp;Node Types</string>
+    </property>
+    <addaction name="actionStandard"/>
+    <addaction name="separator"/>
+    <addaction name="action_Add_Type"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_View"/>
    <addaction name="menuTransform"/>
@@ -142,9 +150,13 @@
    <addaction name="menu_Layout"/>
    <addaction name="menuPlugins"/>
    <addaction name="menu_Window"/>
+   <addaction name="menu_Node_Types"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="toolBoxDock">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="sizePolicy">
     <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
      <horstretch>0</horstretch>
@@ -156,6 +168,9 @@
      <width>320</width>
      <height>190</height>
     </size>
+   </property>
+   <property name="floating">
+    <bool>false</bool>
    </property>
    <property name="windowTitle">
     <string>Toolbox</string>
@@ -186,7 +201,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-194</y>
+          <y>0</y>
           <width>285</width>
           <height>466</height>
          </rect>
@@ -444,7 +459,7 @@
           <x>0</x>
           <y>0</y>
           <width>302</width>
-          <height>82</height>
+          <height>218</height>
          </rect>
         </property>
         <attribute name="label">
@@ -904,6 +919,20 @@
   <action name="action_Function_Viewer">
    <property name="text">
     <string>&amp;Function Viewer</string>
+   </property>
+  </action>
+  <action name="actionStandard">
+   <property name="icon">
+    <iconset>
+     <normaloff>Resources/Standard Node.png</normaloff>Resources/Standard Node.png</iconset>
+   </property>
+   <property name="text">
+    <string>Standard</string>
+   </property>
+  </action>
+  <action name="action_Add_Type">
+   <property name="text">
+    <string>&amp;Add Type</string>
    </property>
   </action>
  </widget>

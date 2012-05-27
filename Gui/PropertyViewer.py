@@ -6,6 +6,9 @@ from PyQt4.QtGui import *
 import debug
 
 class PropertyViewer(QDialog):
+
+    table = { ord(l) : " " + l for l in list("ABCDEFGHIJKLMNOPQRSTUVWXYZ") }
+
     def __init__(self, title="Property Viewer", icon=None, **kwargs):
         QDialog.__init__(self)
 
@@ -20,7 +23,7 @@ class PropertyViewer(QDialog):
         layout = QFormLayout()
 
         for name, type in self.kwargs.items():
-            type.build(name, layout)
+            type.build(name.translate(PropertyViewer.table), layout)
 
         self.ui.scrollArea.setLayout(layout)
 
@@ -33,17 +36,24 @@ class PropertyViewer(QDialog):
 
         return values
 
+    def setValues(self, **kwargs):
+        for name, item in kwargs.items():
+            self.kwargs[name].setValue(item)
+
 
 class Property:
 
     @debug.trace()
-    def build(self, name, layout):
+    def build(self, name, layout, label=QLabel):
         self.name = name
         self.layout = layout
         self.item = self._getItem()
-        self.layout.addRow(name, self.item)
+        self.layout.addRow(label(self.name), self.item)
 
     def value(self):
+        pass
+
+    def setValue(self, value):
         pass
 
     def _getItem(self):
@@ -71,6 +81,9 @@ class Integer(Property):
     def value(self):
         return self.item.value()
 
+    def setValue(self, value):
+        self.item.setValue(value)
+
 
 class Float(Property):
     def __init__(self, value=0.0, min=0.0, max=1.0, step=0.01):
@@ -92,3 +105,44 @@ class Float(Property):
     @debug.trace()
     def value(self):
         return self.item.value()
+
+    def setValue(self, value):
+        self.item.setValue(value)
+
+
+class Bool(Property):
+    def __init__(self, value=False):
+        self.val = value
+
+    @debug.trace()
+    def _getItem(self):
+        item = QCheckBox()
+        item.setChecked(self.val)
+
+        return item
+
+    @debug.trace()
+    def value(self):
+        return self.item.checkState() == Qt.Checked
+
+    def setValue(self, value):
+        self.item.setCheckState(Qt.Checked if value else Qt.Unchecked)
+
+
+class String(Property):
+    def __init__(self, value=""):
+        self.val = value
+
+    @debug.trace()
+    def _getItem(self):
+        item = QLineEdit()
+        item.setText(self.val)
+
+        return item
+
+    @debug.trace()
+    def value(self):
+        return self.item.text()
+
+    def setValue(self, value):
+        self.item.setText(value)
