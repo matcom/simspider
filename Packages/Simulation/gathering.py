@@ -39,7 +39,7 @@ class NodeLog(Tracker):
             print("Time: {0}".format(time))
             print("Node {0} received: {1} from {2}".format(node,receivedData,source))
             print("Actual data in node {0}: {1}".format(node,node.GetData()))
-            print("Actual data in graph: {0}".format(node.graph.graph))
+            print("Actual global data: {0}".format(node.GetGlobalData()))
 
     def DataSent(self, node, data, destination, time, arrival):
         if self.IsTracked(node):

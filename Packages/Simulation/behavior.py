@@ -15,6 +15,8 @@ class Behavior:
         self.name = "None"
         #owner
         self.node = None
+        #common data
+        self.commonData = None
         #receiving data
         Behavior.__SetMethodAsField(self,"Process")
         Behavior.__SetMethodAsField(self,"Learn")
@@ -38,7 +40,7 @@ class Behavior:
     def Route(self, node): return []
     def Select(self, destination, data, actTime):return []
     def Transform(self, key, value):return value
-    def Cleanup(self, data):pass
+    def Cleanup(self, nodeData):pass
     #signaling
     def OnSignal(self, node, signalData, actualTime): return []
 

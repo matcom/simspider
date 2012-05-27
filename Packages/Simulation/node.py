@@ -12,8 +12,9 @@ class Node:
     trackers = []
 
     def __init__(self,graph,node):
+        if isinstance(node,Node): self.node = node.node
+        else: self.node = node
         self.graph = graph
-        self.node = node
         if Node.dkey not in self.graph.node[node]: graph.node[node][Node.dkey] = {}
         data = graph.node[node][Node.dkey]
         if Node.bkey not in data: data[Node.bkey] = be.Behavior()
@@ -117,3 +118,33 @@ class Node:
     def __str__(self):
         return str(self.node)
 
+class NodePrototype:
+
+    def __init__(self):
+        self.__attributesToAdd = {}
+        self.__behavior = be.Behavior()
+
+    def DefineAttribute(self,name,value = None):
+        if name==Node.bkey: raise Exception("The name \""+Node.bkey+"\" is used to store the node behavior.")
+        self.__attributesToAdd[name] = value
+
+    def DefineAttributes(self,attributes):
+        for k,v in attributes.items():
+            self.DefineAttribute(k,v)
+
+    def SetBehavior(self,behavior):
+        self.__behavior = behavior
+
+    def GetBehavior(self):
+        return self.__behavior
+
+    def ApplyTo(self, nodes, graph):
+        for node in [Node(graph,n) for n in nodes]:
+            node.GetData().update(self.__attributesToAdd)
+            node.SetBehavior(self.__behavior.Clone())
+
+    def __getitem__(self, item):
+        return self.__attributesToAdd[item]
+
+    def __setitem__(self, key, value):
+        self.DefineAttribute(key,value)

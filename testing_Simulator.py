@@ -28,38 +28,34 @@ import gathering as ga
 from behavior import Behavior
 from simulator import Simulator
 from node import Node
+from node import NodePrototype
+
+
+G=nx.DiGraph()
+G.add_path([0,1,2,3,4])
 
 b = Behavior()
 b.sendAfterReceive = True
 b.includeBehavior = True
 b.Process = be.BasicProcessing.UpdateAll()
 b.Route = be.BasicRouting.All()
-b.Select = be.BasicSelection.OneByOne(lambda:rdm.expovariate(1))
+b.Select = be.BasicSelection.AllAtOnce(lambda:rdm.expovariate(1))
 b.OnSignal = be.BasicSignaling.SendPeriodically(lambda:20)
-b.Name = "first"
+b.name = "first"
 
-b1 = be.Behavior()
-b1.Learn = be.BasicLearning.LearnAll()
-b1.Name = "rest"
+p1 = NodePrototype()
+p1["salud"] = 23
+p1["dinero"] = 34
+p1.DefineAttribute("amor",45)
+p1.SetBehavior(b)
 
-G=nx.DiGraph()
-G.add_path([0,1,2,3,4])
-for n in [Node(G,node) for node in G.nodes_iter()]:
-    #ya se pueden agregar atributos al nodo como si fuera un diccionario normal
-    n["edad"] = n.node
-    n["salud"] = n.node+10
-    n["dinero"] = n.node+10
-    n["amor"] = n.node+10
-    n["felicidad"] = n.node+10
-    #lista de atributos
-    print(list(n.Attributes()) )
-    #lista de atributos incluido el atributo que almacena el behavior
-    print(list(n.Attributes(inclBehavior=True)) )
-    if n.node==0:
-        n.SetBehavior(b)
-    else:
-        #ya se pueden clonar los behaviors
-        n.SetBehavior(b1.Clone())
+p2 = NodePrototype()
+p2.GetBehavior().Learn = be.BasicLearning.LearnAll()
+p2.GetBehavior().name = "rest"
+p2.DefineAttributes({"salud":0,"dinero":0,"amor":0})
+
+p1.ApplyTo([0],G)
+p2.ApplyTo([1,2,3,4],G)
 
 #la simulacion ahora tambien puede manejar datos globales del grafo (serian los atributos del grafo)
 G.graph["temperature"] = 25
@@ -73,14 +69,17 @@ ga.RegisterTracker(ga.EdgeLog())
 s = Simulator()
 s.afterEvent.append(lambda x,y:input())
 
-#ahora hay eventos a nivel de grafo (y asi poder actualizar la variables globales por ejemplo)
+#ahora hay eventos a nivel de grafo (y asi poder, por ejemplo, actualizar la variables globales)
 #ev.PeriodicalGraphEvent ejecuta periodicamte el metodo que se defina en este caso seria:
 def aux(data):
     data["temperature"]+=1
     print("Globals processed")
 
 #se definen los dos eventos iniciales
-s.SetInitialEvents([ ev.SignalAllNodes(G,None,0), ev.PeriodicalGraphEvent(0,G,lambda:rdm.expovariate(0.5),aux)])
+s.SetInitialEvents( [
+                      ev.SignalAllNodes(G,None,0) ,
+                      ev.PeriodicalGraphEvent(0,G,lambda:rdm.expovariate(0.5),aux)
+                    ])
 s.Simulate()
 
 
