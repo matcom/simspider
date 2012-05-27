@@ -2,8 +2,6 @@
 import os
 import debug
 
-__author__ = 'Alejandro Piad'
-
 class PluginManager:
     def __init__(self):
         self._categories = {}
