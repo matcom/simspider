@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>872</width>
+    <width>970</width>
     <height>572</height>
    </rect>
   </property>
@@ -54,7 +54,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>872</width>
+     <width>970</width>
      <height>21</height>
     </rect>
    </property>
@@ -141,7 +141,16 @@
     </property>
     <addaction name="actionStandard"/>
     <addaction name="separator"/>
-    <addaction name="action_Add_Type"/>
+    <addaction name="actionPlay"/>
+   </widget>
+   <widget class="QMenu" name="menuSimulation">
+    <property name="title">
+     <string>Simulation</string>
+    </property>
+    <addaction name="actionPlay"/>
+    <addaction name="actionPause"/>
+    <addaction name="actionNext"/>
+    <addaction name="actionJump"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_View"/>
@@ -151,6 +160,7 @@
    <addaction name="menuPlugins"/>
    <addaction name="menu_Window"/>
    <addaction name="menu_Node_Types"/>
+   <addaction name="menuSimulation"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="toolBoxDock">
@@ -582,6 +592,21 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionPlay"/>
+   <addaction name="actionPause"/>
+   <addaction name="actionNext"/>
+   <addaction name="actionJump"/>
+  </widget>
   <action name="actionSelection">
    <property name="checkable">
     <bool>true</bool>
@@ -930,9 +955,49 @@
     <string>Standard</string>
    </property>
   </action>
-  <action name="action_Add_Type">
+  <action name="actionPlay">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Resources/Inactive Play.png</normaloff>../Resources/Inactive Play.png</iconset>
+   </property>
    <property name="text">
-    <string>&amp;Add Type</string>
+    <string>&amp;Play</string>
+   </property>
+  </action>
+  <action name="actionPause">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Resources/Inactive Pause.png</normaloff>../Resources/Inactive Pause.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pause</string>
+   </property>
+   <property name="toolTip">
+    <string>Pause</string>
+   </property>
+  </action>
+  <action name="actionJump">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Resources/Inactive Jump.png</normaloff>../Resources/Inactive Jump.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Jump</string>
+   </property>
+   <property name="toolTip">
+    <string>Jump</string>
+   </property>
+  </action>
+  <action name="actionNext">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Resources/Inactive Play Pause.png</normaloff>../Resources/Inactive Play Pause.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Next</string>
+   </property>
+   <property name="toolTip">
+    <string>Next</string>
    </property>
   </action>
  </widget>
@@ -1121,8 +1186,8 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>151</x>
-     <y>316</y>
+     <x>150</x>
+     <y>480</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -1141,8 +1206,8 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>151</x>
-     <y>316</y>
+     <x>150</x>
+     <y>480</y>
     </hint>
    </hints>
   </connection>
