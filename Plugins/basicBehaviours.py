@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-from PropertyViewer import PropertyViewer
+from PropertyViewer import PropertyViewer, Integer
 from manager import Plugin
 
 Process = "Process"
@@ -10,6 +10,8 @@ Select = "Select"
 Transform = "Transform"
 Cleanup = "Cleanup"
 OnSignal = "OnSignal"
+
+from Simulation import behavior
 
 class _BehaviourPluging(Plugin):
     def __init__(self, name, category, **kwargs):
@@ -60,7 +62,20 @@ class _OnSignalBehaviourPlugin(_BehaviourPluging):
 # Aqui están los behaviours definidos por nosotros
 # David, esta es tu misión
 
+class RouteAllBehaviour(_RouteBehaviourPlugin):
+    def __init__(self):
+        super().__init__(self, "Route All")
 
+    def getBehaviour(self):
+        return behavior.BasicRouting.All()
+
+
+class RouteSampleBehaviour(_RouteBehaviourPlugin):
+    def __init__(self):
+        super().__init__(self, "Route Sample", Count=Integer(1,0,1000000))
+
+    def getBehaviour(self):
+        return behavior.BasicRouting.Sample(self.values['Count'])
 
 
 

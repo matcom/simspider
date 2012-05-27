@@ -7,6 +7,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 import debug
+from Plugins import pluginManager
 
 class EditType(QDialog):
 
@@ -28,6 +29,8 @@ class EditType(QDialog):
         for name, type in self.kwargs.items():
             type.build(name.translate(EditType.table), layout, QCheckBox)
 
+        self._setupBehaviours()
+
     def values(self):
         values = {}
 
@@ -40,6 +43,25 @@ class EditType(QDialog):
         for name, item in kwargs.items():
             self.kwargs[name].setValue(item)
 
+    def _setupBehaviours(self):
+        combos = {
+            "Process" : self.ui.cmbxProcess,
+            "Cleanup" : self.ui.cmbxCleanup,
+            "Learn" : self.ui.cmbxLearn,
+            "OnSignal" : self.ui.cmbxOnSignal,
+            "Route" : self.ui.cmbxRoute,
+            "Select" : self.ui.cmbxSelect,
+            "Transform" : self.ui.cmbxTransform,
+        }
+
+        for name, combo in combos.items():
+            self._setupBehaviour(name, combo)
+
+    def _setupBehaviour(self, name, combo):
+        items = pluginManager.getItems("Behaviour.{0}".format(name))
+
+        for item in items:
+            combo.addItem(item.name, item)
 
 if __name__ == "__main__":
     import sys
