@@ -9,7 +9,7 @@ class Node:
 
     dkey = "__data__"
     bkey = "behavior"
-    nodeTrackers = []
+    trackers = []
 
     def __init__(self,graph,node):
         self.graph = graph
@@ -21,13 +21,13 @@ class Node:
     def ReceiveData(self, source, newData, actTime):
         d = self.GetData()
         b = self.GetBehavior()
-        for nt in Node.nodeTrackers:
+        for nt in Node.trackers:
             nt.DataReceived(self,newData,source,actTime)
         newbeh = False
         if Node.bkey in newData: newbeh = newData.pop(Node.bkey)
-        b.Process(b, self.graph.graph, d, newData)
+        b.Process(b, self.GetGlobalData(), d, newData)
         if newbeh: b.Learn(b,newbeh)
-        for nt in Node.nodeTrackers:
+        for nt in Node.trackers:
             nt.DataUpdated(self)
         if b.sendAfterReceive: return self.SendData(actTime)
         else: return []
@@ -45,39 +45,43 @@ class Node:
                     for key in ks:
                         newData[key] = b.Transform(b, key, data[key])
                     newEvents.append(ev.DataArrival(self, newData, d, time))
-                    for nt in Node.nodeTrackers:
+                    for nt in Node.trackers:
                         nt.DataSent(self,newData,d,actTime,time)
             b.Cleanup(b, data)
-            for nt in Node.nodeTrackers:
+            for nt in Node.trackers:
                 nt.DataCleaned(self)
             if Node.bkey not in data: data[Node.bkey] = b
         return newEvents
 
     def Signal(self, signalData, actTime):
-        for nt in Node.nodeTrackers:
-            nt.Signaled(self,signalData,actTime)
+        for nt in Node.trackers:
+            nt.NodeSignaled(self,signalData,actTime)
         b = self.GetBehavior()
         return b.OnSignal(b, self, signalData,actTime)
 
     def GetData(self):
         return self.graph.node[self.node][Node.dkey]
 
+    def GetGlobalData(self):
+        return self.graph.graph
+
     def SetAttribute(self,key,value):
         if key==Node.bkey: raise Exception("The key \""+Node.bkey+"\" is used to store the node behavior.")
         self.GetData()[key] = value
 
+    def HasAttribute(self,attribute):
+        return attribute in self.GetData()
+
     def GetAttribute(self,key):
         return self.GetData()[key]
 
-    def Attributes(self):
-        for k,v in self.GetData().items():
-            if k!=Node.bkey: yield (k,v)
+    def Attributes(self,inclBehavior=False):
+        for k in self.GetData():
+            if inclBehavior or k!=Node.bkey: yield k
 
-    def SetBehavior(self,b):
+    def SetBehavior(self, b):
         self.GetData()[Node.bkey] = b
-        if isinstance(b,be.AttributedBehavior):
-            for k,v in b.attributesToAdd.items():
-                self[k]=v
+        b.node = self
 
     def GetBehavior(self):
         return self.GetData()[Node.bkey]

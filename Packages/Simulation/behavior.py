@@ -12,17 +12,24 @@ class Behavior:
         self.sendAfterReceive = False
         self.includeBehavior = False
         #description
-        self.Name = "None"
+        self.name = "None"
+        #owner
+        self.node = None
         #receiving data
-        self.Process = type(self).Process
-        self.Learn = type(self).Learn
+        Behavior.__SetMethodAsField(self,"Process")
+        Behavior.__SetMethodAsField(self,"Learn")
         #sending data
-        self.Route = type(self).Route
-        self.Select = type(self).Select
-        self.Transform = type(self).Transform
-        self.Cleanup = type(self).Cleanup
+        Behavior.__SetMethodAsField(self,"Route")
+        Behavior.__SetMethodAsField(self,"Select")
+        Behavior.__SetMethodAsField(self,"Transform")
+        Behavior.__SetMethodAsField(self,"Cleanup")
         #signaling
-        self.OnSignal = type(self).OnSignal
+        Behavior.__SetMethodAsField(self,"OnSignal")
+
+    @staticmethod
+    def __SetMethodAsField(instance,name):
+        #instance.name = type(instance).name
+        object.__setattr__(instance,name,object.__getattribute__(type(instance),name))
 
     #receiving data
     def Process(self, globalData, actualData, newData):pass
@@ -36,31 +43,25 @@ class Behavior:
     def OnSignal(self, node, signalData, actualTime): return []
 
     def __str__(self):
-        return self.Name
+        return self.name
 
     def __repr__(self):
-        return self.Name
+        return self.name
 
     def Clone(self):
         return copy(self)
-
-class AttributedBehavior(Behavior):
-
-    def __init__(self):
-        super().__init__()
-        self.attributesToAdd = {}
 
 class BasicProcessing:
 
     @staticmethod
     def UpdateAll():
-        def UpdateAll(self,gloabalData,actualData,newData):
+        def UpdateAll(self,globalData,actualData,newData):
             actualData.update(newData)
         return UpdateAll
 
     @staticmethod
     def Update(keys):
-        def UpdateOnly(self,gloabalData,actualData,newData):
+        def UpdateOnly(self,globalData,actualData,newData):
             for k in keys:
                 if k in newData: actualData[k] = newData[k]
         return UpdateOnly

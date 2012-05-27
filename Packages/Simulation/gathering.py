@@ -2,19 +2,19 @@ __author__ = 'David'
 
 from node import Node
 
-def RegisterNodeTracker(nodeTracker):
-    Node.nodeTrackers.append(nodeTracker)
+def RegisterTracker(tracker):
+    Node.trackers.append(tracker)
 
-def ClearAllNodeTrackers():
-    Node.nodeTrackers = []
+def ClearAllTrackers():
+    Node.trackers = []
 
-class NodeTracker:
+class Tracker:
 
     def __init__(self,nodes = None):
         if nodes: self.__nodes = set(nodes)
         else: self.__nodes = None
 
-    def Signaled(self, node, signalData, time): pass
+    def NodeSignaled(self, node, signalData, time): pass
 
     def DataReceived(self, node, receivedData, source, time): pass
 
@@ -28,9 +28,9 @@ class NodeTracker:
         if not self.__nodes: return True
         else: return node.node in self.__nodes
 
-class NodeLog(NodeTracker):
+class NodeLog(Tracker):
 
-    def Signaled(self, node, signalData, time):
+    def NodeSignaled(self, node, signalData, time):
         if self.IsTracked(node):
             print("Node {0} was signaled with data: {1} time: {2}".format(node,signalData,time))
 
@@ -53,9 +53,27 @@ class NodeLog(NodeTracker):
         if self.IsTracked(node):
             print("Data after cleanup in node {0}: {1}".format(node, node.GetData()))
 
-class EdgeLog(NodeTracker):
+class EdgeLog(Tracker):
 
     def DataSent(self, node, data, destination, time, arrival):
         if self.IsTracked(node)or self.IsTracked(destination):
             print("Edge {0} is passing {1} delay {2}".format((node.node,destination.node),data,arrival-time))
+
+class AttributeTracker(Tracker):
+
+    def __init__(self, attirubutes):
+        super().__init__(self)
+        self.attributes = attributes
+
+    def OnAttributesSent(self,attributes,source,destination,time,arrival):
+        pass
+
+    def DataSent(self, node, data, destination, time, arrival):
+        attrs = {}
+        for a in self.attributes, a in data:
+            attrs[a]=data[a]
+        self.OnAttributesSent(attrs,node,destination,time,arrival)
+
+
+
 
