@@ -1,7 +1,5 @@
 # -*- coding: utf8 -*-
 
-__author__ = 'Alejandro Piad'
-
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
