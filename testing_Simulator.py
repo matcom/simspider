@@ -44,15 +44,15 @@ b.OnSignal = be.BasicSignaling.SendPeriodically(lambda:20)
 b.name = "first"
 
 p1 = NodePrototype()
-p1["salud"] = 23
-p1["dinero"] = 34
-p1.DefineAttribute("amor",45)
+p1["health"] = 23
+p1["money"] = 34
+p1.DefineAttribute("love",45)
 p1.SetBehavior(b)
 
 p2 = NodePrototype()
 p2.GetBehavior().Learn = be.BasicLearning.LearnAll()
 p2.GetBehavior().name = "rest"
-p2.DefineAttributes({"salud":0,"dinero":0,"amor":0})
+p2.DefineAttributes({"health":0,"money":0,"love":0})
 
 p1.ApplyTo([0],G)
 p2.ApplyTo([1,2,3,4],G)
@@ -64,10 +64,14 @@ G.graph["rain"] = 89
 
 #estos son los trackers que recopilan info (en este caso imprimen por consola lo que sucede)
 ga.RegisterTracker(ga.NodeLog())
+
 ga.RegisterTracker(ga.EdgeLog())
+at = ga.AttributeTracker(["health"])
+ga.RegisterTracker(at)
 
 s = Simulator()
 s.afterEvent.append(lambda x,y:input())
+s.afterEvent.append(lambda x,y:print(at.attributesPath))
 
 #ahora hay eventos a nivel de grafo (y asi poder, por ejemplo, actualizar la variables globales)
 #ev.PeriodicalGraphEvent ejecuta periodicamte el metodo que se defina en este caso seria:

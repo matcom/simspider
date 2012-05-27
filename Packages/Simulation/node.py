@@ -118,6 +118,9 @@ class Node:
     def __str__(self):
         return str(self.node)
 
+    def __repr__(self):
+        return repr(self.node)
+
 class NodePrototype:
 
     def __init__(self):

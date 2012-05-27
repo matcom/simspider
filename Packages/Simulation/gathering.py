@@ -11,7 +11,7 @@ def ClearAllTrackers():
 class Tracker:
 
     def __init__(self,nodes = None):
-        if nodes: self.__nodes = set(nodes)
+        if nodes!=None: self.__nodes = set(nodes)
         else: self.__nodes = None
 
     def NodeSignaled(self, node, signalData, time): pass
@@ -61,18 +61,14 @@ class EdgeLog(Tracker):
 
 class AttributeTracker(Tracker):
 
-    def __init__(self, attirubutes):
-        super().__init__(self)
-        self.attributes = attributes
-
-    def OnAttributesSent(self,attributes,source,destination,time,arrival):
-        pass
+    def __init__(self, attributes):
+        super().__init__()
+        self.attributesPath = dict(zip(attributes,[set() for n in range(len(attributes))]))
 
     def DataSent(self, node, data, destination, time, arrival):
-        attrs = {}
-        for a in self.attributes, a in data:
-            attrs[a]=data[a]
-        self.OnAttributesSent(attrs,node,destination,time,arrival)
+        for a in self.attributesPath:
+            if a in data:
+                self.attributesPath[a].add((node,destination))
 
 
 
