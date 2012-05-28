@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 __author__ = 'David'
 
-import behavior as be
+import fuzzybehavior as fube
 import events as ev
 import debug
 
@@ -128,7 +128,7 @@ class NodePrototype:
 
     def __init__(self):
         self.__attributesToAdd = {}
-        self.__behavior = be.Behavior()
+        self.__behavior = fube.FuzzyBehavior()
 
     def DefineAttribute(self,name,value = None):
         if name==Node.bkey: raise Exception("The name \""+Node.bkey+"\" is used to store the node behavior.")

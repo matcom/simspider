@@ -1,7 +1,7 @@
 __author__ = 'David'
 
 import random as rdm
-from node import Node
+import node
 from copy import copy, deepcopy
 import events as ev
 import fuzzybehavior as fb
@@ -20,21 +20,14 @@ class Behavior:
         self.commonData = None
         #receiving data
         object.__setattr__(self,'Process',type(self).Process)
- #       Behavior.__SetMethodAsField(self,"Process")
         object.__setattr__(self,'Learn',type(self).Learn)
-        #Behavior.__SetMethodAsField(self,"Learn")
         #sending data
         object.__setattr__(self,'Route',type(self).Route)
-        #Behavior.__SetMethodAsField(self,"Route")
         object.__setattr__(self,'Select',type(self).Select)
-        #Behavior.__SetMethodAsField(self,"Select")
         object.__setattr__(self,'Transform',type(self).Transform)
-        #Behavior.__SetMethodAsField(self,"Transform")
         object.__setattr__(self,'Cleanup',type(self).Cleanup)
-        #Behavior.__SetMethodAsField(self,"Cleanup")
         #signaling
         object.__setattr__(self,'OnSignal',type(self).OnSignal)
-        #Behavior.__SetMethodAsField(self,"OnSignal")
 
     @staticmethod
     def __SetMethodAsField(instance,name):
@@ -194,9 +187,9 @@ class BasicCleanup:
     def DeleteAll(behavior = False):
         def DelAll(self,data):
             b = False
-            if not behavior and Node.bkey in data: b = data.pop(Node.bkey)
+            if not behavior and node.Node.bkey in data: b = data.pop(node.Node.bkey)
             data.clear()
-            if b: data[Node.bkey] = b
+            if b: data[node.Node.bkey] = b
         return DelAll
 
 class BasicSignaling:

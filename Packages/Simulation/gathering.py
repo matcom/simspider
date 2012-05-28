@@ -1,12 +1,12 @@
 __author__ = 'David'
 
-from node import Node
+import node
 
 def RegisterTracker(tracker):
-    Node.trackers.append(tracker)
+    node.Node.trackers.append(tracker)
 
 def ClearAllTrackers():
-    Node.trackers = []
+    node.Node.trackers = []
 
 class Tracker:
 
