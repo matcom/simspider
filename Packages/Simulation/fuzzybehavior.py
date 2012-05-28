@@ -12,7 +12,7 @@ class FuzzyBehavior(b.Behavior):
     def __init__(self, system = None):
         super().__init__()
         object.__setattr__(self,'PreProcess',type(self).PreProcess)
-        if not system : self.SetSystem(system)
+        if system : self.SetSystem(system)
         def __EmptyProcess(self,globalData,actualData,newData): pass
         self.UserDefinedProcess = __EmptyProcess
 
