@@ -23,7 +23,7 @@ class _BehaviourPluging(Plugin):
 
     def setup(self):
         dlg = PropertyViewer(self.name, **self.kwargs)
-        dlg.setValues(**self.values)
+        # dlg.setValues(**self.values)
 
         if not self.kwargs or dlg.exec_():
             self.values = dlg.values()

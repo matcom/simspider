@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\AddGraph.ui'
 #
-# Created: Mon May 28 14:43:42 2012
+# Created: Mon May 28 15:54:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -49,7 +49,7 @@ class Ui_DlgAddGraph(object):
 
 # Form implementation generated from reading ui file '.\Code.ui'
 #
-# Created: Mon May 28 14:43:42 2012
+# Created: Mon May 28 15:54:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -105,7 +105,7 @@ class Ui_DlgCode(object):
 
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Mon May 28 14:43:42 2012
+# Created: Mon May 28 15:54:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -311,7 +311,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Mon May 28 14:43:42 2012
+# Created: Mon May 28 15:54:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -390,7 +390,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Mon May 28 14:43:42 2012
+# Created: Mon May 28 15:54:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -457,94 +457,6 @@ class Ui_GraphViewer(object):
         self.statusbar = QtGui.QStatusBar(GraphViewer)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
         GraphViewer.setStatusBar(self.statusbar)
-        self.toolBoxDock = QtGui.QDockWidget(GraphViewer)
-        self.toolBoxDock.setEnabled(True)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.toolBoxDock.sizePolicy().hasHeightForWidth())
-        self.toolBoxDock.setSizePolicy(sizePolicy)
-        self.toolBoxDock.setMinimumSize(QtCore.QSize(320, 190))
-        self.toolBoxDock.setFloating(False)
-        self.toolBoxDock.setObjectName(_fromUtf8("toolBoxDock"))
-        self.dockWidgetContents = QtGui.QWidget()
-        self.dockWidgetContents.setObjectName(_fromUtf8("dockWidgetContents"))
-        self.horizontalLayout = QtGui.QHBoxLayout(self.dockWidgetContents)
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.toolBox = QtGui.QToolBox(self.dockWidgetContents)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.toolBox.sizePolicy().hasHeightForWidth())
-        self.toolBox.setSizePolicy(sizePolicy)
-        self.toolBox.setFrameShadow(QtGui.QFrame.Plain)
-        self.toolBox.setObjectName(_fromUtf8("toolBox"))
-        self.pageModes = QtGui.QWidget()
-        self.pageModes.setGeometry(QtCore.QRect(0, 0, 285, 466))
-        self.pageModes.setObjectName(_fromUtf8("pageModes"))
-        self.verticalLayout_2 = QtGui.QVBoxLayout(self.pageModes)
-        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.btnSelection = QtGui.QCommandLinkButton(self.pageModes)
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btnSelection.setIcon(icon1)
-        self.btnSelection.setIconSize(QtCore.QSize(42, 42))
-        self.btnSelection.setCheckable(True)
-        self.btnSelection.setChecked(True)
-        self.btnSelection.setObjectName(_fromUtf8("btnSelection"))
-        self.buttonGroup = QtGui.QButtonGroup(GraphViewer)
-        self.buttonGroup.setObjectName(_fromUtf8("buttonGroup"))
-        self.buttonGroup.addButton(self.btnSelection)
-        self.verticalLayout_2.addWidget(self.btnSelection)
-        self.btnAddNode = QtGui.QCommandLinkButton(self.pageModes)
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Create.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btnAddNode.setIcon(icon2)
-        self.btnAddNode.setIconSize(QtCore.QSize(42, 42))
-        self.btnAddNode.setCheckable(True)
-        self.btnAddNode.setObjectName(_fromUtf8("btnAddNode"))
-        self.buttonGroup.addButton(self.btnAddNode)
-        self.verticalLayout_2.addWidget(self.btnAddNode)
-        self.btnClique = QtGui.QCommandLinkButton(self.pageModes)
-        self.btnClique.setIcon(icon)
-        self.btnClique.setIconSize(QtCore.QSize(42, 42))
-        self.btnClique.setCheckable(True)
-        self.btnClique.setObjectName(_fromUtf8("btnClique"))
-        self.buttonGroup.addButton(self.btnClique)
-        self.verticalLayout_2.addWidget(self.btnClique)
-        self.btnCycle = QtGui.QCommandLinkButton(self.pageModes)
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Cycle.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btnCycle.setIcon(icon3)
-        self.btnCycle.setIconSize(QtCore.QSize(42, 42))
-        self.btnCycle.setCheckable(True)
-        self.btnCycle.setObjectName(_fromUtf8("btnCycle"))
-        self.buttonGroup.addButton(self.btnCycle)
-        self.verticalLayout_2.addWidget(self.btnCycle)
-        self.btnPath = QtGui.QCommandLinkButton(self.pageModes)
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Path.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btnPath.setIcon(icon4)
-        self.btnPath.setIconSize(QtCore.QSize(42, 42))
-        self.btnPath.setCheckable(True)
-        self.btnPath.setObjectName(_fromUtf8("btnPath"))
-        self.buttonGroup.addButton(self.btnPath)
-        self.verticalLayout_2.addWidget(self.btnPath)
-        self.btnConnect = QtGui.QCommandLinkButton(self.pageModes)
-        icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Connect.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btnConnect.setIcon(icon5)
-        self.btnConnect.setIconSize(QtCore.QSize(42, 42))
-        self.btnConnect.setCheckable(True)
-        self.btnConnect.setObjectName(_fromUtf8("btnConnect"))
-        self.buttonGroup.addButton(self.btnConnect)
-        self.verticalLayout_2.addWidget(self.btnConnect)
-        spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem)
-        self.toolBox.addItem(self.pageModes, _fromUtf8(""))
-        self.horizontalLayout.addWidget(self.toolBox)
-        self.toolBoxDock.setWidget(self.dockWidgetContents)
-        GraphViewer.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.toolBoxDock)
         self.modesToolbar = QtGui.QToolBar(GraphViewer)
         self.modesToolbar.setIconSize(QtCore.QSize(42, 42))
         self.modesToolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
@@ -571,7 +483,7 @@ class Ui_GraphViewer(object):
         self.graphToolBox.setFrameShadow(QtGui.QFrame.Plain)
         self.graphToolBox.setObjectName(_fromUtf8("graphToolBox"))
         self.pageBasic = QtGui.QWidget()
-        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 69))
+        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 285))
         self.pageBasic.setObjectName(_fromUtf8("pageBasic"))
         self.verticalLayout = QtGui.QVBoxLayout(self.pageBasic)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -631,11 +543,15 @@ class Ui_GraphViewer(object):
         self.actionSelection = QtGui.QAction(GraphViewer)
         self.actionSelection.setCheckable(True)
         self.actionSelection.setChecked(True)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Arrow.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionSelection.setIcon(icon1)
         self.actionSelection.setObjectName(_fromUtf8("actionSelection"))
         self.actionCreation = QtGui.QAction(GraphViewer)
         self.actionCreation.setCheckable(True)
         self.actionCreation.setChecked(False)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Create.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionCreation.setIcon(icon2)
         self.actionCreation.setObjectName(_fromUtf8("actionCreation"))
         self.actionQuit = QtGui.QAction(GraphViewer)
@@ -646,57 +562,61 @@ class Ui_GraphViewer(object):
         self.actionClique.setObjectName(_fromUtf8("actionClique"))
         self.actionCycle = QtGui.QAction(GraphViewer)
         self.actionCycle.setCheckable(True)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Cycle.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionCycle.setIcon(icon3)
         self.actionCycle.setObjectName(_fromUtf8("actionCycle"))
         self.actionMakeClique = QtGui.QAction(GraphViewer)
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/MakeClique.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionMakeClique.setIcon(icon6)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/MakeClique.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionMakeClique.setIcon(icon4)
         self.actionMakeClique.setObjectName(_fromUtf8("actionMakeClique"))
         self.actionMakeCycle = QtGui.QAction(GraphViewer)
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/MakeCycle.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionMakeCycle.setIcon(icon7)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/MakeCycle.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionMakeCycle.setIcon(icon5)
         self.actionMakeCycle.setObjectName(_fromUtf8("actionMakeCycle"))
         self.actionMakePath = QtGui.QAction(GraphViewer)
-        icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/MakePath.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionMakePath.setIcon(icon8)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/MakePath.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionMakePath.setIcon(icon6)
         self.actionMakePath.setObjectName(_fromUtf8("actionMakePath"))
         self.actionPath = QtGui.QAction(GraphViewer)
         self.actionPath.setCheckable(True)
-        self.actionPath.setIcon(icon4)
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Path.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionPath.setIcon(icon7)
         self.actionPath.setObjectName(_fromUtf8("actionPath"))
         self.actionRemoveAll = QtGui.QAction(GraphViewer)
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/RemoveAll.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionRemoveAll.setIcon(icon9)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/RemoveAll.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionRemoveAll.setIcon(icon8)
         self.actionRemoveAll.setObjectName(_fromUtf8("actionRemoveAll"))
         self.actionRemoveEdges = QtGui.QAction(GraphViewer)
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/RemoveEdges.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionRemoveEdges.setIcon(icon10)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/RemoveEdges.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionRemoveEdges.setIcon(icon9)
         self.actionRemoveEdges.setObjectName(_fromUtf8("actionRemoveEdges"))
         self.actionSwapEdges = QtGui.QAction(GraphViewer)
-        icon11 = QtGui.QIcon()
-        icon11.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/SwapEdges.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionSwapEdges.setIcon(icon11)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/SwapEdges.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSwapEdges.setIcon(icon10)
         self.actionSwapEdges.setObjectName(_fromUtf8("actionSwapEdges"))
         self.actionCompleteEdges = QtGui.QAction(GraphViewer)
-        icon12 = QtGui.QIcon()
-        icon12.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/CompleteEdges.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionCompleteEdges.setIcon(icon12)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/CompleteEdges.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionCompleteEdges.setIcon(icon11)
         self.actionCompleteEdges.setObjectName(_fromUtf8("actionCompleteEdges"))
         self.actionLeftBipartite = QtGui.QAction(GraphViewer)
-        icon13 = QtGui.QIcon()
-        icon13.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/LeftBipartite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionLeftBipartite.setIcon(icon13)
+        icon12 = QtGui.QIcon()
+        icon12.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/LeftBipartite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionLeftBipartite.setIcon(icon12)
         self.actionLeftBipartite.setObjectName(_fromUtf8("actionLeftBipartite"))
         self.actionCompleteBipartite = QtGui.QAction(GraphViewer)
         self.actionCompleteBipartite.setEnabled(False)
-        icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/RightBipartite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionCompleteBipartite.setIcon(icon14)
+        icon13 = QtGui.QIcon()
+        icon13.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/RightBipartite.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionCompleteBipartite.setIcon(icon13)
         self.actionCompleteBipartite.setObjectName(_fromUtf8("actionCompleteBipartite"))
         self.actionGlViewport = QtGui.QAction(GraphViewer)
         self.actionGlViewport.setCheckable(True)
@@ -725,7 +645,9 @@ class Ui_GraphViewer(object):
         self.actionHigh_Quality_Antialiasing.setObjectName(_fromUtf8("actionHigh_Quality_Antialiasing"))
         self.actionConnect = QtGui.QAction(GraphViewer)
         self.actionConnect.setCheckable(True)
-        self.actionConnect.setIcon(icon5)
+        icon14 = QtGui.QIcon()
+        icon14.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Connect.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionConnect.setIcon(icon14)
         self.actionConnect.setObjectName(_fromUtf8("actionConnect"))
         self.action_Function_Viewer = QtGui.QAction(GraphViewer)
         self.action_Function_Viewer.setObjectName(_fromUtf8("action_Function_Viewer"))
@@ -856,23 +778,9 @@ class Ui_GraphViewer(object):
         self.toolBar.addAction(self.actionJump)
 
         self.retranslateUi(GraphViewer)
-        self.toolBox.setCurrentIndex(0)
-        self.toolBox.layout().setSpacing(6)
         self.graphToolBox.setCurrentIndex(0)
         self.graphToolBox.layout().setSpacing(6)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), GraphViewer.close)
-        QtCore.QObject.connect(self.btnSelection, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.actionSelection.setChecked)
-        QtCore.QObject.connect(self.btnAddNode, QtCore.SIGNAL(_fromUtf8("clicked(bool)")), self.actionCreation.setChecked)
-        QtCore.QObject.connect(self.btnClique, QtCore.SIGNAL(_fromUtf8("clicked(bool)")), self.actionClique.setChecked)
-        QtCore.QObject.connect(self.btnCycle, QtCore.SIGNAL(_fromUtf8("clicked(bool)")), self.actionCycle.setChecked)
-        QtCore.QObject.connect(self.btnPath, QtCore.SIGNAL(_fromUtf8("clicked(bool)")), self.actionPath.setChecked)
-        QtCore.QObject.connect(self.actionSelection, QtCore.SIGNAL(_fromUtf8("triggered(bool)")), self.btnSelection.setChecked)
-        QtCore.QObject.connect(self.actionCreation, QtCore.SIGNAL(_fromUtf8("triggered(bool)")), self.btnAddNode.setChecked)
-        QtCore.QObject.connect(self.actionClique, QtCore.SIGNAL(_fromUtf8("triggered(bool)")), self.btnClique.setChecked)
-        QtCore.QObject.connect(self.actionCycle, QtCore.SIGNAL(_fromUtf8("triggered(bool)")), self.btnCycle.setChecked)
-        QtCore.QObject.connect(self.actionPath, QtCore.SIGNAL(_fromUtf8("triggered(bool)")), self.btnPath.setChecked)
-        QtCore.QObject.connect(self.btnConnect, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.actionConnect.setChecked)
-        QtCore.QObject.connect(self.actionConnect, QtCore.SIGNAL(_fromUtf8("triggered(bool)")), self.btnConnect.setChecked)
         QtCore.QMetaObject.connectSlotsByName(GraphViewer)
 
     def retranslateUi(self, GraphViewer):
@@ -889,20 +797,6 @@ class Ui_GraphViewer(object):
         self.menu_Window.setTitle(QtGui.QApplication.translate("GraphViewer", "&Window", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Node_Types.setTitle(QtGui.QApplication.translate("GraphViewer", "&Node Types", None, QtGui.QApplication.UnicodeUTF8))
         self.menuSimulation.setTitle(QtGui.QApplication.translate("GraphViewer", "Simulation", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBoxDock.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Toolbox", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnSelection.setDescription(QtGui.QApplication.translate("GraphViewer", "Select multiple nodes", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnAddNode.setText(QtGui.QApplication.translate("GraphViewer", "Add Node", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnAddNode.setDescription(QtGui.QApplication.translate("GraphViewer", "Add independent nodes", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnClique.setText(QtGui.QApplication.translate("GraphViewer", "Create Clique", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnClique.setDescription(QtGui.QApplication.translate("GraphViewer", "Add nodes to create a clique", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnCycle.setText(QtGui.QApplication.translate("GraphViewer", "Create Cycle", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnCycle.setDescription(QtGui.QApplication.translate("GraphViewer", "Add nodes to create a cycle", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnPath.setText(QtGui.QApplication.translate("GraphViewer", "Create Path", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnPath.setDescription(QtGui.QApplication.translate("GraphViewer", "Add nodes to create a path", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnConnect.setText(QtGui.QApplication.translate("GraphViewer", "Connect Nodes", None, QtGui.QApplication.UnicodeUTF8))
-        self.btnConnect.setDescription(QtGui.QApplication.translate("GraphViewer", "Click on nodes to create edges", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.pageModes), QtGui.QApplication.translate("GraphViewer", "Modes", None, QtGui.QApplication.UnicodeUTF8))
         self.modesToolbar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Modes Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.graphDock.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Graphs", None, QtGui.QApplication.UnicodeUTF8))
         self.graphToolBox.setItemText(self.graphToolBox.indexOf(self.pageBasic), QtGui.QApplication.translate("GraphViewer", "Basic", None, QtGui.QApplication.UnicodeUTF8))
@@ -989,7 +883,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Mon May 28 14:43:42 2012
+# Created: Mon May 28 15:54:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -1052,7 +946,7 @@ class Ui_PropertyViewer(object):
 
 # Form implementation generated from reading ui file '.\Rules.ui'
 #
-# Created: Mon May 28 14:43:42 2012
+# Created: Mon May 28 15:54:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
