@@ -17,7 +17,7 @@ class Node:
         self.graph = graph
         if Node.dkey not in self.graph.node[node]: graph.node[node][Node.dkey] = {}
         data = graph.node[node][Node.dkey]
-        if Node.bkey not in data: data[Node.bkey] = be.Behavior()
+        if Node.bkey not in data: data[Node.bkey] = fube.FuzzyBehavior()
 
     def ReceiveData(self, source, newData, actTime):
         d = self.GetData()
