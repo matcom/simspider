@@ -75,8 +75,13 @@ class GraphViewer(QMainWindow):
         self.ui.actionStandardNode.nodeType = self.ui.actionStandard.nodeType
 
         self.defaultNodeType = self.ui.actionStandardNode.nodeType
-        self.nodeTypes = QActionGroup()
+        self.ui.actionStandardNode.triggered.connect(lambda: self.setDefaultNodeType(self.ui.actionStandardNode))
+        self.nodeTypes = QActionGroup(self)
+        self.nodeTypes.addAction(self.ui.actionStandardNode)
 
+
+    def setDefaultNodeType(self, action):
+        self.defaultNodeType = action.nodeType
 
     def addNodeType(self):
         text, ok = QInputDialog.getText(self, "Add new node type", "Enter the new type name")
@@ -89,9 +94,15 @@ class GraphViewer(QMainWindow):
         action.nodeType.action = action
         action.nodeType.name = action.text()
         action.triggered.connect(lambda: action.nodeType.edit())
+
+        action2 = self.ui.menuDefault_Node_Type.addAction(text)
+        action2.nodeType = action.nodeType
+        action2.setCheckable(True)
+        self.nodeTypes.addAction(action2)
+        action2.triggered.connect(lambda: self.setDefaultNodeType(action2))
+
         action.nodeType.edit()
 
-        action2
 
     @debug.trace()
     def addGraph(self, graphBuilder):
