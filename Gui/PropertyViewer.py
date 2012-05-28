@@ -1,3 +1,4 @@
+from Code import CodeDialog
 import ui
 
 from PyQt4.QtCore import *
@@ -167,3 +168,35 @@ class Option(Property):
 
     def setValue(self, value):
         self.item.setCurrentIndex(value)
+
+
+class Code(Property):
+    def __init__(self, functionName, functionArgs=(), globalArgs=None):
+        self.functionName = functionName
+        self.functionArgs = functionArgs
+        self.globalArgs = globalArgs
+
+    @debug.trace()
+    def _getItem(self):
+        item = QPushButton()
+        item.setText("Enter Code Snippet")
+        item.clicked.connect(self._itemClicked(item))
+
+        return item
+
+    def _itemClicked(self, item):
+        def clicked():
+            item.code = CodeDialog(self.functionName, self.functionArgs, self.globalArgs)
+
+            if item.code.exec_():
+                item.method = item.code.compile()
+            else:
+                item.method = None
+        return clicked
+
+    @debug.trace()
+    def value(self):
+        return self.item.method
+
+    def setValue(self, value):
+        pass

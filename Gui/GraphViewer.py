@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+from Code import CodeDialog
 
 from FunctionViewer import *
 
@@ -82,6 +83,14 @@ class GraphViewer(QMainWindow):
         self.ui.graphTree.itemClicked.connect(self.treeItemClicked)
 
         self.ui.action_Rules_Editor.triggered.connect(lambda: RuleDialog().exec_())
+        self.ui.actionCodeEditor.triggered.connect(self.runCode)
+
+    def runCode(self):
+        dlg = CodeDialog("function", ("graph", ), self)
+
+        if dlg.exec_():
+            method = dlg.compile()
+            method(self)
 
 
     def treeItemClicked(self, item, column):

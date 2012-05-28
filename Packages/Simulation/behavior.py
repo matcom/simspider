@@ -56,13 +56,13 @@ class BasicProcessing:
 
     @staticmethod
     def UpdateAll():
-        def UpdateAll(self,gloabalData,actualData,newData):
+        def UpdateAll(self,globalData,actualData,newData):
             actualData.update(newData)
         return UpdateAll
 
     @staticmethod
     def Update(keys):
-        def UpdateOnly(self,gloabalData,actualData,newData):
+        def UpdateOnly(self,globalData,actualData,newData):
             for k in keys:
                 if k in newData: actualData[k] = newData[k]
         return UpdateOnly

@@ -148,6 +148,8 @@
      <string>&amp;Window</string>
     </property>
     <addaction name="action_Function_Viewer"/>
+    <addaction name="actionCodeEditor"/>
+    <addaction name="action_Rules_Editor"/>
    </widget>
    <widget class="QMenu" name="menu_Node_Types">
     <property name="title">
@@ -166,7 +168,6 @@
     <addaction name="actionNext"/>
     <addaction name="actionJump"/>
     <addaction name="separator"/>
-    <addaction name="action_Rules_Editor"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_View"/>
@@ -174,9 +175,9 @@
    <addaction name="menuInsert"/>
    <addaction name="menu_Layout"/>
    <addaction name="menuPlugins"/>
-   <addaction name="menu_Window"/>
    <addaction name="menu_Node_Types"/>
    <addaction name="menuSimulation"/>
+   <addaction name="menu_Window"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="toolBoxDock">
@@ -1090,6 +1091,11 @@
   <action name="action_Rules_Editor">
    <property name="text">
     <string>&amp;Rules Editor</string>
+   </property>
+  </action>
+  <action name="actionCodeEditor">
+   <property name="text">
+    <string>&amp;Code Editor</string>
    </property>
   </action>
  </widget>

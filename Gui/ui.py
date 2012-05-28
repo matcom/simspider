@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\AddGraph.ui'
 #
-# Created: Mon May 28 10:17:22 2012
+# Created: Mon May 28 14:43:42 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -47,9 +47,65 @@ class Ui_DlgAddGraph(object):
 
 # -*- coding: utf-8 -*-
 
+# Form implementation generated from reading ui file '.\Code.ui'
+#
+# Created: Mon May 28 14:43:42 2012
+#      by: PyQt4 UI code generator 4.9
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_DlgCode(object):
+    def setupUi(self, DlgCode):
+        DlgCode.setObjectName(_fromUtf8("DlgCode"))
+        DlgCode.resize(576, 454)
+        self.verticalLayout = QtGui.QVBoxLayout(DlgCode)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.signature = QtGui.QLabel(DlgCode)
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Consolas"))
+        font.setPointSize(11)
+        self.signature.setFont(font)
+        self.signature.setObjectName(_fromUtf8("signature"))
+        self.verticalLayout.addWidget(self.signature)
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        spacerItem = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.code = QtGui.QPlainTextEdit(DlgCode)
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Consolas"))
+        font.setPointSize(11)
+        self.code.setFont(font)
+        self.code.setObjectName(_fromUtf8("code"))
+        self.horizontalLayout.addWidget(self.code)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.buttonBox = QtGui.QDialogButtonBox(DlgCode)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.verticalLayout.addWidget(self.buttonBox)
+
+        self.retranslateUi(DlgCode)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), DlgCode.accept)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), DlgCode.reject)
+        QtCore.QMetaObject.connectSlotsByName(DlgCode)
+
+    def retranslateUi(self, DlgCode):
+        DlgCode.setWindowTitle(QtGui.QApplication.translate("DlgCode", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
+        self.signature.setText(QtGui.QApplication.translate("DlgCode", "def function(*args, **kwargs):", None, QtGui.QApplication.UnicodeUTF8))
+
+# -*- coding: utf-8 -*-
+
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Mon May 28 10:17:22 2012
+# Created: Mon May 28 14:43:42 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -255,7 +311,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Mon May 28 10:17:22 2012
+# Created: Mon May 28 14:43:42 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -334,7 +390,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Mon May 28 10:17:22 2012
+# Created: Mon May 28 14:43:42 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -723,6 +779,8 @@ class Ui_GraphViewer(object):
         self.actionStandardNode.setObjectName(_fromUtf8("actionStandardNode"))
         self.action_Rules_Editor = QtGui.QAction(GraphViewer)
         self.action_Rules_Editor.setObjectName(_fromUtf8("action_Rules_Editor"))
+        self.actionCodeEditor = QtGui.QAction(GraphViewer)
+        self.actionCodeEditor.setObjectName(_fromUtf8("actionCodeEditor"))
         self.menuFile.addAction(self.actionQuit)
         self.menuDefault_Node_Type.addAction(self.actionStandardNode)
         self.menuTransform.addAction(self.menuDefault_Node_Type.menuAction())
@@ -758,6 +816,8 @@ class Ui_GraphViewer(object):
         self.menu_View.addSeparator()
         self.menu_View.addAction(self.menu_Viewport.menuAction())
         self.menu_Window.addAction(self.action_Function_Viewer)
+        self.menu_Window.addAction(self.actionCodeEditor)
+        self.menu_Window.addAction(self.action_Rules_Editor)
         self.menu_Node_Types.addAction(self.actionAddType)
         self.menu_Node_Types.addSeparator()
         self.menu_Node_Types.addAction(self.actionStandard)
@@ -766,16 +826,15 @@ class Ui_GraphViewer(object):
         self.menuSimulation.addAction(self.actionNext)
         self.menuSimulation.addAction(self.actionJump)
         self.menuSimulation.addSeparator()
-        self.menuSimulation.addAction(self.action_Rules_Editor)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menu_View.menuAction())
         self.menubar.addAction(self.menuTransform.menuAction())
         self.menubar.addAction(self.menuInsert.menuAction())
         self.menubar.addAction(self.menu_Layout.menuAction())
         self.menubar.addAction(self.menuPlugins.menuAction())
-        self.menubar.addAction(self.menu_Window.menuAction())
         self.menubar.addAction(self.menu_Node_Types.menuAction())
         self.menubar.addAction(self.menuSimulation.menuAction())
+        self.menubar.addAction(self.menu_Window.menuAction())
         self.modesToolbar.addAction(self.actionSelection)
         self.modesToolbar.addAction(self.actionCreation)
         self.modesToolbar.addAction(self.actionClique)
@@ -924,12 +983,13 @@ class Ui_GraphViewer(object):
         self.actionAddType.setText(QtGui.QApplication.translate("GraphViewer", "&Add Type", None, QtGui.QApplication.UnicodeUTF8))
         self.actionStandardNode.setText(QtGui.QApplication.translate("GraphViewer", "Standard", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Rules_Editor.setText(QtGui.QApplication.translate("GraphViewer", "&Rules Editor", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCodeEditor.setText(QtGui.QApplication.translate("GraphViewer", "&Code Editor", None, QtGui.QApplication.UnicodeUTF8))
 
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Mon May 28 10:17:22 2012
+# Created: Mon May 28 14:43:42 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -992,7 +1052,7 @@ class Ui_PropertyViewer(object):
 
 # Form implementation generated from reading ui file '.\Rules.ui'
 #
-# Created: Mon May 28 10:17:22 2012
+# Created: Mon May 28 14:43:42 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
