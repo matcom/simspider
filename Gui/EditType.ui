@@ -231,47 +231,10 @@
       </widget>
      </item>
      <item row="14" column="1">
-      <widget class="QComboBox" name="cmbxValColor">
-       <item>
-        <property name="text">
-         <string>Blue</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Red</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Green</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Violet</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Pink</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Orange</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Yellow</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Other</string>
-        </property>
-       </item>
+      <widget class="QPushButton" name="btnColor">
+       <property name="text">
+        <string>Select Color</string>
+       </property>
       </widget>
      </item>
     </layout>

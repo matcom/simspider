@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Sun May 27 23:25:04 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -125,17 +125,9 @@ class Ui_DgEditType(object):
         self.cbxAtColor.setCheckable(False)
         self.cbxAtColor.setObjectName(_fromUtf8("cbxAtColor"))
         self.formLayout.setWidget(14, QtGui.QFormLayout.LabelRole, self.cbxAtColor)
-        self.cmbxValColor = QtGui.QComboBox(DgEditType)
-        self.cmbxValColor.setObjectName(_fromUtf8("cmbxValColor"))
-        self.cmbxValColor.addItem(_fromUtf8(""))
-        self.cmbxValColor.addItem(_fromUtf8(""))
-        self.cmbxValColor.addItem(_fromUtf8(""))
-        self.cmbxValColor.addItem(_fromUtf8(""))
-        self.cmbxValColor.addItem(_fromUtf8(""))
-        self.cmbxValColor.addItem(_fromUtf8(""))
-        self.cmbxValColor.addItem(_fromUtf8(""))
-        self.cmbxValColor.addItem(_fromUtf8(""))
-        self.formLayout.setWidget(14, QtGui.QFormLayout.FieldRole, self.cmbxValColor)
+        self.btnColor = QtGui.QPushButton(DgEditType)
+        self.btnColor.setObjectName(_fromUtf8("btnColor"))
+        self.formLayout.setWidget(14, QtGui.QFormLayout.FieldRole, self.btnColor)
         self.verticalLayout.addLayout(self.formLayout)
         self.line_4 = QtGui.QFrame(DgEditType)
         self.line_4.setFrameShape(QtGui.QFrame.HLine)
@@ -204,14 +196,7 @@ class Ui_DgEditType(object):
         self.cmbxOnSignal.setItemText(0, QtGui.QApplication.translate("DgEditType", "None", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("DgEditType", "Attributes:", None, QtGui.QApplication.UnicodeUTF8))
         self.cbxAtColor.setText(QtGui.QApplication.translate("DgEditType", "Color", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxValColor.setItemText(0, QtGui.QApplication.translate("DgEditType", "Blue", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxValColor.setItemText(1, QtGui.QApplication.translate("DgEditType", "Red", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxValColor.setItemText(2, QtGui.QApplication.translate("DgEditType", "Green", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxValColor.setItemText(3, QtGui.QApplication.translate("DgEditType", "Violet", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxValColor.setItemText(4, QtGui.QApplication.translate("DgEditType", "Pink", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxValColor.setItemText(5, QtGui.QApplication.translate("DgEditType", "Orange", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxValColor.setItemText(6, QtGui.QApplication.translate("DgEditType", "Yellow", None, QtGui.QApplication.UnicodeUTF8))
-        self.cmbxValColor.setItemText(7, QtGui.QApplication.translate("DgEditType", "Other", None, QtGui.QApplication.UnicodeUTF8))
+        self.btnColor.setText(QtGui.QApplication.translate("DgEditType", "Select Color", None, QtGui.QApplication.UnicodeUTF8))
         self.btnRemove.setText(QtGui.QApplication.translate("DgEditType", "&Remove", None, QtGui.QApplication.UnicodeUTF8))
         self.btnAdd.setText(QtGui.QApplication.translate("DgEditType", "&Add", None, QtGui.QApplication.UnicodeUTF8))
         self.btnDelete.setText(QtGui.QApplication.translate("DgEditType", "&Delete", None, QtGui.QApplication.UnicodeUTF8))
@@ -223,7 +208,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Sun May 27 23:25:04 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -302,7 +287,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Sun May 27 23:25:04 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -345,6 +330,8 @@ class Ui_GraphViewer(object):
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
         self.menuTransform = QtGui.QMenu(self.menubar)
         self.menuTransform.setObjectName(_fromUtf8("menuTransform"))
+        self.menuDefault_Node_Type = QtGui.QMenu(self.menuTransform)
+        self.menuDefault_Node_Type.setObjectName(_fromUtf8("menuDefault_Node_Type"))
         self.menuInsert = QtGui.QMenu(self.menubar)
         self.menuInsert.setObjectName(_fromUtf8("menuInsert"))
         self.menu_View = QtGui.QMenu(self.menubar)
@@ -665,7 +652,16 @@ class Ui_GraphViewer(object):
         icon19.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Play Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionNext.setIcon(icon19)
         self.actionNext.setObjectName(_fromUtf8("actionNext"))
+        self.actionAddType = QtGui.QAction(GraphViewer)
+        self.actionAddType.setObjectName(_fromUtf8("actionAddType"))
+        self.actionStandardNode = QtGui.QAction(GraphViewer)
+        self.actionStandardNode.setCheckable(True)
+        self.actionStandardNode.setChecked(True)
+        self.actionStandardNode.setObjectName(_fromUtf8("actionStandardNode"))
         self.menuFile.addAction(self.actionQuit)
+        self.menuDefault_Node_Type.addAction(self.actionStandardNode)
+        self.menuTransform.addAction(self.menuDefault_Node_Type.menuAction())
+        self.menuTransform.addSeparator()
         self.menuTransform.addAction(self.actionSelection)
         self.menuTransform.addAction(self.actionCreation)
         self.menuTransform.addAction(self.actionClique)
@@ -697,9 +693,9 @@ class Ui_GraphViewer(object):
         self.menu_View.addSeparator()
         self.menu_View.addAction(self.menu_Viewport.menuAction())
         self.menu_Window.addAction(self.action_Function_Viewer)
-        self.menu_Node_Types.addAction(self.actionStandard)
+        self.menu_Node_Types.addAction(self.actionAddType)
         self.menu_Node_Types.addSeparator()
-        self.menu_Node_Types.addAction(self.actionPlay)
+        self.menu_Node_Types.addAction(self.actionStandard)
         self.menuSimulation.addAction(self.actionPlay)
         self.menuSimulation.addAction(self.actionPause)
         self.menuSimulation.addAction(self.actionNext)
@@ -757,6 +753,7 @@ class Ui_GraphViewer(object):
         GraphViewer.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("GraphViewer", "&File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuTransform.setTitle(QtGui.QApplication.translate("GraphViewer", "&Edit", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuDefault_Node_Type.setTitle(QtGui.QApplication.translate("GraphViewer", "Default Node Type", None, QtGui.QApplication.UnicodeUTF8))
         self.menuInsert.setTitle(QtGui.QApplication.translate("GraphViewer", "&Insert", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_View.setTitle(QtGui.QApplication.translate("GraphViewer", "&View", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Viewport.setTitle(QtGui.QApplication.translate("GraphViewer", "&Viewport", None, QtGui.QApplication.UnicodeUTF8))
@@ -856,12 +853,14 @@ class Ui_GraphViewer(object):
         self.actionJump.setToolTip(QtGui.QApplication.translate("GraphViewer", "Jump", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNext.setText(QtGui.QApplication.translate("GraphViewer", "&Next", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNext.setToolTip(QtGui.QApplication.translate("GraphViewer", "Next", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAddType.setText(QtGui.QApplication.translate("GraphViewer", "&Add Type", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionStandardNode.setText(QtGui.QApplication.translate("GraphViewer", "Standard", None, QtGui.QApplication.UnicodeUTF8))
 
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Sun May 27 23:25:04 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -924,7 +923,7 @@ class Ui_PropertyViewer(object):
 
 # Form implementation generated from reading ui file '.\Rules.ui'
 #
-# Created: Sun May 27 22:06:38 2012
+# Created: Sun May 27 23:25:04 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!

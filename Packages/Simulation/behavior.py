@@ -1,7 +1,7 @@
 __author__ = 'David'
 
 import random as rdm
-from node import Node
+import node
 from copy import copy, deepcopy
 import events as ev
 
@@ -180,9 +180,9 @@ class BasicCleanup:
     def DeleteAll(behavior = False):
         def DelAll(self,data):
             b = False
-            if not behavior and Node.bkey in data: b = data.pop(Node.bkey)
+            if not behavior and node.Node.bkey in data: b = data.pop(node.Node.bkey)
             data.clear()
-            if b: data[Node.bkey] = b
+            if b: data[node.Node.bkey] = b
         return DelAll
 
 class BasicSignaling:

@@ -90,6 +90,8 @@ class GraphicNode(QGraphicsObject):
         else:
             self.pen.setColor(QColor(0,0,0))
 
+        self.brush.setColor(self.nodeType.color)
+
         painter.setPen(self.pen)
         painter.setBrush(self.brush)
         painter.drawPath(self.circle)

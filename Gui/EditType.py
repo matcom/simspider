@@ -1,5 +1,4 @@
 # -*- coding: utf8 -*-
-
 from PropertyViewer import *
 import ui
 
@@ -13,10 +12,12 @@ class EditType(QDialog):
 
     table = { ord(l) : " " + l for l in list("ABCDEFGHIJKLMNOPQRSTUVWXYZ") }
 
+    types = { item.__name__ : item for item in [Integer, Float, String, Bool]}
+
     def __init__(self, title="Edit Type", icon=None, **kwargs):
         QDialog.__init__(self)
 
-        self.kwargs = kwargs
+        self.attributes = kwargs
         self.ui = ui.Ui_DgEditType()
 
         self.ui.setupUi(self)
@@ -26,22 +27,49 @@ class EditType(QDialog):
 
         layout = self.ui.formLayout
 
-        for name, type in self.kwargs.items():
+        for name, type in self.attributes.items():
             type.build(name.translate(EditType.table), layout, QCheckBox)
 
         self._setupBehaviours()
+        self.color = Qt.blue
+
+        self.ui.btnAdd.clicked.connect(self.addAttribute)
+        self.ui.btnRemove.clicked.connect(self.removeAttributes)
+
+        self.ui.btnColor.clicked.connect(self.setColor)
+
+    def setColor(self):
+        self.color = QColorDialog.getColor(self.color, self)
+
+    def addAttribute(self):
+        name, ok = QInputDialog.getText(self, "Add new attribute", "Enter the attribute name")
+
+        if not ok:
+            return
+
+        text, ok = QInputDialog.getItem(self, "Add new attribute", "Select the attribute type",
+                                        list(self.types.keys()))
+        if not ok:
+            return
+
+        type = self.types[text]()
+        self.attributes[name] = type
+        type.build(name, self.ui.formLayout, QCheckBox)
+
+    def removeAttributes(self):
+        pass
 
     def values(self):
         values = {}
 
-        for name, item in self.kwargs.items():
+        for name, item in self.attributes.items():
             values[name] = item.value()
 
         return values
 
     def setValues(self, **kwargs):
         for name, item in kwargs.items():
-            self.kwargs[name].setValue(item)
+            self.attributes[name].setValue(item)
 
     def _setupBehaviours(self):
         combos = {
@@ -62,16 +90,4 @@ class EditType(QDialog):
 
         for item in items:
             combo.addItem(item.name, item)
-
-if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-
-    dlg = EditType(Age=Integer(), Value=Float(), IsGay=Bool(), SomeString=String())
-    dlg.exec_()
-
-    print(dlg.values())
-
-
 

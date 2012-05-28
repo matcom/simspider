@@ -146,3 +146,24 @@ class String(Property):
 
     def setValue(self, value):
         self.item.setText(value)
+
+
+class Option(Property):
+    def __init__(self, values=("None",)):
+        self.values = values
+        self.index = 0
+
+    @debug.trace()
+    def _getItem(self):
+        item = QComboBox()
+        item.addItems(self.values)
+        item.setCurrentIndex(0)
+
+        return item
+
+    @debug.trace()
+    def value(self):
+        return self.item.currentIndex()
+
+    def setValue(self, value):
+        self.item.setCurrentIndex(value)

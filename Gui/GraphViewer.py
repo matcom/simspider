@@ -5,6 +5,7 @@ from FunctionViewer import *
 import math
 from GraphicEdge import GraphicEdge
 from GraphicNode import GraphicNode, Subgraph
+from NodeType import NodeType
 from modes import *
 
 from PyQt4.QtCore import *
@@ -25,18 +26,18 @@ class GraphViewer(QMainWindow):
         self.ui = ui.Ui_GraphViewer()
         self.ui.setupUi(self)
 
-        self.nodes = []     # Almacena los nodos
-        self.edges = []     # Almacena las aristas
+        self.nodes = set()     # Almacena los nodos
+        self.edges = set()   # Almacena las aristas
         self.edgesDict = {} # Permite acceder rápidamente a las aristas por (source, dest)
         self.subgraphs = []   # Almacena los subgrafos
         self.mainGraph = Subgraph("Alone", self)
 
         self.graph = nx.DiGraph()
-        self.maxNodes = 50
+        self.maxItems = 50
         self.leftBipartite = []
 
         self.scene = QGraphicsScene()
-        self.scene.setItemIndexMethod(QGraphicsScene.NoIndex)
+        # self.scene.setItemIndexMethod(QGraphicsScene.NoIndex)
 
         self.ui.graphicsView.setScene(self.scene)
         self.ui.graphicsView.setAttribute(Qt.WA_Hover)
@@ -66,17 +67,31 @@ class GraphViewer(QMainWindow):
         self._setupViewportOptions()
         self.loadPlugins()
 
-        variable = Variable("Temperature")
-        triangular = TriangularFunction()
-        square = SquareFunction()
-        functions = {"Triangular":triangular, "Square":square}
+        self.ui.actionStandard.nodeType = NodeType()
+        self.ui.actionStandard.nodeType.action = self.ui.actionStandard
+        self.ui.actionStandard.triggered.connect(lambda: self.ui.actionStandard.nodeType.edit())
 
-        variable.values["Cold"] = triangular.clone()
-        variable.values["Warm"] = triangular.clone()
-        variable.values["Hot"] = triangular.clone()
+        self.ui.actionAddType.triggered.connect(self.addNodeType)
+        self.ui.actionStandardNode.nodeType = self.ui.actionStandard.nodeType
 
-        self.ui.action_Function_Viewer.triggered.connect(lambda: FunctionViewer(functions, variable).exec_())
+        self.defaultNodeType = self.ui.actionStandardNode.nodeType
+        self.nodeTypes = QActionGroup()
 
+
+    def addNodeType(self):
+        text, ok = QInputDialog.getText(self, "Add new node type", "Enter the new type name")
+
+        if not ok or not text:
+            return
+
+        action = self.ui.menu_Node_Types.addAction(text)
+        action.nodeType = NodeType()
+        action.nodeType.action = action
+        action.nodeType.name = action.text()
+        action.triggered.connect(lambda: action.nodeType.edit())
+        action.nodeType.edit()
+
+        action2
 
     @debug.trace()
     def addGraph(self, graphBuilder):
@@ -178,6 +193,8 @@ class GraphViewer(QMainWindow):
         #     return None
 
         node = GraphicNode(self.ui.graphicsView)
+        self.graph.add_node(node)
+        node.nodeType = self.defaultNodeType
 
         # Actualizar el subgrafo
         node.connect(parent)
@@ -185,7 +202,7 @@ class GraphViewer(QMainWindow):
         node.setX(point.x())
         node.setY(point.y())
 
-        self.nodes.append(node)
+        self.nodes.add(node)
         self.scene.addItem(node)
 
         self.deselectAll()
@@ -206,15 +223,19 @@ class GraphViewer(QMainWindow):
 
         edge = GraphicEdge(source, dest, self.ui.graphicsView)
 
-        self.edges.append(edge)
+        self.edges.add(edge)
         self.scene.addItem(edge)
 
         self.edgesDict[(source, dest)] = edge
+        self.graph.add_edge(source, dest)
 
         return edge
 
     @debug.trace()
     def makeClique(self, nodes):
+        if not nodes:
+            return
+
         for x in nodes:
             for y in nodes:
                 if x != y:
@@ -222,6 +243,9 @@ class GraphViewer(QMainWindow):
 
     @debug.trace()
     def makeCycle(self, nodes):
+        if not nodes:
+            return
+
         nodes.append(nodes[0])
 
         for i in range(len(nodes) - 1):
@@ -229,6 +253,9 @@ class GraphViewer(QMainWindow):
 
     @debug.trace()
     def makePath(self, nodes):
+        if not nodes:
+            return
+
         for i in range(len(nodes) - 1):
             self.addEdge(nodes[i], nodes[i+1])
 
@@ -243,7 +270,8 @@ class GraphViewer(QMainWindow):
 
         edge.source.removeEdge(edge)
         edge.dest.removeEdge(edge)
-
+        self.edges.remove(edge)
+        self.graph.remove_edge(source, dest)
         self.scene.removeItem(edge)
 
     @debug.trace()
@@ -268,6 +296,8 @@ class GraphViewer(QMainWindow):
         if not subgraph.nodes and subgraph != self.mainGraph:
             subgraph.delete()
 
+        self.nodes.remove(node)
+        self.graph.remove_node(node)
         self.scene.removeItem(node)
 
     @debug.trace()
