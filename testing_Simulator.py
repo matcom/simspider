@@ -85,10 +85,3 @@ s.SetInitialEvents( [
                       ev.PeriodicalGraphEvent(0,G,lambda:rdm.expovariate(0.5),aux)
                     ])
 s.Simulate()
-
-
-
-
-
-
-

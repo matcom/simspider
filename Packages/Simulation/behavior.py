@@ -18,15 +18,22 @@ class Behavior:
         #common data
         self.commonData = None
         #receiving data
-        Behavior.__SetMethodAsField(self,"Process")
-        Behavior.__SetMethodAsField(self,"Learn")
+        object.__setattr__(self,'Process',type(self).Process)
+ #       Behavior.__SetMethodAsField(self,"Process")
+        object.__setattr__(self,'Learn',type(self).Learn)
+        #Behavior.__SetMethodAsField(self,"Learn")
         #sending data
-        Behavior.__SetMethodAsField(self,"Route")
-        Behavior.__SetMethodAsField(self,"Select")
-        Behavior.__SetMethodAsField(self,"Transform")
-        Behavior.__SetMethodAsField(self,"Cleanup")
+        object.__setattr__(self,'Route',type(self).Route)
+        #Behavior.__SetMethodAsField(self,"Route")
+        object.__setattr__(self,'Select',type(self).Select)
+        #Behavior.__SetMethodAsField(self,"Select")
+        object.__setattr__(self,'Transform',type(self).Transform)
+        #Behavior.__SetMethodAsField(self,"Transform")
+        object.__setattr__(self,'Cleanup',type(self).Cleanup)
+        #Behavior.__SetMethodAsField(self,"Cleanup")
         #signaling
-        Behavior.__SetMethodAsField(self,"OnSignal")
+        object.__setattr__(self,'OnSignal',type(self).OnSignal)
+        #Behavior.__SetMethodAsField(self,"OnSignal")
 
     @staticmethod
     def __SetMethodAsField(instance,name):

@@ -24,25 +24,31 @@ class FuzzyBehavior(b.Behavior):
         self.__UserDefinedProcess=None
 
     def BoundToProcess(self,names):
-        self.ProcessFuzzyVar = names
+        for i in names:
+            self.ProcessFuzzyVar[i] =None
 
     def BoundToLearn(self,names):
-        self.LearnFuzzyVar = names
+        for i in names:
+            self.LearnFuzzyVar[i] =None
 
     def BoundToRout(self,names):
-        self.RoutFuzzyVar = names
+        for i in names:
+            self.RoutFuzzyVar[i] =None
 
     def BoundToSelect(self,names):
-        self.SelectFuzzyVar = names
+        for i in names:
+            self.SelectFuzzyVar[i] =None
 
     def BoundToTransform(self,names):
-        self.TransformFuzzyVar = names
+        for i in names:
+            self.TransformFuzzyVar[i] =None
 
     def BoundToCleanup(self,names):
-        self.CleanupFuzzyVar = names
+        for i in names:
+            self.CleanupFuzzyVar[i] =None
 
-    def BoundToOnSignal(self,names):
-        self.OnSignalFuzzyVar = names
+ #   def BoundToOnSignal(self,names):
+#        self.OnSignalFuzzyVar = names
 
 #    def AddValuesToNode(self,list_var,node):
 #        for name,value in self.FuzzySystem.variables.items():
@@ -92,3 +98,36 @@ class FuzzyBehavior(b.Behavior):
         if globalData.contains[key]:
             return (True,globalData[key])
         return (False , 0)
+
+    @staticmethod
+    def Sample():
+        def SampleDestinations(self,node):
+            happiness_value = self.RoutFuzzyVar['Happiness']
+            if happiness_value is None:
+                happiness_value = 0
+                print('No se computo el sistema fuzzy')
+            n=0
+            for i in node.Successors():
+                n = n +1
+            n = n*happiness_value/10
+            if n<=0: return []
+            return n
+        return SampleDestinations
+
+    @staticmethod
+    def Process_Opt():
+        def ProcessOpt(self,globalData,actualData,newData):
+            values = self.ProcessFuzzyVar
+            for key in actualData:
+                if not key in values and key in newData:
+                    actualData[key] = newData[key]
+        return ProcessOpt
+
+    @staticmethod
+    def SpecificGroup(keys,timeFunction):
+        def SendSelectedData(self,destination,data,actTime):
+            r = []
+            for k in keys:
+                if k in data: r.append(k)
+            yield (r,actTime+timeFunction())
+        return SendSelectedData
