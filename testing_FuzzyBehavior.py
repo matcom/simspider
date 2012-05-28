@@ -40,13 +40,8 @@ G.add_path([0,1,2,3,4])
 b = FuzzyBehavior(system=fuzzy_System)
 b.sendAfterReceive = True
 b.includeBehavior = True
-
+b.Select = be.BasicSelection.OneByOne(lambda:3)
 b.Process = FuzzyBehavior.Process_Opt()
-b.Route = FuzzyBehavior.Sample()
-b.BoundToRout(['Happiness'])
-
-b.Select = FuzzyBehavior.SpecificGroup({},{})
-b.BoundToRout(['LoveToSend'])
 
 b.OnSignal = be.BasicSignaling.SendPeriodically(lambda:20)
 b.name = "first"
@@ -61,7 +56,7 @@ p1.SetBehavior(b)
 p2 = NodePrototype()
 p2.GetBehavior().Learn = be.BasicLearning.LearnAll()
 p2.GetBehavior().name = "rest"
-p2.DefineAttributes({"health":0,"money":0,"love":0})
+p2.DefineAttributes({"Health":0,"Money":0,"Love":0})
 
 p1.ApplyTo([0],G)
 p2.ApplyTo([1,2,3,4],G)
@@ -75,7 +70,7 @@ G.graph["rain"] = 89
 ga.RegisterTracker(ga.NodeLog())
 
 ga.RegisterTracker(ga.EdgeLog())
-at = ga.AttributeTracker(["health"])
+at = ga.AttributeTracker(["Health"])
 ga.RegisterTracker(at)
 
 s = Simulator()

@@ -37,6 +37,9 @@ class Node:
         newEvents = []
         b = self.GetBehavior()
         data = self.GetData()
+        b.Process(b,self.GetGlobalData(),data,{})
+        for nt in Node.trackers:
+            nt.DataUpdated(self)
         if len(data)>0:
             if not b.includeBehavior: del data[Node.bkey]
             for d in b.Route(b,self):

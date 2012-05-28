@@ -4,6 +4,7 @@ import random as rdm
 from node import Node
 from copy import copy, deepcopy
 import events as ev
+import fuzzybehavior as fb
 
 class Behavior:
 
@@ -87,15 +88,28 @@ class BasicLearning:
     @staticmethod
     def LearnAll():
         def LearnAll(self,new):
-            self.sendAfterReceive = new.sendAfterReceive
-            self.includeBehavior = new.includeBehavior
-            self.Process = new.Process
-            self.Learn = new.Learn
-            self.Route = new.Route
-            self.Select = new.Select
-            self.Transform = new.Transform
-            self.Cleanup = new.Cleanup
-            self.OnSignal = new.OnSignal
+            if isinstance(new,fb.FuzzyBehavior) and isinstance(self,fb.FuzzyBehavior):
+                self.sendAfterReceive = new.sendAfterReceive
+                self.includeBehavior = new.includeBehavior
+                self.Learn = new.Learn
+                self.Route = new.Route
+                self.Select = new.Select
+                self.Transform = new.Transform
+                self.Cleanup = new.Cleanup
+                self.OnSignal = new.OnSignal
+                self.PreProcess = new.PreProcess
+                self.UserDefinedProcess = new.UserDefinedProcess
+                self.Process = new.Process
+            elif  isinstance(new,Behavior) and isinstance(self,Behavior):
+                self.sendAfterReceive = new.sendAfterReceive
+                self.includeBehavior = new.includeBehavior
+                self.Learn = new.Learn
+                self.Route = new.Route
+                self.Select = new.Select
+                self.Transform = new.Transform
+                self.Cleanup = new.Cleanup
+                self.OnSignal = new.OnSignal
+                self.Process = new.Process
         return LearnAll
 
     @staticmethod
@@ -112,14 +126,6 @@ class BasicLearning:
             if signaling: self.OnSignal = new.OnSignal
         return LearnSpecific
 
-    @staticmethod
-    def LearnSendBehavior():
-        return BasicLearning.LearnSpecificBehavior(sendAftReceive = True,sendBeh = True,route = True,select = True,transform = True)
-
-    @staticmethod
-    def LearnReceiveBehavior():
-        return BasicLearning.LearnSpecificBehavior(process = True,learn = True)
-
 class BasicRouting:
 
     @staticmethod
@@ -132,7 +138,7 @@ class BasicRouting:
     @staticmethod
     def Sample(amount):
         def SampleDestinations(self,node):
-            n= min(len(node.Successors()),amount)
+            n= min(len(list(node.Successors())),amount)
             if n<=0: return []
             return rdm.sample(node.Successors(),n)
         return SampleDestinations
