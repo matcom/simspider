@@ -9,20 +9,19 @@ from Redist.pyfuzzy.InputVariable import InputVariable
 import random as rdm
 
 class FuzzyBehavior(b.Behavior):
-    def __init__(self,path = None, system = None):
+    def __init__(self, system = None):
         super().__init__()
         object.__setattr__(self,'PreProcess',type(self).PreProcess)
-        if path is None :
-            self.__FuzzySystem = system
-        else :
-            self.__FuzzySystem = Redist.pyfuzzy.storage.fcl.Reader.Reader().load_from_file(path)
+        if not system : self.SetSystem(system)
+        def __EmptyProcess(self,globalData,actualData,newData): pass
+        self.UserDefinedProcess = __EmptyProcess
+
+    def SetSystem(self, system):
+        self.__FuzzySystem = system
         self.OutputVars = {}
         for key,value in self.__FuzzySystem.variables.items():
             if isinstance(value,OutputVariable):
                 self.OutputVars[key]=None
-        def __EmptyProcess(self,globalData,actualData,newData): pass
-        self.UserDefinedProcess = __EmptyProcess
-
 
     def PreProcess(self,globalData,actualData,newData): pass
 
