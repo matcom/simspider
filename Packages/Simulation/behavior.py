@@ -92,7 +92,8 @@ class BasicLearning:
                 self.OnSignal = new.OnSignal
                 self.PreProcess = new.PreProcess
                 self.UserDefinedProcess = new.UserDefinedProcess
-                self.Process = new.Process
+                self.OutputVars.update(new.OutputVars)
+                #self.Process = new.Process
             elif  isinstance(new,Behavior) and isinstance(self,Behavior):
                 self.sendAfterReceive = new.sendAfterReceive
                 self.includeBehavior = new.includeBehavior
