@@ -1,8 +1,55 @@
 # -*- coding: utf-8 -*-
 
+# Form implementation generated from reading ui file '.\AddGraph.ui'
+#
+# Created: Mon May 28 10:17:22 2012
+#      by: PyQt4 UI code generator 4.9
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_DlgAddGraph(object):
+    def setupUi(self, DlgAddGraph):
+        DlgAddGraph.setObjectName(_fromUtf8("DlgAddGraph"))
+        DlgAddGraph.setWindowModality(QtCore.Qt.WindowModal)
+        DlgAddGraph.resize(481, 58)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(DlgAddGraph.sizePolicy().hasHeightForWidth())
+        DlgAddGraph.setSizePolicy(sizePolicy)
+        DlgAddGraph.setCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        self.verticalLayout = QtGui.QVBoxLayout(DlgAddGraph)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.status = QtGui.QLabel(DlgAddGraph)
+        self.status.setObjectName(_fromUtf8("status"))
+        self.verticalLayout.addWidget(self.status)
+        self.progressBar = QtGui.QProgressBar(DlgAddGraph)
+        self.progressBar.setProperty("value", 24)
+        self.progressBar.setTextVisible(False)
+        self.progressBar.setInvertedAppearance(False)
+        self.progressBar.setTextDirection(QtGui.QProgressBar.TopToBottom)
+        self.progressBar.setObjectName(_fromUtf8("progressBar"))
+        self.verticalLayout.addWidget(self.progressBar)
+
+        self.retranslateUi(DlgAddGraph)
+        QtCore.QMetaObject.connectSlotsByName(DlgAddGraph)
+
+    def retranslateUi(self, DlgAddGraph):
+        DlgAddGraph.setWindowTitle(QtGui.QApplication.translate("DlgAddGraph", "Adding Graph", None, QtGui.QApplication.UnicodeUTF8))
+        self.status.setText(QtGui.QApplication.translate("DlgAddGraph", "TextLabel", None, QtGui.QApplication.UnicodeUTF8))
+
+# -*- coding: utf-8 -*-
+
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Sun May 27 23:28:59 2012
+# Created: Mon May 28 10:17:22 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -208,7 +255,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Sun May 27 23:28:59 2012
+# Created: Mon May 28 10:17:22 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -287,7 +334,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Sun May 27 23:28:59 2012
+# Created: Mon May 28 10:17:22 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -674,6 +721,8 @@ class Ui_GraphViewer(object):
         self.actionStandardNode.setCheckable(True)
         self.actionStandardNode.setChecked(True)
         self.actionStandardNode.setObjectName(_fromUtf8("actionStandardNode"))
+        self.action_Rules_Editor = QtGui.QAction(GraphViewer)
+        self.action_Rules_Editor.setObjectName(_fromUtf8("action_Rules_Editor"))
         self.menuFile.addAction(self.actionQuit)
         self.menuDefault_Node_Type.addAction(self.actionStandardNode)
         self.menuTransform.addAction(self.menuDefault_Node_Type.menuAction())
@@ -716,6 +765,8 @@ class Ui_GraphViewer(object):
         self.menuSimulation.addAction(self.actionPause)
         self.menuSimulation.addAction(self.actionNext)
         self.menuSimulation.addAction(self.actionJump)
+        self.menuSimulation.addSeparator()
+        self.menuSimulation.addAction(self.action_Rules_Editor)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menu_View.menuAction())
         self.menubar.addAction(self.menuTransform.menuAction())
@@ -801,7 +852,8 @@ class Ui_GraphViewer(object):
         self.bipartiteToolbar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Bipartite Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.edgesToolbar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Edges Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.graphView.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
-        self.graphTree.headerItem().setText(0, QtGui.QApplication.translate("GraphViewer", "Sets", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphTree.headerItem().setText(0, QtGui.QApplication.translate("GraphViewer", "Name", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphTree.headerItem().setText(1, QtGui.QApplication.translate("GraphViewer", "Visible", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.dockWidget.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Python Console", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
@@ -871,12 +923,13 @@ class Ui_GraphViewer(object):
         self.actionNext.setToolTip(QtGui.QApplication.translate("GraphViewer", "Next", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAddType.setText(QtGui.QApplication.translate("GraphViewer", "&Add Type", None, QtGui.QApplication.UnicodeUTF8))
         self.actionStandardNode.setText(QtGui.QApplication.translate("GraphViewer", "Standard", None, QtGui.QApplication.UnicodeUTF8))
+        self.action_Rules_Editor.setText(QtGui.QApplication.translate("GraphViewer", "&Rules Editor", None, QtGui.QApplication.UnicodeUTF8))
 
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Sun May 27 23:28:59 2012
+# Created: Mon May 28 10:17:22 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -939,7 +992,7 @@ class Ui_PropertyViewer(object):
 
 # Form implementation generated from reading ui file '.\Rules.ui'
 #
-# Created: Sun May 27 23:28:59 2012
+# Created: Mon May 28 10:17:22 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!

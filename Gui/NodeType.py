@@ -37,6 +37,19 @@ class NodeType:
 
         dlg.color = self.color
 
+        dlg.ui.cbxIncludeBehavior.setCheckState(Qt.Checked if self.behaviour.includeBehavior else Qt.Unchecked)
+        dlg.ui.cbxSendAfterReceive.setCheckState(Qt.Checked if self.behaviour.sendAfterReceive else Qt.Unchecked)
+
+        dlg.setupBehaviours(
+            Process=self.behaviour.Process,
+            Cleanup=self.behaviour.Cleanup,
+            Learn=self.behaviour.Learn,
+            OnSignal=self.behaviour.OnSignal,
+            Route=self.behaviour.Route,
+            Select=self.behaviour.Select,
+            Transform=self.behaviour.Transform,
+        )
+
         if dlg.exec_():
             self.values = dlg.values()
             self.name = dlg.ui.lEdName.text()
@@ -52,3 +65,14 @@ class NodeType:
 
             self.attributes = dlg.attributes
             self.action.setText(self.name)
+
+            self.behaviour.Process = dlg.behaviours["Process"]
+            self.behaviour.Learn = dlg.behaviours["Learn"]
+            self.behaviour.Cleanup = dlg.behaviours["Cleanup"]
+            self.behaviour.OnSignal = dlg.behaviours["OnSignal"]
+            self.behaviour.Route = dlg.behaviours["Route"]
+            self.behaviour.Select = dlg.behaviours["Select"]
+            self.behaviour.Transform = dlg.behaviours["Transform"]
+
+            self.behaviour.includeBehavior = dlg.ui.cbxIncludeBehavior.checkState() == Qt.Checked
+            self.behaviour.sendAfterReceive = dlg.ui.cbxSendAfterReceive.checkState() == Qt.Checked

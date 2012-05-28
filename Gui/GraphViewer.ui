@@ -165,6 +165,8 @@
     <addaction name="actionPause"/>
     <addaction name="actionNext"/>
     <addaction name="actionJump"/>
+    <addaction name="separator"/>
+    <addaction name="action_Rules_Editor"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_View"/>
@@ -259,7 +261,7 @@
             <string>Select multiple nodes</string>
            </property>
            <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
+            <string>buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -285,7 +287,7 @@
             <string>Add independent nodes</string>
            </property>
            <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
+            <string>buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -311,7 +313,7 @@
             <string>Add nodes to create a clique</string>
            </property>
            <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
+            <string>buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -337,7 +339,7 @@
             <string>Add nodes to create a cycle</string>
            </property>
            <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
+            <string>buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -363,7 +365,7 @@
             <string>Add nodes to create a path</string>
            </property>
            <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
+            <string>buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -389,7 +391,7 @@
             <string>Click on nodes to create edges</string>
            </property>
            <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
+            <string>buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -598,7 +600,12 @@
       <widget class="QTreeWidget" name="graphTree">
        <column>
         <property name="text">
-         <string>Sets</string>
+         <string>Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Visible</string>
         </property>
        </column>
       </widget>
@@ -1078,6 +1085,11 @@
    </property>
    <property name="text">
     <string>Standard</string>
+   </property>
+  </action>
+  <action name="action_Rules_Editor">
+   <property name="text">
+    <string>&amp;Rules Editor</string>
    </property>
   </action>
  </widget>

@@ -64,7 +64,7 @@ class _OnSignalBehaviourPlugin(_BehaviourPluging):
 
 class RouteAllBehaviour(_RouteBehaviourPlugin):
     def __init__(self):
-        super().__init__(self, "Route All")
+        _RouteBehaviourPlugin.__init__(self, "Route All")
 
     def getBehaviour(self):
         return behavior.BasicRouting.All()
@@ -72,7 +72,7 @@ class RouteAllBehaviour(_RouteBehaviourPlugin):
 
 class RouteSampleBehaviour(_RouteBehaviourPlugin):
     def __init__(self):
-        super().__init__(self, "Route Sample", Count=Integer(1,0,1000000))
+        _RouteBehaviourPlugin.__init__(self, "Route Sample", Count=Integer(1,0,1000000))
 
     def getBehaviour(self):
         return behavior.BasicRouting.Sample(self.values['Count'])

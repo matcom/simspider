@@ -7,6 +7,9 @@ import debug
 
 class GraphicNode(QGraphicsObject):
 
+    visibleNodes = 0
+    maxVisibleNodes = 50
+
     def __init__(self, graphics, parent=None):
         QGraphicsObject.__init__(self, parent)
 
@@ -28,6 +31,9 @@ class GraphicNode(QGraphicsObject):
         self.item = QTreeWidgetItem(["Node"], 0)
         self.item.node = self
         self.subgraph = None
+
+        self.setVisible(False)
+        self.setNodeVisible(True)
 
     @debug.trace()
     def addInEdge(self, edge):
@@ -66,6 +72,36 @@ class GraphicNode(QGraphicsObject):
             items.add(self)
             for e in self.outEdges:
                 e.dest._walk(items)
+
+    def setNodeVisible(self, value):
+        if value and not self.isVisible():
+            GraphicNode.visibleNodes += 1
+        elif not value and self.isVisible():
+            GraphicNode.visibleNodes -= 1
+
+        self.setVisible(value)
+
+        if not value:
+            for edge in self.outEdges:
+                edge.setVisible(False)
+            for edge in self.inEdges:
+                edge.setVisible(False)
+        else:
+            for edge in self.outEdges:
+                if edge.dest.isVisible():
+                    edge.setVisible(True)
+            for edge in self.inEdges:
+                if edge.source.isVisible():
+                    edge.setVisible(True)
+
+        if value:
+            self.item.setCheckState(1, Qt.Checked)
+        else:
+            self.item.setCheckState(1, Qt.Unchecked)
+
+        if value and GraphicNode.visibleNodes > GraphicNode.maxVisibleNodes:
+            self.setNodeVisible(False)
+
 
     def shape(self):
         return self.circle
@@ -122,6 +158,13 @@ class Subgraph:
 
         self.tree.addTopLevelItem(self.item)
         self.update()
+        self.item.setCheckState(1, Qt.Checked)
+        self.tree.itemClicked.connect(self.setVisible)
+
+    def setVisible(self, widget, column):
+        if widget == self.item and column == 1:
+            for node in self.nodes:
+                node.setNodeVisible(self.item.checkState(1) == Qt.Checked)
 
     def addNode(self, node):
         self.nodes.append(node)

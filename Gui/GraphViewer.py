@@ -6,6 +6,7 @@ import math
 from GraphicEdge import GraphicEdge
 from GraphicNode import GraphicNode, Subgraph
 from NodeType import NodeType
+from Rules import RuleDialog
 from modes import *
 
 from PyQt4.QtCore import *
@@ -33,7 +34,6 @@ class GraphViewer(QMainWindow):
         self.mainGraph = Subgraph("Alone", self)
 
         self.graph = nx.DiGraph()
-        self.maxItems = 50
         self.leftBipartite = []
 
         self.scene = QGraphicsScene()
@@ -79,9 +79,21 @@ class GraphViewer(QMainWindow):
         self.nodeTypes = QActionGroup(self)
         self.nodeTypes.addAction(self.ui.actionStandardNode)
 
+        self.ui.graphTree.itemClicked.connect(self.treeItemClicked)
+
+        self.ui.action_Rules_Editor.triggered.connect(lambda: RuleDialog().exec_())
+
+
+    def treeItemClicked(self, item, column):
+        if column == 0 and hasattr(item, "node"):
+            item.node.setSelected(True)
+        elif column == 1 and hasattr(item, "node"):
+            item.node.setNodeVisible(item.checkState(1) == Qt.Checked)
+
 
     def setDefaultNodeType(self, action):
         self.defaultNodeType = action.nodeType
+
 
     def addNodeType(self):
         text, ok = QInputDialog.getText(self, "Add new node type", "Enter the new type name")
@@ -228,6 +240,9 @@ class GraphViewer(QMainWindow):
 
         return node
 
+    def visibleNodes(self):
+        return GraphicNode.visibleNodes
+
     @debug.trace()
     def addEdge(self, source, dest):
         """Añade una nueva arista entre dos nodos. Si la
@@ -246,6 +261,9 @@ class GraphViewer(QMainWindow):
 
         self.edgesDict[(source, dest)] = edge
         self.graph.add_edge(source, dest)
+
+        if not edge.dest.isVisible() or not edge.source.isVisible():
+            edge.setVisible(False)
 
         return edge
 
@@ -313,6 +331,9 @@ class GraphViewer(QMainWindow):
 
         if not subgraph.nodes and subgraph != self.mainGraph:
             subgraph.delete()
+
+        if node.isVisible():
+            GraphicNode.visibleNodes -= 1
 
         self.nodes.remove(node)
         self.graph.remove_node(node)

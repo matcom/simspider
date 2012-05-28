@@ -25,6 +25,16 @@ class EditType(QDialog):
         self.setWindowIcon(QIcon(icon))
         self.setWindowTitle(title)
 
+        self.combos = {
+            "Process" : self.ui.cmbxProcess,
+            "Cleanup" : self.ui.cmbxCleanup,
+            "Learn" : self.ui.cmbxLearn,
+            "OnSignal" : self.ui.cmbxOnSignal,
+            "Route" : self.ui.cmbxRoute,
+            "Select" : self.ui.cmbxSelect,
+            "Transform" : self.ui.cmbxTransform,
+            }
+
         layout = self.ui.formLayout
 
         for name, type in self.attributes.items():
@@ -72,18 +82,23 @@ class EditType(QDialog):
             self.attributes[name].setValue(item)
 
     def _setupBehaviours(self):
-        combos = {
-            "Process" : self.ui.cmbxProcess,
-            "Cleanup" : self.ui.cmbxCleanup,
-            "Learn" : self.ui.cmbxLearn,
-            "OnSignal" : self.ui.cmbxOnSignal,
-            "Route" : self.ui.cmbxRoute,
-            "Select" : self.ui.cmbxSelect,
-            "Transform" : self.ui.cmbxTransform,
-        }
-
-        for name, combo in combos.items():
+        for name, combo in self.combos.items():
             self._setupBehaviour(name, combo)
+
+    def setupBehaviours(self, **behaviours):
+        self.behaviours = behaviours
+
+        for name, combo in self.combos.items():
+            self._setupCombo(name, combo)
+
+    def _setupCombo(self, name, combo):
+        def setup(index):
+            if not index:
+                self.behaviours[name] = None
+            else:
+                self.behaviours[name] = combo.itemData(index).setup()
+
+        combo.currentIndexChanged.connect(setup)
 
     def _setupBehaviour(self, name, combo):
         items = pluginManager.getItems("Behaviour.{0}".format(name))
