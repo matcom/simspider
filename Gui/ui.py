@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Tue Apr 20 19:45:37 2010
+# Created: Sun May 27 22:06:38 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -223,7 +223,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Tue Apr 20 19:45:37 2010
+# Created: Sun May 27 22:06:38 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -302,7 +302,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Tue Apr 20 19:45:37 2010
+# Created: Sun May 27 22:06:38 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -317,12 +317,14 @@ except AttributeError:
 class Ui_GraphViewer(object):
     def setupUi(self, GraphViewer):
         GraphViewer.setObjectName(_fromUtf8("GraphViewer"))
-        GraphViewer.resize(872, 572)
+        GraphViewer.resize(1013, 560)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Clique.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         GraphViewer.setWindowIcon(icon)
         GraphViewer.setIconSize(QtCore.QSize(32, 32))
-        GraphViewer.setAnimated(False)
+        GraphViewer.setAnimated(True)
+        GraphViewer.setDockNestingEnabled(True)
+        GraphViewer.setDockOptions(QtGui.QMainWindow.AllowNestedDocks|QtGui.QMainWindow.AllowTabbedDocks|QtGui.QMainWindow.AnimatedDocks)
         self.centralwidget = QtGui.QWidget(GraphViewer)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.gridLayout = QtGui.QGridLayout(self.centralwidget)
@@ -337,7 +339,7 @@ class Ui_GraphViewer(object):
         self.gridLayout.addWidget(self.graphicsView, 0, 0, 1, 1)
         GraphViewer.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(GraphViewer)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 872, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1013, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -359,6 +361,8 @@ class Ui_GraphViewer(object):
         self.menu_Window.setObjectName(_fromUtf8("menu_Window"))
         self.menu_Node_Types = QtGui.QMenu(self.menubar)
         self.menu_Node_Types.setObjectName(_fromUtf8("menu_Node_Types"))
+        self.menuSimulation = QtGui.QMenu(self.menubar)
+        self.menuSimulation.setObjectName(_fromUtf8("menuSimulation"))
         GraphViewer.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(GraphViewer)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -477,7 +481,7 @@ class Ui_GraphViewer(object):
         self.graphToolBox.setFrameShadow(QtGui.QFrame.Plain)
         self.graphToolBox.setObjectName(_fromUtf8("graphToolBox"))
         self.pageBasic = QtGui.QWidget()
-        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 218))
+        self.pageBasic.setGeometry(QtCore.QRect(0, 0, 302, 91))
         self.pageBasic.setObjectName(_fromUtf8("pageBasic"))
         self.verticalLayout = QtGui.QVBoxLayout(self.pageBasic)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -518,6 +522,22 @@ class Ui_GraphViewer(object):
         self.verticalLayout_3.addWidget(self.graphTree)
         self.graphView.setWidget(self.dockWidgetContents_4)
         GraphViewer.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.graphView)
+        self.toolBar = QtGui.QToolBar(GraphViewer)
+        self.toolBar.setIconSize(QtCore.QSize(42, 42))
+        self.toolBar.setObjectName(_fromUtf8("toolBar"))
+        GraphViewer.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
+        self.dockWidget = QtGui.QDockWidget(GraphViewer)
+        self.dockWidget.setObjectName(_fromUtf8("dockWidget"))
+        self.dockWidgetContents_3 = QtGui.QWidget()
+        self.dockWidgetContents_3.setObjectName(_fromUtf8("dockWidgetContents_3"))
+        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.dockWidgetContents_3)
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.console = QtGui.QPlainTextEdit(self.dockWidgetContents_3)
+        self.console.setUndoRedoEnabled(False)
+        self.console.setObjectName(_fromUtf8("console"))
+        self.horizontalLayout_2.addWidget(self.console)
+        self.dockWidget.setWidget(self.dockWidgetContents_3)
+        GraphViewer.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.dockWidget)
         self.actionSelection = QtGui.QAction(GraphViewer)
         self.actionSelection.setCheckable(True)
         self.actionSelection.setChecked(True)
@@ -624,8 +644,27 @@ class Ui_GraphViewer(object):
         icon15.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Standard Node.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionStandard.setIcon(icon15)
         self.actionStandard.setObjectName(_fromUtf8("actionStandard"))
-        self.action_Add_Type = QtGui.QAction(GraphViewer)
-        self.action_Add_Type.setObjectName(_fromUtf8("action_Add_Type"))
+        self.actionPlay = QtGui.QAction(GraphViewer)
+        icon16 = QtGui.QIcon()
+        icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.actionPlay.setIcon(icon16)
+        self.actionPlay.setObjectName(_fromUtf8("actionPlay"))
+        self.actionPause = QtGui.QAction(GraphViewer)
+        icon17 = QtGui.QIcon()
+        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionPause.setIcon(icon17)
+        self.actionPause.setObjectName(_fromUtf8("actionPause"))
+        self.actionJump = QtGui.QAction(GraphViewer)
+        icon18 = QtGui.QIcon()
+        icon18.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Jump.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionJump.setIcon(icon18)
+        self.actionJump.setObjectName(_fromUtf8("actionJump"))
+        self.actionNext = QtGui.QAction(GraphViewer)
+        icon19 = QtGui.QIcon()
+        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Play Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionNext.setIcon(icon19)
+        self.actionNext.setObjectName(_fromUtf8("actionNext"))
         self.menuFile.addAction(self.actionQuit)
         self.menuTransform.addAction(self.actionSelection)
         self.menuTransform.addAction(self.actionCreation)
@@ -660,7 +699,11 @@ class Ui_GraphViewer(object):
         self.menu_Window.addAction(self.action_Function_Viewer)
         self.menu_Node_Types.addAction(self.actionStandard)
         self.menu_Node_Types.addSeparator()
-        self.menu_Node_Types.addAction(self.action_Add_Type)
+        self.menu_Node_Types.addAction(self.actionPlay)
+        self.menuSimulation.addAction(self.actionPlay)
+        self.menuSimulation.addAction(self.actionPause)
+        self.menuSimulation.addAction(self.actionNext)
+        self.menuSimulation.addAction(self.actionJump)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menu_View.menuAction())
         self.menubar.addAction(self.menuTransform.menuAction())
@@ -669,6 +712,7 @@ class Ui_GraphViewer(object):
         self.menubar.addAction(self.menuPlugins.menuAction())
         self.menubar.addAction(self.menu_Window.menuAction())
         self.menubar.addAction(self.menu_Node_Types.menuAction())
+        self.menubar.addAction(self.menuSimulation.menuAction())
         self.modesToolbar.addAction(self.actionSelection)
         self.modesToolbar.addAction(self.actionCreation)
         self.modesToolbar.addAction(self.actionClique)
@@ -684,6 +728,10 @@ class Ui_GraphViewer(object):
         self.bipartiteToolbar.addAction(self.actionCompleteBipartite)
         self.edgesToolbar.addAction(self.actionSwapEdges)
         self.edgesToolbar.addAction(self.actionCompleteEdges)
+        self.toolBar.addAction(self.actionPlay)
+        self.toolBar.addAction(self.actionPause)
+        self.toolBar.addAction(self.actionNext)
+        self.toolBar.addAction(self.actionJump)
 
         self.retranslateUi(GraphViewer)
         self.toolBox.setCurrentIndex(0)
@@ -717,6 +765,7 @@ class Ui_GraphViewer(object):
         self.menu_Layout.setTitle(QtGui.QApplication.translate("GraphViewer", "&Layout", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Window.setTitle(QtGui.QApplication.translate("GraphViewer", "&Window", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Node_Types.setTitle(QtGui.QApplication.translate("GraphViewer", "&Node Types", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuSimulation.setTitle(QtGui.QApplication.translate("GraphViewer", "Simulation", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBoxDock.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Toolbox", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
         self.btnSelection.setDescription(QtGui.QApplication.translate("GraphViewer", "Select multiple nodes", None, QtGui.QApplication.UnicodeUTF8))
@@ -740,6 +789,8 @@ class Ui_GraphViewer(object):
         self.edgesToolbar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Edges Toolbar", None, QtGui.QApplication.UnicodeUTF8))
         self.graphView.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
         self.graphTree.headerItem().setText(0, QtGui.QApplication.translate("GraphViewer", "Sets", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolBar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
+        self.dockWidget.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Python Console", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setToolTip(QtGui.QApplication.translate("GraphViewer", "Allows to select several nodes", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F1", None, QtGui.QApplication.UnicodeUTF8))
@@ -798,13 +849,19 @@ class Ui_GraphViewer(object):
         self.actionConnect.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F6", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Function_Viewer.setText(QtGui.QApplication.translate("GraphViewer", "&Function Viewer", None, QtGui.QApplication.UnicodeUTF8))
         self.actionStandard.setText(QtGui.QApplication.translate("GraphViewer", "Standard", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_Add_Type.setText(QtGui.QApplication.translate("GraphViewer", "&Add Type", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPlay.setText(QtGui.QApplication.translate("GraphViewer", "&Play", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPause.setText(QtGui.QApplication.translate("GraphViewer", "Pause", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionPause.setToolTip(QtGui.QApplication.translate("GraphViewer", "Pause", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionJump.setText(QtGui.QApplication.translate("GraphViewer", "&Jump", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionJump.setToolTip(QtGui.QApplication.translate("GraphViewer", "Jump", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNext.setText(QtGui.QApplication.translate("GraphViewer", "&Next", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNext.setToolTip(QtGui.QApplication.translate("GraphViewer", "Next", None, QtGui.QApplication.UnicodeUTF8))
 
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Tue Apr 20 19:45:37 2010
+# Created: Sun May 27 22:06:38 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -867,7 +924,7 @@ class Ui_PropertyViewer(object):
 
 # Form implementation generated from reading ui file '.\Rules.ui'
 #
-# Created: Tue Apr 20 19:45:37 2010
+# Created: Sun May 27 22:06:38 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -907,6 +964,7 @@ class Ui_DgRules(object):
         self.verticalLayout.addWidget(self.txeEditRules)
         self.ptxeException = QtGui.QPlainTextEdit(DgRules)
         self.ptxeException.setMaximumSize(QtCore.QSize(16777215, 80))
+        self.ptxeException.setReadOnly(True)
         self.ptxeException.setObjectName(_fromUtf8("ptxeException"))
         self.verticalLayout.addWidget(self.ptxeException)
         self.buttonBox = QtGui.QDialogButtonBox(DgRules)

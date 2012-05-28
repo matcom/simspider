@@ -33,7 +33,7 @@ import debug
 from GraphViewer import GraphViewer
 
 from Plugins import pluginManager
- 
+
 def main():
     app = QApplication(sys.argv)
 
@@ -78,6 +78,7 @@ def main():
 
         if win:
             win.show()
+            win.setWindowState(Qt.WindowMaximized)
             app.exec_()
 
         listener.close()
