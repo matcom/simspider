@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 __author__ = 'David'
 
-import behavior as be
+import fuzzybehavior as fube
 import events as ev
 import debug
 
@@ -12,11 +12,12 @@ class Node:
     trackers = []
 
     def __init__(self,graph,node):
+        if isinstance(node,Node): self.node = node.node
+        else: self.node = node
         self.graph = graph
-        self.node = node
         if Node.dkey not in self.graph.node[node]: graph.node[node][Node.dkey] = {}
         data = graph.node[node][Node.dkey]
-        if Node.bkey not in data: data[Node.bkey] = be.Behavior()
+        if Node.bkey not in data: data[Node.bkey] = fube.FuzzyBehavior()
 
     def ReceiveData(self, source, newData, actTime):
         d = self.GetData()
@@ -36,6 +37,9 @@ class Node:
         newEvents = []
         b = self.GetBehavior()
         data = self.GetData()
+        b.Process(b,self.GetGlobalData(),data,{})
+        for nt in Node.trackers:
+            nt.DataUpdated(self)
         if len(data)>0:
             if not b.includeBehavior: del data[Node.bkey]
             for d in b.Route(b,self):
@@ -79,12 +83,9 @@ class Node:
         for k in self.GetData():
             if inclBehavior or k!=Node.bkey: yield k
 
-    def SetBehavior(self, b, addAttributes = True):
+    def SetBehavior(self, b):
         self.GetData()[Node.bkey] = b
         b.node = self
-        if addAttributes and isinstance(b,be.AttributedBehavior):
-            for k,v in b.attributesToAdd.items():
-                if not self.HasAttribute(k): self[k]=v
 
     def GetBehavior(self):
         return self.GetData()[Node.bkey]
@@ -120,3 +121,36 @@ class Node:
     def __str__(self):
         return str(self.node)
 
+    def __repr__(self):
+        return repr(self.node)
+
+class NodePrototype:
+
+    def __init__(self):
+        self.__attributesToAdd = {}
+        self.__behavior = fube.FuzzyBehavior()
+
+    def DefineAttribute(self,name,value = None):
+        if name==Node.bkey: raise Exception("The name \""+Node.bkey+"\" is used to store the node behavior.")
+        self.__attributesToAdd[name] = value
+
+    def DefineAttributes(self,attributes):
+        for k,v in attributes.items():
+            self.DefineAttribute(k,v)
+
+    def SetBehavior(self,behavior):
+        self.__behavior = behavior
+
+    def GetBehavior(self):
+        return self.__behavior
+
+    def ApplyTo(self, nodes, graph):
+        for node in [Node(graph,n) for n in nodes]:
+            node.GetData().update(self.__attributesToAdd)
+            node.SetBehavior(self.__behavior.Clone())
+
+    def __getitem__(self, item):
+        return self.__attributesToAdd[item]
+
+    def __setitem__(self, key, value):
+        self.DefineAttribute(key,value)

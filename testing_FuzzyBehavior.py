@@ -1,4 +1,4 @@
-__author__ = 'David'
+__author__ = 'Claudia'
 import sys
 import os
 
@@ -29,30 +29,34 @@ from behavior import Behavior
 from simulator import Simulator
 from node import Node
 from node import NodePrototype
+from testing_pyfuzzy import fuzzy_System
+from fuzzybehavior import FuzzyBehavior
+
 
 
 G=nx.DiGraph()
 G.add_path([0,1,2,3,4])
 
-b = Behavior()
+b = FuzzyBehavior(system=fuzzy_System)
 b.sendAfterReceive = True
 b.includeBehavior = True
-b.Process = be.BasicProcessing.UpdateAll()
-b.Route = be.BasicRouting.All()
-b.Select = be.BasicSelection.AllAtOnce(lambda:rdm.expovariate(1))
+b.Select = be.BasicSelection.OneByOne(lambda:3)
+b.Process = FuzzyBehavior.Process_Opt()
+
 b.OnSignal = be.BasicSignaling.SendPeriodically(lambda:20)
 b.name = "first"
 
 p1 = NodePrototype()
-p1["health"] = 23
-p1["money"] = 34
-p1.DefineAttribute("love",45)
+p1["Health"] = 7
+p1["Money"] = 8
+p1['Happiness'] = 0
+p1.DefineAttribute("Love",5)
 p1.SetBehavior(b)
 
 p2 = NodePrototype()
 p2.GetBehavior().Learn = be.BasicLearning.LearnAll()
 p2.GetBehavior().name = "rest"
-p2.DefineAttributes({"health":0,"money":0,"love":0})
+p2.DefineAttributes({"Health":0,"Money":0,"Love":0})
 
 p1.ApplyTo([0],G)
 p2.ApplyTo([1,2,3,4],G)
@@ -66,7 +70,7 @@ G.graph["rain"] = 89
 ga.RegisterTracker(ga.NodeLog())
 
 ga.RegisterTracker(ga.EdgeLog())
-at = ga.AttributeTracker(["health"])
+at = ga.AttributeTracker(["Health"])
 ga.RegisterTracker(at)
 
 s = Simulator()
@@ -81,7 +85,7 @@ def aux(data):
 
 #se definen los dos eventos iniciales
 s.SetInitialEvents( [
-                      ev.SignalAllNodes(G,None,0) ,
-                      ev.PeriodicalGraphEvent(0,G,lambda:rdm.expovariate(0.5),aux)
-                    ])
+    ev.SignalAllNodes(G,None,0) ,
+    ev.PeriodicalGraphEvent(0,G,lambda:rdm.expovariate(0.5),aux)
+])
 s.Simulate()

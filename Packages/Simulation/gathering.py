@@ -1,17 +1,17 @@
 __author__ = 'David'
 
-from node import Node
+import node
 
 def RegisterTracker(tracker):
-    Node.trackers.append(tracker)
+    node.Node.trackers.append(tracker)
 
 def ClearAllTrackers():
-    Node.trackers = []
+    node.Node.trackers = []
 
 class Tracker:
 
     def __init__(self,nodes = None):
-        if nodes: self.__nodes = set(nodes)
+        if nodes!=None: self.__nodes = set(nodes)
         else: self.__nodes = None
 
     def NodeSignaled(self, node, signalData, time): pass
@@ -39,7 +39,7 @@ class NodeLog(Tracker):
             print("Time: {0}".format(time))
             print("Node {0} received: {1} from {2}".format(node,receivedData,source))
             print("Actual data in node {0}: {1}".format(node,node.GetData()))
-            print("Actual data in graph: {0}".format(node.graph.graph))
+            print("Actual global data: {0}".format(node.GetGlobalData()))
 
     def DataSent(self, node, data, destination, time, arrival):
         if self.IsTracked(node):
@@ -58,4 +58,18 @@ class EdgeLog(Tracker):
     def DataSent(self, node, data, destination, time, arrival):
         if self.IsTracked(node)or self.IsTracked(destination):
             print("Edge {0} is passing {1} delay {2}".format((node.node,destination.node),data,arrival-time))
+
+class AttributeTracker(Tracker):
+
+    def __init__(self, attributes):
+        super().__init__()
+        self.attributesPath = dict(zip(attributes,[set() for n in range(len(attributes))]))
+
+    def DataSent(self, node, data, destination, time, arrival):
+        for a in self.attributesPath:
+            if a in data:
+                self.attributesPath[a].add((node,destination))
+
+
+
 
