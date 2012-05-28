@@ -30,6 +30,7 @@ LOG = 3
 INFO = 4
 DEBUG = 5
 
+from config import config
 
 # CLASES: -----------------------------------------------------------
 
@@ -252,10 +253,12 @@ def trace(category = None, level = DEBUG):
                 name = function.im_class.__name__ + '.' + function.__name__
 
             if not cat:
-                cat = function.__module__.lower() + "." + name.lower()
+                cat = function.__module__.lower()
 
             if function.__name__.startswith('_'):
                 cat += ".private"
+
+            cat +=  "." + name.lower()
 
             _printMsg(">> {0}({1}, {2})", (name, args, kwargs),
                      category = cat)
@@ -282,6 +285,14 @@ def trace(category = None, level = DEBUG):
     else:
         return decorator
 
+# If not tracing, deactivate all redirection for efficiency
+if not config.Debug.get("Trace", True):
+    print("Deactivating tracing...")
+
+    def trace(category = None, level = DEBUG):
+        def decorator(function):
+            return function
+        return decorator
 
 # CLASES: --------------------------------------------------------------------
 

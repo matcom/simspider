@@ -1,7 +1,5 @@
 # -*- coding: utf8 -*-
 
-__author__ = 'Alejandro Piad'
-
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -58,6 +56,7 @@ class GraphicEdge(QGraphicsItem):
         normalized().\
         adjusted(-extra, -extra, extra, extra)
 
+    @debug.trace()
     def paint(self, painter, styleoption, widget):
 
         if self.isSelected():

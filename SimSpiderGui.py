@@ -1,7 +1,5 @@
 # -*- coding: utf8 -*-
 
-__author__ = 'Alejandro Piad'
-
 import sys
 import os
 
@@ -14,21 +12,30 @@ gui_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Gui'))
 packages_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Packages'))
 redist_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Redist'))
 plugins_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Plugins'))
+simulation_dir = os.path.join(packages_dir, 'Simulation')
 
 sys.path.append(gui_dir)
 sys.path.append(packages_dir)
 sys.path.append(redist_dir)
 sys.path.append(plugins_dir)
+sys.path.append(simulation_dir)
 
 print("Gui: {0}".format(gui_dir))
 print("Packages: {0}".format(packages_dir))
 print("Redist: {0}".format(redist_dir))
 print("Plugins: {0}".format(plugins_dir))
+print("Simulation: {0}".format(simulation_dir))
 
 from GraphViewer import GraphViewer
 from Plugins import pluginManager
 from config import config
 import debug
+
+from config import config
+import debug
+from GraphViewer import GraphViewer
+
+from Plugins import pluginManager
 
 def main():
     app = QApplication(sys.argv)
@@ -74,6 +81,7 @@ def main():
 
         if win:
             win.show()
+            win.setWindowState(Qt.WindowMaximized)
             app.exec_()
 
         listener.close()
