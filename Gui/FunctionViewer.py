@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-from GraphicFun import GraphicFun
+from GraphicFun import GraphicFun, FuncAxis
 import ui
 
 from PyQt4.QtCore import *
@@ -74,6 +74,9 @@ class FunctionViewer(QDialog):
 
         self.ui.functionView.setScene(self.scene)
         self.ui.functionView.setAttribute(Qt.WA_Hover)
+        self.axis = FuncAxis(self.ui.functionView)
+        self.scene.addItem(self.axis)
+        self.scene.setSceneRect(-5,-5,110,110)
 
         for name, func in self.variable.values.items():
             self.addValueControl(name, func)

@@ -2,6 +2,7 @@
 from Code import CodeDialog
 
 from FunctionViewer import *
+from PropertyViewer import *
 
 import math
 from GraphicEdge import GraphicEdge
@@ -84,6 +85,19 @@ class GraphViewer(QMainWindow):
 
         self.ui.action_Rules_Editor.triggered.connect(lambda: RuleDialog().exec_())
         self.ui.actionCodeEditor.triggered.connect(self.runCode)
+
+        self.setupFunctionViewer()
+
+    def setupFunctionViewer(self):
+        functions = {
+            "Square" : SquareFunction(),
+            "Triangular" : TriangularFunction(),
+        }
+
+        variable = Variable("Temperature")
+
+        self.ui.action_Function_Viewer.triggered.connect(lambda: FunctionViewer(functions, variable).exec_())
+
 
     def runCode(self):
         dlg = CodeDialog("function", ("graph", ), self)

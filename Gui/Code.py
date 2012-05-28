@@ -185,10 +185,30 @@ class CodeDialog(QDialog):
         self.ui = ui.Ui_DlgCode()
         self.ui.setupUi(self)
 
-        self.ui.signature.setText("def {0}({1}):".format(functionName, ", ".join(functionArgs)))
+        self.ui.signature.setText(self.getText(functionName, functionArgs))
         self.highlighter = PythonHighlighter(self.ui.code.document())
         self.args = functionArgs
         self.glbs = newGlobals
+
+    def getText(self, functionName, functionArgs):
+        if "self" in functionArgs:
+            hasSelf = True
+            functionArgs = functionArgs[1:]
+        else:
+            hasSelf = False
+
+        s = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html><head><meta name="qrichtext" content="1" /><style type="text/css">
+p, li {{ white-space: pre-wrap; }}
+</style></head><body style=" font-family:'Consolas'; font-size:11pt; font-weight:400; font-style:normal;">
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0;
+text-indent:0px;"><span style=" color:#0000ff;">def</span>
+ <span style=" font-weight:600; color:#000000;">function</span><span style=" color:#757575;">
+(</span><span style=" font-style:italic; color:#000000;">self</span>, *args, **kwargs
+<span style=" color:#878787;">)</span>:</p></body></html>""".format(functionName, "self" if hasSelf else "",
+                                                                     (", " if hasSelf else "") + ", ".join(functionArgs))
+
+        return s
 
 
     def compile(self):

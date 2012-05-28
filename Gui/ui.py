@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\AddGraph.ui'
 #
-# Created: Mon May 28 15:54:07 2012
+# Created: Mon May 28 16:43:56 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -49,7 +49,7 @@ class Ui_DlgAddGraph(object):
 
 # Form implementation generated from reading ui file '.\Code.ui'
 #
-# Created: Mon May 28 15:54:07 2012
+# Created: Mon May 28 16:43:56 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -99,13 +99,17 @@ class Ui_DlgCode(object):
 
     def retranslateUi(self, DlgCode):
         DlgCode.setWindowTitle(QtGui.QApplication.translate("DlgCode", "Dialog", None, QtGui.QApplication.UnicodeUTF8))
-        self.signature.setText(QtGui.QApplication.translate("DlgCode", "def function(*args, **kwargs):", None, QtGui.QApplication.UnicodeUTF8))
+        self.signature.setText(QtGui.QApplication.translate("DlgCode", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#0000ff;\">def</span> <span style=\" font-weight:600; color:#000000;\">function</span><span style=\" color:#757575;\">(</span><span style=\" font-style:italic; color:#000000;\">self</span>, *args, **kwargs<span style=\" color:#878787;\">)</span>:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
 
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Mon May 28 15:54:07 2012
+# Created: Mon May 28 16:43:56 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -311,7 +315,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Mon May 28 15:54:07 2012
+# Created: Mon May 28 16:43:56 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -329,45 +333,56 @@ class Ui_DgFuntions(object):
         DgFuntions.resize(693, 453)
         self.verticalLayout_2 = QtGui.QVBoxLayout(DgFuntions)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.splitter_2 = QtGui.QSplitter(DgFuntions)
-        self.splitter_2.setMinimumSize(QtCore.QSize(0, 0))
-        self.splitter_2.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter_2.setObjectName(_fromUtf8("splitter_2"))
-        self.layoutWidget = QtGui.QWidget(self.splitter_2)
-        self.layoutWidget.setObjectName(_fromUtf8("layoutWidget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget)
-        self.verticalLayout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)
-        self.verticalLayout.setMargin(0)
+        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.toolBox = QtGui.QToolBox(self.layoutWidget)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred)
+        self.toolBox = QtGui.QToolBox(DgFuntions)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.toolBox.sizePolicy().hasHeightForWidth())
         self.toolBox.setSizePolicy(sizePolicy)
-        self.toolBox.setMinimumSize(QtCore.QSize(250, 0))
+        self.toolBox.setMinimumSize(QtCore.QSize(230, 0))
         self.toolBox.setObjectName(_fromUtf8("toolBox"))
         self.page = QtGui.QWidget()
-        self.page.setGeometry(QtCore.QRect(0, 0, 330, 346))
+        self.page.setGeometry(QtCore.QRect(0, 0, 230, 156))
         self.page.setObjectName(_fromUtf8("page"))
         self.toolBox.addItem(self.page, _fromUtf8(""))
         self.verticalLayout.addWidget(self.toolBox)
+        spacerItem = QtGui.QSpacerItem(20, 5, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
         self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setSizeConstraint(QtGui.QLayout.SetFixedSize)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.btnRemove = QtGui.QPushButton(self.layoutWidget)
+        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
+        self.btnRemove = QtGui.QPushButton(DgFuntions)
         self.btnRemove.setEnabled(False)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btnRemove.sizePolicy().hasHeightForWidth())
+        self.btnRemove.setSizePolicy(sizePolicy)
         self.btnRemove.setObjectName(_fromUtf8("btnRemove"))
         self.horizontalLayout.addWidget(self.btnRemove)
-        self.btnAdd = QtGui.QPushButton(self.layoutWidget)
+        self.btnAdd = QtGui.QPushButton(DgFuntions)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btnAdd.sizePolicy().hasHeightForWidth())
+        self.btnAdd.setSizePolicy(sizePolicy)
         self.btnAdd.setObjectName(_fromUtf8("btnAdd"))
         self.horizontalLayout.addWidget(self.btnAdd)
         self.verticalLayout.addLayout(self.horizontalLayout)
-        self.splitter = QtGui.QSplitter(self.splitter_2)
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
+        self.splitter = QtGui.QSplitter(DgFuntions)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setObjectName(_fromUtf8("splitter"))
         self.functionView = QtGui.QGraphicsView(self.splitter)
         self.functionView.setObjectName(_fromUtf8("functionView"))
-        self.verticalLayout_2.addWidget(self.splitter_2)
+        self.horizontalLayout_2.addWidget(self.splitter)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
         self.buttonBox = QtGui.QDialogButtonBox(DgFuntions)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
@@ -390,7 +405,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Mon May 28 15:54:07 2012
+# Created: Mon May 28 16:43:56 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -883,7 +898,7 @@ class Ui_GraphViewer(object):
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Mon May 28 15:54:07 2012
+# Created: Mon May 28 16:43:57 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -946,7 +961,7 @@ class Ui_PropertyViewer(object):
 
 # Form implementation generated from reading ui file '.\Rules.ui'
 #
-# Created: Mon May 28 15:54:07 2012
+# Created: Mon May 28 16:43:57 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!

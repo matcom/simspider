@@ -24,7 +24,6 @@ class GraphicFun(QGraphicsItem):
     def boundingRect(self):
         return QRectF(0,0,100,100)
 
-    @debug.trace()
     def paint(self, painter, styleoption, widget):
 
         points = self.function.evaluate(100)
@@ -37,3 +36,32 @@ class GraphicFun(QGraphicsItem):
             p2 = QPointF(x2, -y2* 100)
             line = QLineF(p1, p2)
             painter.drawLine(line)
+
+
+class FuncAxis(QGraphicsItem):
+    def __init__(self, graphics, parent=None):
+        QGraphicsItem.__init__(self, parent)
+
+        self.graphics = graphics
+
+        self.pen = QPen(Qt.black, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin)
+        self.brush = QBrush(Qt.black)
+
+    def shape(self):
+        return QRectF(0,0,100,100)
+
+    def boundingRect(self):
+        return self.shape()
+
+    def paint(self, painter, styleoption, widget):
+        painter.setPen(self.pen)
+
+        p00 = QPointF(0,0)
+        p01 = QPointF(0,100)
+        p10 = QPointF(100,0)
+
+        line01 = QLineF(p00, p01)
+        line10 = QLineF(p00, p10)
+
+        painter.drawLine(line01)
+        painter.drawLine(line10)
