@@ -259,7 +259,7 @@
             <string>Select multiple nodes</string>
            </property>
            <attribute name="buttonGroup">
-            <string>buttonGroup</string>
+            <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -285,7 +285,7 @@
             <string>Add independent nodes</string>
            </property>
            <attribute name="buttonGroup">
-            <string>buttonGroup</string>
+            <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -311,7 +311,7 @@
             <string>Add nodes to create a clique</string>
            </property>
            <attribute name="buttonGroup">
-            <string>buttonGroup</string>
+            <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -337,7 +337,7 @@
             <string>Add nodes to create a cycle</string>
            </property>
            <attribute name="buttonGroup">
-            <string>buttonGroup</string>
+            <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -363,7 +363,7 @@
             <string>Add nodes to create a path</string>
            </property>
            <attribute name="buttonGroup">
-            <string>buttonGroup</string>
+            <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -389,7 +389,7 @@
             <string>Click on nodes to create edges</string>
            </property>
            <attribute name="buttonGroup">
-            <string>buttonGroup</string>
+            <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
          </item>
@@ -483,7 +483,7 @@
           <x>0</x>
           <y>0</y>
           <width>302</width>
-          <height>91</height>
+          <height>69</height>
          </rect>
         </property>
         <attribute name="label">
@@ -995,31 +995,49 @@
    </property>
   </action>
   <action name="actionPlay">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>Resources/Inactive Play.png</normaloff>
-     <normalon>Resources/Play.png</normalon>Resources/Inactive Play.png</iconset>
+     <normalon>Resources/Play.png</normalon>
+     <activeoff>Resources/Play.png</activeoff>
+     <selectedoff>Resources/Play.png</selectedoff>Resources/Inactive Play.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Play</string>
    </property>
   </action>
   <action name="actionPause">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Resources/Pause.png</normaloff>../Resources/Pause.png</iconset>
+     <normaloff>Resources/Inactive Pause.png</normaloff>
+     <normalon>Resources/Pause.png</normalon>
+     <activeoff>Resources/Pause.png</activeoff>
+     <selectedoff>Resources/Pause.png</selectedoff>
+     <selectedon>Resources/Pause.png</selectedon>Resources/Inactive Pause.png</iconset>
    </property>
    <property name="text">
-    <string>Pause</string>
+    <string>&amp;Pause</string>
    </property>
    <property name="toolTip">
     <string>Pause</string>
    </property>
   </action>
   <action name="actionJump">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Resources/Jump.png</normaloff>../Resources/Jump.png</iconset>
+     <normaloff>Resources/Inactive Jump.png</normaloff>
+     <normalon>Resources/Jump.png</normalon>
+     <activeoff>Resources/Jump.png</activeoff>
+     <selectedon>Resources/Jump.png</selectedon>Resources/Inactive Jump.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Jump</string>
@@ -1029,9 +1047,15 @@
    </property>
   </action>
   <action name="actionNext">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Resources/Play Pause.png</normaloff>../Resources/Play Pause.png</iconset>
+     <normaloff>../Resources/Inactive Play Pause.png</normaloff>
+     <normalon>Resources/Play Pause.png</normalon>
+     <activeoff>Resources/Play Pause.png</activeoff>
+     <selectedoff>Resources/Inactive Play Pause.png</selectedoff>../Resources/Inactive Play Pause.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Next</string>
