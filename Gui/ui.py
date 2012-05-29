@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '.\AddGraph.ui'
 #
-# Created: Mon May 28 16:43:56 2012
+# Created: Mon May 28 20:25:59 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -49,7 +49,7 @@ class Ui_DlgAddGraph(object):
 
 # Form implementation generated from reading ui file '.\Code.ui'
 #
-# Created: Mon May 28 16:43:56 2012
+# Created: Mon May 28 20:25:59 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -109,7 +109,7 @@ class Ui_DlgCode(object):
 
 # Form implementation generated from reading ui file '.\EditType.ui'
 #
-# Created: Mon May 28 16:43:56 2012
+# Created: Mon May 28 20:25:59 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -315,7 +315,7 @@ class Ui_DgEditType(object):
 
 # Form implementation generated from reading ui file '.\FunctionViewer.ui'
 #
-# Created: Mon May 28 16:43:56 2012
+# Created: Mon May 28 20:26:00 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -405,7 +405,7 @@ class Ui_DgFuntions(object):
 
 # Form implementation generated from reading ui file '.\GraphViewer.ui'
 #
-# Created: Mon May 28 16:43:56 2012
+# Created: Mon May 28 20:26:00 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -450,6 +450,8 @@ class Ui_GraphViewer(object):
         self.menuTransform.setObjectName(_fromUtf8("menuTransform"))
         self.menuDefault_Node_Type = QtGui.QMenu(self.menuTransform)
         self.menuDefault_Node_Type.setObjectName(_fromUtf8("menuDefault_Node_Type"))
+        self.menu_Set_Nodes_Type = QtGui.QMenu(self.menuTransform)
+        self.menu_Set_Nodes_Type.setObjectName(_fromUtf8("menu_Set_Nodes_Type"))
         self.menuInsert = QtGui.QMenu(self.menubar)
         self.menuInsert.setObjectName(_fromUtf8("menuInsert"))
         self.menu_View = QtGui.QMenu(self.menubar)
@@ -539,10 +541,10 @@ class Ui_GraphViewer(object):
         self.verticalLayout_3.addWidget(self.graphTree)
         self.graphView.setWidget(self.dockWidgetContents_4)
         GraphViewer.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.graphView)
-        self.toolBar = QtGui.QToolBar(GraphViewer)
-        self.toolBar.setIconSize(QtCore.QSize(42, 42))
-        self.toolBar.setObjectName(_fromUtf8("toolBar"))
-        GraphViewer.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
+        self.toolBarSimulation = QtGui.QToolBar(GraphViewer)
+        self.toolBarSimulation.setIconSize(QtCore.QSize(42, 42))
+        self.toolBarSimulation.setObjectName(_fromUtf8("toolBarSimulation"))
+        GraphViewer.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBarSimulation)
         self.dockWidget = QtGui.QDockWidget(GraphViewer)
         self.dockWidget.setObjectName(_fromUtf8("dockWidget"))
         self.dockWidgetContents_3 = QtGui.QWidget()
@@ -555,6 +557,22 @@ class Ui_GraphViewer(object):
         self.horizontalLayout_2.addWidget(self.console)
         self.dockWidget.setWidget(self.dockWidgetContents_3)
         GraphViewer.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.dockWidget)
+        self.dockOutput = QtGui.QDockWidget(GraphViewer)
+        self.dockOutput.setObjectName(_fromUtf8("dockOutput"))
+        self.dockWidgetContents_5 = QtGui.QWidget()
+        self.dockWidgetContents_5.setObjectName(_fromUtf8("dockWidgetContents_5"))
+        self.verticalLayout_4 = QtGui.QVBoxLayout(self.dockWidgetContents_5)
+        self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
+        self.out = QtGui.QPlainTextEdit(self.dockWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Consolas"))
+        self.out.setFont(font)
+        self.out.setLineWrapMode(QtGui.QPlainTextEdit.NoWrap)
+        self.out.setReadOnly(True)
+        self.out.setObjectName(_fromUtf8("out"))
+        self.verticalLayout_4.addWidget(self.out)
+        self.dockOutput.setWidget(self.dockWidgetContents_5)
+        GraphViewer.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.dockOutput)
         self.actionSelection = QtGui.QAction(GraphViewer)
         self.actionSelection.setCheckable(True)
         self.actionSelection.setChecked(True)
@@ -677,7 +695,6 @@ class Ui_GraphViewer(object):
         icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Play.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
         icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play.png")), QtGui.QIcon.Active, QtGui.QIcon.Off)
-        icon16.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play.png")), QtGui.QIcon.Selected, QtGui.QIcon.Off)
         self.actionPlay.setIcon(icon16)
         self.actionPlay.setObjectName(_fromUtf8("actionPlay"))
         self.actionPause = QtGui.QAction(GraphViewer)
@@ -686,26 +703,20 @@ class Ui_GraphViewer(object):
         icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
         icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Pause.png")), QtGui.QIcon.Active, QtGui.QIcon.Off)
-        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Pause.png")), QtGui.QIcon.Selected, QtGui.QIcon.On)
-        icon17.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Pause.png")), QtGui.QIcon.Selected, QtGui.QIcon.Off)
         self.actionPause.setIcon(icon17)
         self.actionPause.setObjectName(_fromUtf8("actionPause"))
         self.actionJump = QtGui.QAction(GraphViewer)
-        self.actionJump.setCheckable(True)
         icon18 = QtGui.QIcon()
         icon18.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Jump.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon18.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Jump.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
         icon18.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Jump.png")), QtGui.QIcon.Active, QtGui.QIcon.Off)
-        icon18.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Jump.png")), QtGui.QIcon.Selected, QtGui.QIcon.On)
         self.actionJump.setIcon(icon18)
         self.actionJump.setObjectName(_fromUtf8("actionJump"))
         self.actionNext = QtGui.QAction(GraphViewer)
-        self.actionNext.setCheckable(True)
         icon19 = QtGui.QIcon()
-        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("../Resources/Inactive Play Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Play Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon19.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play Pause.png")), QtGui.QIcon.Normal, QtGui.QIcon.On)
         icon19.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Play Pause.png")), QtGui.QIcon.Active, QtGui.QIcon.Off)
-        icon19.addPixmap(QtGui.QPixmap(_fromUtf8("Resources/Inactive Play Pause.png")), QtGui.QIcon.Selected, QtGui.QIcon.Off)
         self.actionNext.setIcon(icon19)
         self.actionNext.setObjectName(_fromUtf8("actionNext"))
         self.actionAddType = QtGui.QAction(GraphViewer)
@@ -718,9 +729,13 @@ class Ui_GraphViewer(object):
         self.action_Rules_Editor.setObjectName(_fromUtf8("action_Rules_Editor"))
         self.actionCodeEditor = QtGui.QAction(GraphViewer)
         self.actionCodeEditor.setObjectName(_fromUtf8("actionCodeEditor"))
+        self.actionSetStandard = QtGui.QAction(GraphViewer)
+        self.actionSetStandard.setObjectName(_fromUtf8("actionSetStandard"))
         self.menuFile.addAction(self.actionQuit)
         self.menuDefault_Node_Type.addAction(self.actionStandardNode)
+        self.menu_Set_Nodes_Type.addAction(self.actionSetStandard)
         self.menuTransform.addAction(self.menuDefault_Node_Type.menuAction())
+        self.menuTransform.addAction(self.menu_Set_Nodes_Type.menuAction())
         self.menuTransform.addSeparator()
         self.menuTransform.addAction(self.actionSelection)
         self.menuTransform.addAction(self.actionCreation)
@@ -787,10 +802,10 @@ class Ui_GraphViewer(object):
         self.bipartiteToolbar.addAction(self.actionCompleteBipartite)
         self.edgesToolbar.addAction(self.actionSwapEdges)
         self.edgesToolbar.addAction(self.actionCompleteEdges)
-        self.toolBar.addAction(self.actionPlay)
-        self.toolBar.addAction(self.actionPause)
-        self.toolBar.addAction(self.actionNext)
-        self.toolBar.addAction(self.actionJump)
+        self.toolBarSimulation.addAction(self.actionPlay)
+        self.toolBarSimulation.addAction(self.actionPause)
+        self.toolBarSimulation.addAction(self.actionNext)
+        self.toolBarSimulation.addAction(self.actionJump)
 
         self.retranslateUi(GraphViewer)
         self.graphToolBox.setCurrentIndex(0)
@@ -802,7 +817,8 @@ class Ui_GraphViewer(object):
         GraphViewer.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("GraphViewer", "&File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuTransform.setTitle(QtGui.QApplication.translate("GraphViewer", "&Edit", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuDefault_Node_Type.setTitle(QtGui.QApplication.translate("GraphViewer", "Default Node Type", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuDefault_Node_Type.setTitle(QtGui.QApplication.translate("GraphViewer", "&Default Node Type", None, QtGui.QApplication.UnicodeUTF8))
+        self.menu_Set_Nodes_Type.setTitle(QtGui.QApplication.translate("GraphViewer", "&Set Nodes Type", None, QtGui.QApplication.UnicodeUTF8))
         self.menuInsert.setTitle(QtGui.QApplication.translate("GraphViewer", "&Insert", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_View.setTitle(QtGui.QApplication.translate("GraphViewer", "&View", None, QtGui.QApplication.UnicodeUTF8))
         self.menu_Viewport.setTitle(QtGui.QApplication.translate("GraphViewer", "&Viewport", None, QtGui.QApplication.UnicodeUTF8))
@@ -822,8 +838,9 @@ class Ui_GraphViewer(object):
         self.graphView.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
         self.graphTree.headerItem().setText(0, QtGui.QApplication.translate("GraphViewer", "Name", None, QtGui.QApplication.UnicodeUTF8))
         self.graphTree.headerItem().setText(1, QtGui.QApplication.translate("GraphViewer", "Visible", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBar.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
+        self.toolBarSimulation.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Simulation Controls", None, QtGui.QApplication.UnicodeUTF8))
         self.dockWidget.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Python Console", None, QtGui.QApplication.UnicodeUTF8))
+        self.dockOutput.setWindowTitle(QtGui.QApplication.translate("GraphViewer", "Output Console", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setText(QtGui.QApplication.translate("GraphViewer", "Select", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setToolTip(QtGui.QApplication.translate("GraphViewer", "Allows to select several nodes", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSelection.setShortcut(QtGui.QApplication.translate("GraphViewer", "Shift+F1", None, QtGui.QApplication.UnicodeUTF8))
@@ -893,12 +910,13 @@ class Ui_GraphViewer(object):
         self.actionStandardNode.setText(QtGui.QApplication.translate("GraphViewer", "Standard", None, QtGui.QApplication.UnicodeUTF8))
         self.action_Rules_Editor.setText(QtGui.QApplication.translate("GraphViewer", "&Rules Editor", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCodeEditor.setText(QtGui.QApplication.translate("GraphViewer", "&Code Editor", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSetStandard.setText(QtGui.QApplication.translate("GraphViewer", "Standard", None, QtGui.QApplication.UnicodeUTF8))
 
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file '.\PropertyViewer.ui'
 #
-# Created: Mon May 28 16:43:57 2012
+# Created: Mon May 28 20:26:00 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -961,7 +979,7 @@ class Ui_PropertyViewer(object):
 
 # Form implementation generated from reading ui file '.\Rules.ui'
 #
-# Created: Mon May 28 16:43:57 2012
+# Created: Mon May 28 20:26:00 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!

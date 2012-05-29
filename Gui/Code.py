@@ -1,8 +1,8 @@
 # -*- coding: utf8 -*-
 # syntax.py
 
-from PyQt4.QtCore import QRegExp
-from PyQt4.QtGui import QColor, QTextCharFormat, QFont, QSyntaxHighlighter, QDialog
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 import ui
 
 def format(color, style=''):
@@ -184,11 +184,14 @@ class CodeDialog(QDialog):
 
         self.ui = ui.Ui_DlgCode()
         self.ui.setupUi(self)
+        self.setWindowTitle("Code Snipet for function '{0}'".format(functionName))
+        self.setWindowIcon(QIcon("Resources/Clique.png"))
 
         self.ui.signature.setText(self.getText(functionName, functionArgs))
         self.highlighter = PythonHighlighter(self.ui.code.document())
         self.args = functionArgs
         self.glbs = newGlobals
+        self.name = functionName
 
     def getText(self, functionName, functionArgs):
         if "self" in functionArgs:
@@ -203,8 +206,8 @@ p, li {{ white-space: pre-wrap; }}
 </style></head><body style=" font-family:'Consolas'; font-size:11pt; font-weight:400; font-style:normal;">
 <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0;
 text-indent:0px;"><span style=" color:#0000ff;">def</span>
- <span style=" font-weight:600; color:#000000;">function</span><span style=" color:#757575;">
-(</span><span style=" font-style:italic; color:#000000;">self</span>, *args, **kwargs
+ <span style=" font-weight:600; color:#000000;">{0}</span><span style=" color:#757575;">
+(</span><span style=" font-style:italic; color:#000000;">{1}</span>{2}
 <span style=" color:#878787;">)</span>:</p></body></html>""".format(functionName, "self" if hasSelf else "",
                                                                      (", " if hasSelf else "") + ", ".join(functionArgs))
 
@@ -214,16 +217,19 @@ text-indent:0px;"><span style=" color:#0000ff;">def</span>
     def compile(self):
         code = self.ui.code.toPlainText()
 
-        def function(*args, **kwargs):
-            glb = locals()
+        definition = "def {0}({1}):\n".format(self.name, ", ".join(self.args))
+        code = definition + "\n".join([ " " + line for line in code.splitlines() ])
 
+        dic = {}
+        exec(code, dic)
+        func = dic[self.name]
+
+        def f(*args, **kwargs):
             if self.glbs:
                 for key,val in self.glbs.items():
-                    glb[key] = val
+                    func.__globals__[key] = val
 
-            lcl = { name : value for name, value in zip(self.args, args) }
-            lcl["kwargs"] = kwargs
+            return func(*args, **kwargs)
 
-            return exec(code, glb, lcl)
+        return f
 
-        return function

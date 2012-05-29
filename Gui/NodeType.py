@@ -3,10 +3,10 @@ from PyQt4.QtCore import Qt
 from EditType import EditType
 
 from Simulation.behavior import Behavior
+from Simulation.node import NodePrototype
 
 class NodeType:
-    def __init__(self):
-        self.behaviour = Behavior()
+    def __init__(self, graph):
         self.process = "None"
         self.learn = "None"
         self.route = "None"
@@ -15,14 +15,34 @@ class NodeType:
         self.cleanup = "None"
         self.onsignal = "None"
 
+        self.nodes = set()
+        self.graph = graph
+
+        self.prototype = NodePrototype()
+
         self.color = Qt.blue
         self.attributes = { }
-        self.values = { }
         self.name = "Standard"
+
+    def apply(self):
+        self.prototype.ApplyTo(self.nodes, self.graph)
+
+        for n in self.nodes:
+            if n.isVisible():
+                n.update()
+
+    def add(self, node):
+        if not node in self.nodes:
+            self.nodes.add(node)
+
+    def remove(self, node):
+        if node in self.nodes:
+            self.nodes.remove(node)
 
     def edit(self):
         dlg = EditType(**self.attributes)
         dlg.ui.lEdName.setText(self.name)
+        b = self.prototype.GetBehavior()
 
         def setCombo(combo, value):
             combo.setCurrentIndex(combo.findText(value))
@@ -37,22 +57,24 @@ class NodeType:
 
         dlg.color = self.color
 
-        dlg.ui.cbxIncludeBehavior.setCheckState(Qt.Checked if self.behaviour.includeBehavior else Qt.Unchecked)
-        dlg.ui.cbxSendAfterReceive.setCheckState(Qt.Checked if self.behaviour.sendAfterReceive else Qt.Unchecked)
+        dlg.ui.cbxIncludeBehavior.setCheckState(Qt.Checked if b.includeBehavior else Qt.Unchecked)
+        dlg.ui.cbxSendAfterReceive.setCheckState(Qt.Checked if b.sendAfterReceive else Qt.Unchecked)
 
         dlg.setupBehaviours(
-            Process=self.behaviour.Process,
-            Cleanup=self.behaviour.Cleanup,
-            Learn=self.behaviour.Learn,
-            OnSignal=self.behaviour.OnSignal,
-            Route=self.behaviour.Route,
-            Select=self.behaviour.Select,
-            Transform=self.behaviour.Transform,
+            Process=b.Process,
+            Cleanup=b.Cleanup,
+            Learn=b.Learn,
+            OnSignal=b.OnSignal,
+            Route=b.Route,
+            Select=b.Select,
+            Transform=b.Transform,
         )
 
         if dlg.exec_():
-            self.values = dlg.values()
             self.name = dlg.ui.lEdName.text()
+            b.name = self.name
+            self.prototype.DefineAttributes(dlg.values())
+            self.prototype.DefineAttribute("Color", self.color)
 
             self.process = dlg.ui.cmbxProcess.currentText()
             self.learn = dlg.ui.cmbxLearn.currentText()
@@ -66,13 +88,15 @@ class NodeType:
             self.attributes = dlg.attributes
             self.action.setText(self.name)
 
-            self.behaviour.Process = dlg.behaviours["Process"]
-            self.behaviour.Learn = dlg.behaviours["Learn"]
-            self.behaviour.Cleanup = dlg.behaviours["Cleanup"]
-            self.behaviour.OnSignal = dlg.behaviours["OnSignal"]
-            self.behaviour.Route = dlg.behaviours["Route"]
-            self.behaviour.Select = dlg.behaviours["Select"]
-            self.behaviour.Transform = dlg.behaviours["Transform"]
+            b.Process = dlg.behaviours["Process"]
+            b.Learn = dlg.behaviours["Learn"]
+            b.Cleanup = dlg.behaviours["Cleanup"]
+            b.OnSignal = dlg.behaviours["OnSignal"]
+            b.Route = dlg.behaviours["Route"]
+            b.Select = dlg.behaviours["Select"]
+            b.Transform = dlg.behaviours["Transform"]
 
-            self.behaviour.includeBehavior = dlg.ui.cbxIncludeBehavior.checkState() == Qt.Checked
-            self.behaviour.sendAfterReceive = dlg.ui.cbxSendAfterReceive.checkState() == Qt.Checked
+            b.includeBehavior = dlg.ui.cbxIncludeBehavior.checkState() == Qt.Checked
+            b.sendAfterReceive = dlg.ui.cbxSendAfterReceive.checkState() == Qt.Checked
+
+            self.apply()

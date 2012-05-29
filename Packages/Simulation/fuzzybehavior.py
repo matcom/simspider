@@ -34,7 +34,7 @@ class FuzzyBehavior(b.Behavior):
     def Process(self,globalData,actualData,newData):
         self.PreProcess(self,globalData,actualData,newData)
         if self.__FuzzySystem: self.CalculateFuzzySystem(globalData,actualData,newData)
-        self.UserDefinedProcess(self,globalData,actualData,newData)
+        self.UserDefinedProcess(self, globalData, actualData, newData)
 
     def CalculateFuzzySystem(self,globalData,actualData,newData):
         input = {}
@@ -59,6 +59,11 @@ class FuzzyBehavior(b.Behavior):
             object.__setattr__(self,'UserDefinedProcess', value)
         else:
             super().__setattr__(key,value)
+
+    def __getattribute__(self, item):
+        if item == 'Process':
+            return object.__getattribute__(self,'UserDefinedProcess')
+        else: return object.__getattribute__(self,item)
 
     @staticmethod
     def SearchVariable(key,globalData,actualData,newData):

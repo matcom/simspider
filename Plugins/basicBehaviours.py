@@ -208,3 +208,20 @@ class SelectSpecificGroupBehaviour(_SelectBehaviourPlugin):
 
     def getBehaviour(self):
         return behavior.BasicSelection.SpecificGroup(self.values['Keys'].split(), self.values['TimeFunction'])
+
+
+class SendOnSignalBehaviour(_OnSignalBehaviourPlugin):
+    def __init__(self):
+        super().__init__("Send On Signal")
+
+    def getBehaviour(self):
+        return behavior.BasicSignaling.SendOnSignal()
+
+
+class SendPeriodicallyBehaviour(_OnSignalBehaviourPlugin):
+    def __init__(self):
+        import random
+        super().__init__("Send Periodically", TimeFunction=Code("timeFunction", (), { "random": random }))
+
+    def getBehaviour(self):
+        return behavior.BasicSignaling.SendPeriodically(self.values['TimeFunction'])

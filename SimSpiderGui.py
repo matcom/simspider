@@ -73,6 +73,7 @@ def main():
     debug.defaultListener.filter("graphviewer")
     debug.defaultListener.filter("propertyviewer")
     debug.defaultListener.filter("plugins")
+    debug.defaultListener.filter("gui")
 
     pluginManager.loadPlugins()
 

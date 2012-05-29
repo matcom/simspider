@@ -2,6 +2,7 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from Simulation.node import Node
 
 import debug
 
@@ -9,6 +10,7 @@ class GraphicNode(QGraphicsObject):
 
     visibleNodes = 0
     maxVisibleNodes = 50
+    index = 0
 
     def __init__(self, graphics, parent=None):
         QGraphicsObject.__init__(self, parent)
@@ -34,6 +36,14 @@ class GraphicNode(QGraphicsObject):
 
         self.setVisible(False)
         self.setNodeVisible(True)
+        self.index = GraphicNode.index
+        self.attributes = None
+
+        GraphicNode.index += 1
+
+    def __repr__(self):
+        return str(self.index)
+
 
     @debug.trace()
     def addInEdge(self, edge):
@@ -126,7 +136,10 @@ class GraphicNode(QGraphicsObject):
         else:
             self.pen.setColor(QColor(0,0,0))
 
-        self.brush.setColor(self.nodeType.color)
+        if self.attributes.HasAttribute('Color'):
+            self.brush.setColor(self.attributes['Color'])
+        else:
+            self.brush.setColor(self.nodeType.color)
 
         painter.setPen(self.pen)
         painter.setBrush(self.brush)

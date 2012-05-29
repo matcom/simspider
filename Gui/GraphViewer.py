@@ -9,6 +9,13 @@ from GraphicEdge import GraphicEdge
 from GraphicNode import GraphicNode, Subgraph
 from NodeType import NodeType
 from Rules import RuleDialog
+from Simulation.node import Node
+from Simulation.simulator import Simulator
+from VisualTracker import VisualTracker
+
+import Simulation.gathering as gt
+import Simulation.events as ev
+
 from modes import *
 
 from PyQt4.QtCore import *
@@ -43,12 +50,15 @@ class GraphViewer(QMainWindow):
 
         self.ui.graphicsView.setScene(self.scene)
         self.ui.graphicsView.setAttribute(Qt.WA_Hover)
+        self.ui.graphicsView.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
+        self.ui.graphicsView.scale(0.5,0.5)
 
         # Redirigir los eventos del GraphicsView
         self.ui.graphicsView.mouseDoubleClickEvent = self.connectEvent(self.graphDoubleClick, self.ui.graphicsView.mouseDoubleClickEvent)
         self.ui.graphicsView.mousePressEvent = self.connectEvent(self.graphPress, self.ui.graphicsView.mousePressEvent)
         self.ui.graphicsView.mouseReleaseEvent = self.connectEvent(self.graphRelease, self.ui.graphicsView.mouseReleaseEvent)
         self.ui.graphicsView.mouseMoveEvent = self.connectEvent(self.graphMove, self.ui.graphicsView.mouseMoveEvent)
+        self.ui.graphicsView.wheelEvent = self.connectEvent(self.graphWheel, self.ui.graphicsView.wheelEvent)
 
         self.actions = [self.ui.actionSelection,
                         self.ui.actionCreation,
@@ -69,7 +79,7 @@ class GraphViewer(QMainWindow):
         self._setupViewportOptions()
         self.loadPlugins()
 
-        self.ui.actionStandard.nodeType = NodeType()
+        self.ui.actionStandard.nodeType = NodeType(self.graph)
         self.ui.actionStandard.nodeType.action = self.ui.actionStandard
         self.ui.actionStandard.triggered.connect(lambda: self.ui.actionStandard.nodeType.edit())
 
@@ -80,6 +90,8 @@ class GraphViewer(QMainWindow):
         self.ui.actionStandardNode.triggered.connect(lambda: self.setDefaultNodeType(self.ui.actionStandardNode))
         self.nodeTypes = QActionGroup(self)
         self.nodeTypes.addAction(self.ui.actionStandardNode)
+        self.ui.actionSetStandard.type = self.defaultNodeType
+        self.ui.actionSetStandard.triggered.connect(self._setNodesType(self.ui.actionSetStandard))
 
         self.ui.graphTree.itemClicked.connect(self.treeItemClicked)
 
@@ -87,6 +99,51 @@ class GraphViewer(QMainWindow):
         self.ui.actionCodeEditor.triggered.connect(self.runCode)
 
         self.setupFunctionViewer()
+
+        self.logger = VisualLogger(self.ui.out)
+        debug.addListener(self.logger)
+        self.logger.resetFilters()
+        self.logger.filter("log", True)
+
+        self.tracker = VisualTracker(self)
+        gt.RegisterTracker(self.tracker)
+        gt.RegisterTracker(gt.NodeLog())
+
+        self.simulator = Simulator()
+
+        self.simulator.SetInitialEvents([
+            ev.SignalAllNodes(self.graph, "Simulation Started", 0),
+        ])
+
+        self.ui.actionNext.triggered.connect(self.nextEvent)
+        self.timer = QTimer(self)
+        self.timer.setInterval(500)
+        self.timer.timeout.connect(lambda: self.nextEvent(False))
+
+        self.ui.actionPlay.triggered.connect(self.playSimulation)
+
+
+    def playSimulation(self, bool):
+        if bool:
+            self.timer.start()
+        else:
+            self.timer.stop()
+
+
+    def nextEvent(self, bool):
+        self.simulator.Simulate(events=1)
+
+
+    def _setNodesType(self, action):
+        def run():
+            for n in self.selectedNodes():
+                n.nodeType.remove(n)
+                n.nodeType = action.type
+                action.type.add(n)
+
+            action.type.apply()
+
+        return run
 
     def setupFunctionViewer(self):
         functions = {
@@ -100,7 +157,16 @@ class GraphViewer(QMainWindow):
 
 
     def runCode(self):
-        dlg = CodeDialog("function", ("graph", ), self)
+        import PyQt4.QtCore as QtCore
+        import PyQt4.QtGui as QtGui
+
+        dlg = CodeDialog("main", ("graph", ),
+                {
+                    "debug" : debug,
+                    "QtCore" : QtCore,
+                    "QtGui" : QtGui,
+            },
+            self)
 
         if dlg.exec_():
             method = dlg.compile()
@@ -125,7 +191,7 @@ class GraphViewer(QMainWindow):
             return
 
         action = self.ui.menu_Node_Types.addAction(text)
-        action.nodeType = NodeType()
+        action.nodeType = NodeType(self.graph)
         action.nodeType.action = action
         action.nodeType.name = action.text()
         action.triggered.connect(lambda: action.nodeType.edit())
@@ -135,6 +201,10 @@ class GraphViewer(QMainWindow):
         action2.setCheckable(True)
         self.nodeTypes.addAction(action2)
         action2.triggered.connect(lambda: self.setDefaultNodeType(action2))
+
+        action3 = self.ui.menu_Set_Nodes_Type.addAction(text)
+        action3.type = action.nodeType
+        action3.triggered.connect(self._setNodesType(action3))
 
         action.nodeType.edit()
 
@@ -202,7 +272,6 @@ class GraphViewer(QMainWindow):
     def setMode(self, modeType):
         self.mode = modeType(self.ui.graphicsView)
 
-    @debug.trace()
     def graphDoubleClick(self, event):
         return self.mode.mouseDoubleClickEvent(self, event)
 
@@ -212,22 +281,17 @@ class GraphViewer(QMainWindow):
                 original(event)
         return callEvent
 
-    @debug.trace()
     def graphPress(self, event):
         return self.mode.mousePressEvent(self, event)
 
-    @debug.trace()
     def graphRelease(self, event):
         return self.mode.mouseReleaseEvent(self, event)
 
-    @debug.trace()
     def graphMove(self, event):
         return self.mode.mouseMoveEvent(self, event)
 
-
-    @debug.trace()
-    def graphWheel(self, event, handler):
-        self.scaleView(math.pow(2, -event.delta() / 240.0))
+    def graphWheel(self, event):
+        return self.mode.mouseWheel(self, event)
 
     @debug.trace()
     def addNode(self, point, parent=None):
@@ -248,6 +312,8 @@ class GraphViewer(QMainWindow):
         node = GraphicNode(self.ui.graphicsView)
         self.graph.add_node(node)
         node.nodeType = self.defaultNodeType
+        node.nodeType.add(node)
+        node.attributes = Node(self.graph, node)
 
         # Actualizar el subgrafo
         node.connect(parent)
@@ -357,6 +423,8 @@ class GraphViewer(QMainWindow):
 
         if node.isVisible():
             GraphicNode.visibleNodes -= 1
+
+        node.nodeType.remove(node)
 
         self.nodes.remove(node)
         self.graph.remove_node(node)
@@ -609,3 +677,10 @@ class GraphViewer(QMainWindow):
         return apply
 
 
+class VisualLogger(debug.TraceListener):
+    def __init__(self, out):
+        super().__init__()
+        self.out = out
+
+    def output(self, msg, args = ()):
+        self.out.setPlainText(self.out.toPlainText() + "\n" + msg.format(*args))

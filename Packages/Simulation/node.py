@@ -146,6 +146,7 @@ class NodePrototype:
 
     def ApplyTo(self, nodes, graph):
         for node in [Node(graph,n) for n in nodes]:
+            node.GetData().clear()
             node.GetData().update(self.__attributesToAdd)
             node.SetBehavior(self.__behavior.Clone())
 

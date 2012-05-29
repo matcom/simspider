@@ -35,11 +35,11 @@ G=nx.DiGraph()
 G.add_path([0,1,2,3,4])
 
 b = Behavior()
-b.sendAfterReceive = True
-b.includeBehavior = True
-b.Process = be.BasicProcessing.UpdateAll()
+#b.sendAfterReceive = True
+#b.includeBehavior = True
+#b.Process = be.BasicProcessing.UpdateAll()
 b.Route = be.BasicRouting.All()
-b.Select = be.BasicSelection.AllAtOnce(lambda:rdm.expovariate(1))
+b.Select = be.BasicSelection.AllAtOnce(lambda:5)
 b.OnSignal = be.BasicSignaling.SendPeriodically(lambda:20)
 b.name = "first"
 
@@ -50,9 +50,11 @@ p1.DefineAttribute("love",45)
 p1.SetBehavior(b)
 
 p2 = NodePrototype()
-p2.GetBehavior().Learn = be.BasicLearning.LearnAll()
-p2.GetBehavior().name = "rest"
-p2.DefineAttributes({"health":0,"money":0,"love":0})
+p2.GetBehavior().sendAfterReceive = True
+p2.GetBehavior().Select = be.BasicSelection.AllAtOnce(lambda:1)
+p2.GetBehavior().Route = be.BasicRouting.All()
+p2.GetBehavior().Process = be.BasicProcessing.UpdateAll()
+
 
 p1.ApplyTo([0],G)
 p2.ApplyTo([1,2,3,4],G)

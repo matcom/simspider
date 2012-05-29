@@ -25,6 +25,9 @@ class GraphicEdge(QGraphicsItem):
         self.pen = QPen(Qt.black, 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin)
         self.brush = QBrush(Qt.black)
 
+    def __repr__(self):
+        return "({0},{1})".format(self.source, self.dest)
+
     @debug.trace()
     def adjust(self):
         line = QLineF(self.mapFromItem(self.source, 0, 0), self.mapFromItem(self.dest, 0, 0))

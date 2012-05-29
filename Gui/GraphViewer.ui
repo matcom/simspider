@@ -76,11 +76,18 @@
     </property>
     <widget class="QMenu" name="menuDefault_Node_Type">
      <property name="title">
-      <string>Default Node Type</string>
+      <string>&amp;Default Node Type</string>
      </property>
      <addaction name="actionStandardNode"/>
     </widget>
+    <widget class="QMenu" name="menu_Set_Nodes_Type">
+     <property name="title">
+      <string>&amp;Set Nodes Type</string>
+     </property>
+     <addaction name="actionSetStandard"/>
+    </widget>
     <addaction name="menuDefault_Node_Type"/>
+    <addaction name="menu_Set_Nodes_Type"/>
     <addaction name="separator"/>
     <addaction name="actionSelection"/>
     <addaction name="actionCreation"/>
@@ -378,9 +385,9 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolBarSimulation">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Simulation Controls</string>
    </property>
    <property name="iconSize">
     <size>
@@ -412,6 +419,33 @@
       <widget class="QPlainTextEdit" name="console">
        <property name="undoRedoEnabled">
         <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockOutput">
+   <property name="windowTitle">
+    <string>Output Console</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QPlainTextEdit" name="out">
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+        </font>
+       </property>
+       <property name="lineWrapMode">
+        <enum>QPlainTextEdit::NoWrap</enum>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -774,8 +808,7 @@
     <iconset>
      <normaloff>Resources/Inactive Play.png</normaloff>
      <normalon>Resources/Play.png</normalon>
-     <activeoff>Resources/Play.png</activeoff>
-     <selectedoff>Resources/Play.png</selectedoff>Resources/Inactive Play.png</iconset>
+     <activeoff>Resources/Play.png</activeoff>Resources/Inactive Play.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Play</string>
@@ -789,9 +822,7 @@
     <iconset>
      <normaloff>Resources/Inactive Pause.png</normaloff>
      <normalon>Resources/Pause.png</normalon>
-     <activeoff>Resources/Pause.png</activeoff>
-     <selectedoff>Resources/Pause.png</selectedoff>
-     <selectedon>Resources/Pause.png</selectedon>Resources/Inactive Pause.png</iconset>
+     <activeoff>Resources/Pause.png</activeoff>Resources/Inactive Pause.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Pause</string>
@@ -801,15 +832,11 @@
    </property>
   </action>
   <action name="actionJump">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset>
      <normaloff>Resources/Inactive Jump.png</normaloff>
      <normalon>Resources/Jump.png</normalon>
-     <activeoff>Resources/Jump.png</activeoff>
-     <selectedon>Resources/Jump.png</selectedon>Resources/Inactive Jump.png</iconset>
+     <activeoff>Resources/Jump.png</activeoff>Resources/Inactive Jump.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Jump</string>
@@ -819,15 +846,11 @@
    </property>
   </action>
   <action name="actionNext">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset>
-     <normaloff>../Resources/Inactive Play Pause.png</normaloff>
+     <normaloff>Resources/Inactive Play Pause.png</normaloff>
      <normalon>Resources/Play Pause.png</normalon>
-     <activeoff>Resources/Play Pause.png</activeoff>
-     <selectedoff>Resources/Inactive Play Pause.png</selectedoff>../Resources/Inactive Play Pause.png</iconset>
+     <activeoff>Resources/Play Pause.png</activeoff>Resources/Inactive Play Pause.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Next</string>
@@ -860,6 +883,11 @@
   <action name="actionCodeEditor">
    <property name="text">
     <string>&amp;Code Editor</string>
+   </property>
+  </action>
+  <action name="actionSetStandard">
+   <property name="text">
+    <string>Standard</string>
    </property>
   </action>
  </widget>
