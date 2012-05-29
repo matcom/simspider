@@ -147,8 +147,13 @@ class GraphViewer(QMainWindow):
 
     def setupFunctionViewer(self):
         functions = {
+            "Triangle" : TriangularFunction(),
             "Square" : SquareFunction(),
-            "Triangular" : TriangularFunction(),
+            'Trapezoid':TrapezoidFunction(),
+            'Singleton': SingletonFunction(),
+            'SShapeFunction' : SShapeFunction(),
+            'ZShapeFunction' : ZShapeFunction(),
+            'PiShapeFunction':PiShapeFunction(),
         }
 
         variable = Variable("Temperature")

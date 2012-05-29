@@ -37,11 +37,42 @@ from fuzzybehavior import FuzzyBehavior
 G=nx.DiGraph()
 G.add_path([0,1,2,3,4])
 
+def Route(self,node):
+    happiness_value = self.OutputVars['Happiness']
+    if happiness_value is None:
+        happiness_value = 0
+        print('No se computo el sistema fuzzy')
+    n=0
+    for i in node.Successors():
+        n = n + 1
+    n = n*happiness_value/10
+    c=0
+    for i in node.Successors():
+        if c != n:
+            c += 1
+            yield i
+
+def ProcessOpts(self,globalData,actualData,newData):
+    values = self.OutputVars
+    for key in actualData:
+        if not key in values and key in newData:
+            actualData[key] = newData[key]
+
+def Transform(self,key,value):
+    if key == 'Love':
+        val_send_to_love = self.OutputVars['LoveToSend']
+        if val_send_to_love is None:
+            pass
+        return val_send_to_love
+    else: return value
+
 b = FuzzyBehavior(system=fuzzy_System)
 b.sendAfterReceive = True
 b.includeBehavior = True
 b.Select = be.BasicSelection.OneByOne(lambda:3)
-b.Process = FuzzyBehavior.Process_Opt()
+b.Process = ProcessOpts
+b.Transform = Transform
+b.Route = Route
 
 b.OnSignal = be.BasicSignaling.SendPeriodically(lambda:20)
 b.name = "first"

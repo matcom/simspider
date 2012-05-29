@@ -57,7 +57,7 @@ class FuncAxis(QGraphicsItem):
         painter.setPen(self.pen)
 
         p00 = QPointF(0,0)
-        p01 = QPointF(0,100)
+        p01 = QPointF(0,-100)
         p10 = QPointF(100,0)
 
         line01 = QLineF(p00, p01)

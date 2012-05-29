@@ -74,3 +74,4 @@ class FuzzyBehavior(b.Behavior):
         if key in globalData:
             return (True,globalData[key])
         return (False , 0)
+

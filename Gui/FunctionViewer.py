@@ -7,6 +7,12 @@ from PyQt4.QtGui import *
 
 import debug
 
+from Redist.pyfuzzy.set.Triangle import Triangle
+from Redist.pyfuzzy.set.SFunction import SFunction
+from Redist.pyfuzzy.set.ZFunction import ZFunction
+from Redist.pyfuzzy.set.PiFunction import PiFunction
+from Redist.pyfuzzy.set.Trapez import Trapez
+import Redist.pyfuzzy.set
 
 class Variable:
     def __init__(self, name):
@@ -18,6 +24,8 @@ class Function:
     def __init__(self, name, **kwargs):
         self.name = name
         self.properties = kwargs
+        self.FuzzyFunction = 0
+
 
     def clone(self):
         return Function(self.name, **self.properties)
@@ -28,27 +36,147 @@ class Function:
     def evaluate(self, precision):
         pass
 
-
 class TriangularFunction(Function):
     def __init__(self, min=0, mid=50, max=100):
-        Function.__init__(self, "Triangular", Min=min, Mid=mid, Max=max)
+        super().__init__( "Triangle", MinX=min, MidX=mid, MaxX=max)
 
     def clone(self):
-        return TriangularFunction(self.Min, self.Mid, self.Max)
+        return TriangularFunction(self.MinX, self.MidX, self.MaxX)
 
     def evaluate(self, precision):
-        return [(self.Min,0), (self.Mid, 1), (self.Max, 0)]
+        self.FuzzyFunction = Triangle(m=self.MidX
+            ,alpha=self.MidX - self.MinX , beta=self.MaxX-self.MidX
+            ,y_max=1, y_min=0)
+        return [(self.MinX,0), (self.MidX,1), (self.MaxX, 0)]
 
+class TrapezoidFunction(Function):
+    def __init__(self,min = 0,m1= 2,m2=4,max=6):
+        super().__init__(name = 'Trapezoid',MinX = min,MidX1 = m1,MidX2=m2,MaxX=max)
+
+    def clone(self):
+        return TrapezoidFunction(self.MinX,self.MidX1,self.MidX2,self.MaxX)
+
+    def evaluate(self, precision):
+        self.FuzzyFunction = Trapez(
+            m1=self.MidX1,m2=self.MidX2
+            ,alpha=self.MidX1-self.MinX, beta=self.MaxX-self.MidX2
+            ,y_min=0,y_max=1)
+        return [(self.MinX,0),(self.MidX1,1),(self.MidX2,1),(self.MaxX,0)]
+
+class SingletonFunction(Function):
+    def __init__(self,x=0):
+        super().__init__(name = 'Singleton',X=x)
+
+    def clone(self):
+        return SingletonFunction(self.X)
+
+    def evaluate(self, precision):
+        self.FuzzyFunction = Redist.pyfuzzy.set.Singleton.Singleton(x=self.X)
+        return [(self.X,1),(self.X,0)]
+
+class SShapeFunction(Function):
+    def __init__(self,mid=2,length =2):
+        super().__init__(name='SShapeFunction',MidX=mid,Length = length)
+
+    def clone(self):
+        return SShapeFunction(self.MidX, self.Length)
+
+    def evaluate(self, precision):
+        self.FuzzyFunction = SFunction(a=self.MidX,delta=self.Length)
+        ig = self.FuzzyFunction.getIntervalGenerator()
+        points_x=[]
+        next = ig.nextInterval(None,None)
+        points = []
+        while next is not None:
+            x = next
+            points_x.append(x)
+            y = self.Calc_Y(x,self.MidX,self.Length/2)
+            points.append((x,y))
+            next = ig.nextInterval(next,None)
+        return points
+
+    def Calc_Y(self,x,a,d):
+        if x <= a-d:
+            return 0.0
+        if x <= a:
+            t = (x-a+d)/(2.0*d)
+            return 2.0*t*t
+        if x <= a+d:
+            t = (a-x+d)/(2.0*d)
+            return 1.0-2.0*t*t
+        return 1.0
+
+class ZShapeFunction(Function):
+    def __init__(self,mid=2,length =2):
+        super().__init__(name = 'ZShapeFunction',MidX=mid,Length = length)
+
+    def clone(self):
+        return ZShapeFunction(self.MidX, self.Length)
+
+    def evaluate(self, precision):
+        self.FuzzyFunction = ZFunction(a=self.MidX,delta=self.Length)
+        ig = self.FuzzyFunction.getIntervalGenerator()
+        points_x=[]
+        next = ig.nextInterval(None,None)
+        points = []
+        while next is not None:
+            x = next
+            points_x.append(x)
+            y = 1.0 - self.Calc_Y(x,self.MidX,self.Length/2)
+            points.append((x,y))
+            next = ig.nextInterval(next,None)
+        return points
+
+    def Calc_Y(self,x,a,d):
+        if x <= a-d:
+            return 0.0
+        if x <= a:
+            t = (x-a+d)/(2.0*d)
+            return 2.0*t*t
+        if x <= a+d:
+            t = (a-x+d)/(2.0*d)
+            return 1.0-2.0*t*t
+        return 1.0
+
+class PiShapeFunction(Function):
+    def __init__(self,mid=2,length =2):
+        super().__init__(name='PiShapeFunction',MidX=mid,Length = length)
+
+    def clone(self):
+        return PiShapeFunction(self.MidX, self.Length)
+
+    def evaluate(self, precision):
+        self.FuzzyFunction = PiFunction(a=self.MidX,delta=self.Length/2)
+        ig = self.FuzzyFunction.getIntervalGenerator()
+        points_x=[]
+        next = ig.nextInterval(None,None)
+        points = []
+        while next is not None:
+            x = next
+            points_x.append(x)
+            y = self.Calc_Y(x,self.MidX,self.Length/2)
+            points.append((x,y))
+            next = ig.nextInterval(next,None)
+        return points
+
+    def Calc_Y(self,x,a,d):
+        d = d/2
+        if x < a:
+            return SFunction(a-d,d)(x)
+        else:
+            return ZFunction(a+d,d)(x)
 
 class SquareFunction(Function):
     def __init__(self, min=0, max=100):
-        Function.__init__(self, "Square", Min=min, Max=max)
+        super().__init__( name ="Square", MinX=min, MaxX=max)
 
     def clone(self):
-        return SquareFunction(self.Min, self.Max)
+        return SquareFunction(self.MinX, self.MaxX)
 
     def evaluate(self, precision):
-        return [(self.Min,0), (self.Min, 1), (self.Max, 1), (self.Max, 0)]
+        square =[(self.MinX,0), (self.MinX, 1), (self.MaxX, 1), (self.MaxX, 0)]
+        self.FuzzyFunction = Trapez(self.MinX,self.MaxX,alpha=0,beta=0,y_max=1,y_min=0)
+        return square
 
 
 class FunctionViewer(QDialog):
@@ -96,7 +224,7 @@ class FunctionViewer(QDialog):
         page = self.ui.toolBox.currentWidget()
         text = self.ui.toolBox.itemText(self.ui.toolBox.currentIndex())
 
-        if self.pages > 1:
+        if self.pages >= 1:
             self.ui.toolBox.removeItem(self.ui.toolBox.currentIndex())
 
             if hasattr(page, "function") and page.function:
