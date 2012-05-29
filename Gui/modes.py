@@ -17,9 +17,10 @@ class Mode:
 
     def mouseWheel(self, graph, event):
         s = event.delta() / 120.0 * 0.9
-        if s < 0:
-            s = 1/-s
-        print(s)
+        if s > 0:
+            s = 1/s
+        else:
+            s = -s
         self.graphics.scale(s, s)
 
         return True

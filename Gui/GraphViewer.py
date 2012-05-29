@@ -27,6 +27,7 @@ import debug
 import networkx as nx
 
 from Plugins import pluginManager
+from config import config
 
 class GraphViewer(QMainWindow):
 
@@ -116,11 +117,20 @@ class GraphViewer(QMainWindow):
         ])
 
         self.ui.actionNext.triggered.connect(self.nextEvent)
+        self.ui.actionJump.triggered.connect(self.jumpEvents)
+
         self.timer = QTimer(self)
         self.timer.setInterval(500)
-        self.timer.timeout.connect(lambda: self.nextEvent(False))
+        self.timer.timeout.connect(self.advanceSimulation)
 
         self.ui.actionPlay.triggered.connect(self.playSimulation)
+
+    # TODO: No está repintando correctamente
+
+    def advanceSimulation(self):
+        self.simulator.Simulate(time = self.timer.interval())
+        self.ui.graphicsView.scale(0.5, 0.5)
+        self.ui.graphicsView.scale(2.0, 2.0)
 
 
     def playSimulation(self, bool):
@@ -130,9 +140,16 @@ class GraphViewer(QMainWindow):
             self.timer.stop()
 
 
+    def jumpEvents(self, bool):
+        self.simulator.Simulate(events=config.Simulation.get("JumpStep", 100))
+        self.ui.graphicsView.scale(0.5, 0.5)
+        self.ui.graphicsView.scale(2.0, 2.0)
+
+
     def nextEvent(self, bool):
         self.simulator.Simulate(events=1)
-
+        self.ui.graphicsView.scale(0.5, 0.5)
+        self.ui.graphicsView.scale(2.0, 2.0)
 
     def _setNodesType(self, action):
         def run():

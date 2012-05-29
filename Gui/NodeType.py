@@ -96,6 +96,8 @@ class NodeType:
             b.Select = dlg.behaviours["Select"]
             b.Transform = dlg.behaviours["Transform"]
 
+            # TODO: Si le pongo None a un behaviour, explota
+
             b.includeBehavior = dlg.ui.cbxIncludeBehavior.checkState() == Qt.Checked
             b.sendAfterReceive = dlg.ui.cbxSendAfterReceive.checkState() == Qt.Checked
 

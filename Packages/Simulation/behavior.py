@@ -129,6 +129,8 @@ class BasicRouting:
                 yield s
         return AllDestinations
 
+    # TODO: Exception en random.sample: successors es un dictionary
+
     @staticmethod
     def Sample(amount):
         def SampleDestinations(self,node):

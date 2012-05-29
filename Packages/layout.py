@@ -52,6 +52,9 @@ class Layout:
 
 
 def circularNodes(n, scale=1):
+    if n == 1:
+        return [(0,0)]
+
     nodes = []
 
     distance = scale * n
@@ -67,10 +70,10 @@ def circularNodes(n, scale=1):
 
 
 def circularTree(h, r, scale=1):
-    nodes = []
-    n = 1
+    nodes = [(0,0)]
+    n = 2
 
-    for i in range(h):
+    for i in range(1,h):
         distance = scale * n
         start = 0 if n % 2 == 0 else -math.pi / 2
 
